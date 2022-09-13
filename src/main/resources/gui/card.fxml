@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" onMousePressed="#click" prefHeight="215.0" prefWidth="250.0"
+            stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/17"
+            fx:controller="controller.CardController">
+    <styleClass>
+        <String fx:value="anime-item"/>
+        <String fx:value="shadow"/>
+    </styleClass>
+    <VBox alignment="CENTER" fillWidth="false" layoutX="63.0" layoutY="8.0" prefWidth="233.0"
+          style="-fx-background-color: #212529; -fx-background-radius: 70;" stylesheets="@../style/style.css"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="0.0">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <HBox alignment="CENTER" prefHeight="56.0" prefWidth="221.0">
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
+            <Label fx:id="title" contentDisplay="CENTER" stylesheets="@../style/style.css" text="Titolo"
+                   textFill="#eeeeee">
+                <font>
+                    <Font name="Tahoma" size="24.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets bottom="10.0"/>
+                </HBox.margin>
+            </Label>
+        </HBox>
+        <ImageView fx:id="img" fitHeight="140.0" fitWidth="220.0" nodeOrientation="INHERIT" pickOnBounds="true"
+                   preserveRatio="true">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+            <Image url="@../img/data/preview.png"/>
+        </ImageView>
+    </VBox>
+</AnchorPane>

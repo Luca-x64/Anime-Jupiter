@@ -1,0 +1,302 @@
+package controller;
+
+import engine.Engine;
+import javafx.animation.*;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
+import main.Listener;
+import model.Anime;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+
+public class UserController extends Engine implements Initializable {
+    @FXML
+    private VBox chosenAnime;
+    @FXML
+    private ImageView animeImg;
+    @FXML
+    private Label animeTitle, ttlAnime,ttlJupiter;
+    @FXML
+    private TextArea animeData;
+    @FXML
+    private TextField inputBox;
+    @FXML
+    private GridPane grid;
+    @FXML
+    private AnchorPane anchorPane;
+    @FXML
+    private Button sortButton;
+    @FXML
+    private HBox testoScroll;
+    private Anime selectedAnime;
+    private TranslateTransition tt;
+    private Timer timer;
+    private boolean longMessagge = false;
+    private int cnt=0, cnt2=0;
+
+    /** Initialize
+     *
+     * @param url link
+     * @param resourceBundle resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        reload(getAnimeList());
+    }
+
+    /** Sort loaded animes
+     *
+     */
+    @FXML
+    void sort(){
+        inputBox.setText(empty);
+        switch (cnt) {
+            case 0 -> {
+                reload(sortTitle(true));
+                sortButton.setText(orderAlpha);
+            }
+            case 1 -> {
+                reload(sortTitle(false));
+                sortButton.setText(reversedAlpha);
+            }
+            case 2 -> {
+                reload(sortYear(false));
+                sortButton.setText(orderYear);
+            }
+            case 3 -> {
+                reload(sortYear(true));
+                sortButton.setText(reversedYear);
+            }
+            default -> {
+                reload(getAnimeList());
+                sortButton.setText(sort);
+                cnt = -1;
+            }
+        }
+        cnt++;
+    }
+
+    /** Search Button Click
+     *
+     */
+    @FXML
+    void searchPress() {
+        resetScroll();
+
+        String input = stringFormat(inputBox.getText());
+        if (input.length() > 0) {
+            List<Anime> resultQuery = query(input);
+            if (resultQuery.size() > 0) {
+                reload(resultQuery);
+            } else {
+                reload(new ArrayList<>());
+                scrollingText(red,msgDanger(noAnime));
+            }
+        } else {
+            reload(getAnimeList());
+            resetScroll();
+        }
+    }
+
+    /** Scrolling text
+     *
+     * @param color text color
+     * @param text content
+     */
+    public void scrollingText(Color color, String text) {
+
+        if(cnt2!=0){
+            resetScroll();
+        }
+
+        Text scrollingText = new Text(text);
+        testoScroll.getChildren().add(scrollingText);
+        testoScroll.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+        scrollingText.setEffect(glow);
+        scrollingText.setStyle(scrollingTextFX);
+        scrollingText.setFill(color);
+        scrollingText.setLayoutX(0);
+        scrollingText.setLayoutY(0);
+        scrollingText.setWrappingWidth(0);
+
+        int time = text.length()/4*1000+1000;
+        tt = new TranslateTransition(Duration.millis(time), scrollingText);
+
+        if(longMessagge){
+            tt.setFromX(0 - scrollingText.getWrappingWidth() - 410);
+            tt.setToX(scrollingText.getWrappingWidth()+30);
+        } else{
+            tt.setFromX(0 - scrollingText.getWrappingWidth() - 350);
+            tt.setToX(scrollingText.getWrappingWidth()+50);
+        }
+
+        longMessagge = false;
+        tt.setCycleCount(1);
+        tt.setAutoReverse(false);
+        tt.play();
+        cnt2++;
+        runLater(time);
+    }
+
+    /** Reset Scrolling text
+     *
+     */
+    private void resetScroll(){
+        try{
+            testoScroll.getChildren().clear();
+            tt.stop();
+            timer.purge();
+            timer.cancel();
+        }catch (Exception ignored){}
+    }
+
+    /** Run later with time
+     *
+     * @param time duration
+     */
+    public void runLater(int time){
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> testoScroll.getChildren().clear());
+            }
+        };
+        time*=2;
+        timer.schedule(timerTask,time,time);
+    }
+
+    /** Back to start window
+     *
+     * @throws IOException Exception
+     */
+    @FXML
+    void backToStart() throws IOException {
+        ttlJupiter.setOnMouseClicked(null);
+        ttlAnime.setOnMouseClicked(null);
+
+        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiStart))));
+        Scene scene = ttlAnime.getScene();
+        root.translateYProperty().set(scene.getHeight());
+        anchorPane.getChildren().add(root);
+
+        // Transition
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+        timeline.play();
+    }
+
+    /** Set Chosen Anime
+     *
+     * @param anime chosen anime
+     */
+    private void setChosenAnime(Anime anime) {
+        if (anime == null) {
+            this.selectedAnime = null;
+            animeTitle.setText(empty);
+            animeData.setText(empty);
+            animeImg.setImage(new Image(imgDefaultRelativePath));
+            chosenAnime.setStyle(chosenAnimeFX);
+        } else {
+            this.selectedAnime = anime;
+            animeTitle.setText(anime.getTitle());
+            animeData.setText(anime.toString());
+            try {
+                animeImg.setImage(loadImage(anime.getImagePath()));
+            } catch (Exception ignored) {
+                animeImg.setImage(new Image(imgDefaultRelativePath));
+            }
+            chosenAnime.setStyle(chosenAnimeFX);
+        }
+    }
+
+    /** Reload Grid panel
+     *
+     * @param al anime list
+     */
+    public void reload(List<Anime> al) {
+        grid.getChildren().clear();
+
+        if (al.size() > 0) { //todo dinamico della posizione ??
+            setChosenAnime(al.get(0));
+            this.selectedAnime = al.get(0);
+        } else {
+            setChosenAnime(null);
+        }
+
+        Listener listener = this::setChosenAnime;
+        int column = 3;
+        int row = 1;
+        try {
+            for (Anime a : al) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                CardController cardController = fxmlLoader.getController();
+                cardController.setData(a, listener);
+
+                if (column == 3) {
+                    column = 0;
+                    row++;
+                }
+
+                grid.add(anchorPane, column++, row);
+                // Set grid width
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                grid.setMaxWidth(Region.USE_PREF_SIZE);
+                // Set grid height
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                grid.setMaxHeight(Region.USE_PREF_SIZE);
+                GridPane.setMargin(anchorPane, new Insets(8));
+            }
+        } catch (Exception ignored) {}
+    }
+
+    /** Open Telegram link
+     *
+     */
+    public void linkcrunchyrollLink() {
+        openLink(crunchyrollLink);
+    }
+
+    /** Open Link Anime
+     *
+     */
+    @FXML
+    void linkAnime() {
+        openLink(selectedAnime.getLink());
+    }
+
+    /** Enter press
+     *
+     * @param keyEvent event
+     */
+    public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
+    }
+}

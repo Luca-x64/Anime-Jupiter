@@ -1,0 +1,91 @@
+.search-box{
+    -fx-background-color:#FFFFFF;
+    -fx-background-radius: 100;
+    -fx-text-fill: white;
+}
+
+.search-button{
+    -fx-background-radius: 30;
+}
+
+.right-bar{
+    -fx-background-color: #D3D3D3;
+}
+
+.shadow{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.chosen-card{
+    -fx-background-color: #F16C31;
+    -fx-background-radius: 30;
+}
+
+.comboBox{
+    -fx-background-color: rgba(255,255,255,0.3);
+    -fx-background-radius: 30;
+}
+
+.add-btn{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 100;
+}
+
+.anime-item{
+    -fx-background-color:  #212529;
+        -fx-background-radius: 30;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.search-box{
+    -fx-background-color:#FFFFFF;
+    -fx-background-radius: 100;
+}
+
+.trasparent{
+       -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.text-area{
+    -fx-background-color: #121619;
+    -fx-font-family: Tahoma;
+    -fx-text-fill: white;
+}
+
+.text-area .content {
+    -fx-background-color: #121619;
+}
+
+.scroll-text-area .scroll-bar:vertical {
+    -fx-pref-width: 13;
+    -fx-background-color: #212529;
+}
+
+.scroll-bar:vertical .thumb{
+    -fx-background-color: black;
+}
+
+.scroll-bar:vertical *.increment-arrow,
+.scroll-bar:vertical *.decrement-arrow{
+    -fx-pref-width: 9;
+    -fx-pref-height: 5;
+}
+
+.progress-bar > .bar {
+    -fx-accent: #b789f7;
+    -fx-background-color: linear-gradient(
+        from 0px .75em to .75em 0px,
+        repeat,
+        -fx-accent 0%,
+        -fx-accent 49%,
+        derive(-fx-accent, 30%) 50%,
+        derive(-fx-accent, 30%) 99%
+    );
+}

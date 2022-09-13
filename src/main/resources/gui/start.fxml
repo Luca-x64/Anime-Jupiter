@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1300.0" style="-fx-background-color: #212529;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.StartController">
+    <ImageView fitHeight="800.0" fitWidth="1441.0" layoutX="-141.0">
+        <Image url="@../img/project/background.gif"/>
+    </ImageView>
+    <Label layoutX="985.0" layoutY="550.0" prefHeight="58.0" prefWidth="126.0" text="User" textFill="#5b5b5b">
+        <font>
+            <Font name="Tahoma Bold" size="35.0"/>
+        </font>
+    </Label>
+    <Button fx:id="userBtn" layoutX="964.0" layoutY="549.0" mnemonicParsing="false" onAction="#userSide"
+            style="-fx-background-color: transparent;" text="User" textAlignment="JUSTIFY" textFill="WHITE">
+        <font>
+            <Font name="Tahoma Bold" size="35.0"/>
+        </font>
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+    </Button>
+    <Label layoutX="183.0" layoutY="535.0" prefHeight="88.0" prefWidth="139.0" text="Admin" textFill="#5b5b5b">
+        <font>
+            <Font name="Tahoma Bold" size="35.0"/>
+        </font>
+    </Label>
+    <Button fx:id="adminBtn" layoutX="160.0" layoutY="549.0" mnemonicParsing="false" onAction="#adminSide"
+            pickOnBounds="false" prefHeight="68.0" prefWidth="163.0" style="-fx-background-color: transparent;"
+            text="Admin" textFill="WHITE">
+        <font>
+            <Font name="Tahoma Bold" size="35.0"/>
+        </font>
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+    </Button>
+    <Label layoutX="461.0" layoutY="158.0" prefHeight="70.0" prefWidth="183.0" text="Anime" textFill="#5b5b5b">
+        <font>
+            <Font name="Tahoma Bold" size="55.0"/>
+        </font>
+    </Label>
+    <Label layoutX="644.0" layoutY="158.0" text="Jupiter" textFill="#5b5b5b">
+        <font>
+            <Font name="Tahoma Bold" size="55.0"/>
+        </font>
+    </Label>
+    <Label layoutX="463.0" layoutY="162.0" prefHeight="70.0" prefWidth="183.0" text="Anime" textFill="WHITE">
+        <font>
+            <Font name="Tahoma Bold" size="55.0"/>
+        </font>
+    </Label>
+    <Label layoutX="646.0" layoutY="162.0" text="Jupiter" textFill="#b789f7">
+        <font>
+            <Font name="Tahoma Bold" size="55.0"/>
+        </font>
+    </Label>
+    <Label layoutY="767.0" text="Ghirimoldi Luca &amp;&amp; Conti Jacopo" textFill="#ffffff82">
+        <font>
+          <Font size="21.0"/>
+        </font>
+        <padding>
+          <Insets left="10.0"/>
+        </padding>
+    </Label>
+</AnchorPane>

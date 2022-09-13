@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+    <BorderPane layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <left>
+            <VBox depthTest="ENABLE" prefHeight="200.0" prefWidth="435.0" style="-fx-background-color: #212529;" styleClass="right-bar" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER" prefHeight="107.0" prefWidth="451.0">
+                    <Label fx:id="ttlAnime" onMouseClicked="#backToStart" prefHeight="49.0" prefWidth="128.0" text="Anime" textFill="#eeeeee">
+                        <font>
+                            <Font name="Tahoma Bold" size="40.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Label>
+                    <Label fx:id="ttlJupiter" onMouseClicked="#backToStart" text="Jupiter" textFill="#b789f7">
+                        <font>
+                            <Font name="Tahoma Bold" size="40.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Label>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0" style="-fx-background-color: #121619;" styleClass="search-box" stylesheets="@../style/style.css" VBox.vgrow="NEVER">
+                    <VBox.margin>
+                        <Insets left="30.0" right="30.0" />
+                    </VBox.margin>
+                    <TextField fx:id="inputBox" onKeyReleased="#pressEnter" prefHeight="40.0" prefWidth="235.0" promptText="Digita per cercare" style="-fx-background-color: #121619;" styleClass="search-box" stylesheets="@../style/style.css">
+                        <HBox.margin>
+                            <Insets left="20.0" right="20.0" />
+                        </HBox.margin>
+                        <font>
+                            <Font name="Tahoma" size="18.0" />
+                        </font>
+                    </TextField>
+                    <Button mnemonicParsing="false" onAction="#searchPress" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #2a2e2f;" styleClass="search-button" stylesheets="@../style/style.css" text="Cerca" textFill="#eeeeee">
+                        <font>
+                            <Font name="Tahoma Bold" size="13.0" />
+                        </font>
+                        <HBox.margin>
+                            <Insets right="20.0" />
+                        </HBox.margin>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                </HBox>
+                <Pane prefHeight="2.0" prefWidth="435.0" VBox.vgrow="ALWAYS" />
+                <VBox fx:id="chosenAnime" alignment="CENTER" prefHeight="540.0" prefWidth="250.0" style="-fx-background-color: #121619; -fx-background-radius: 30;">
+                    <VBox.margin>
+                        <Insets left="30.0" right="30.0" />
+                    </VBox.margin>
+                    <HBox alignment="CENTER" prefHeight="54.0" prefWidth="366.0">
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                        <Label fx:id="animeTitle" alignment="CENTER" prefHeight="38.0" prefWidth="248.0" text="Titolo" textFill="WHITE">
+                            <font>
+                                <Font name="Tahoma" size="25.0" />
+                            </font>
+                        </Label>
+                    </HBox>
+                    <ImageView fx:id="animeImg" fitHeight="170.0" fitWidth="323.0" onMouseClicked="#linkAnime" pickOnBounds="true" preserveRatio="true">
+                        <VBox.margin>
+                            <Insets top="20.0" />
+                        </VBox.margin>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <Image url="@../img/data/preview.png" />
+                    </ImageView>
+                    <HBox alignment="CENTER" prefHeight="322.0" prefWidth="335.0">
+                        <VBox.margin>
+                            <Insets top="20.0" />
+                        </VBox.margin>
+                        <opaqueInsets>
+                            <Insets left="20.0" />
+                        </opaqueInsets>
+                        <TextArea fx:id="animeData" editable="false" focusTraversable="false" pickOnBounds="false" scrollLeft="195.0" stylesheets="@../style/style.css" wrapText="true">
+                            <font>
+                                <Font name="Tahoma" size="20.0" />
+                            </font>
+                            <styleClass>
+                                <String fx:value="scroll-text-area" />
+                                <String fx:value="scroll-bar" />
+                                <String fx:value="track" />
+                            </styleClass>
+                        </TextArea>
+                    </HBox>
+                </VBox>
+                <Pane prefHeight="0.0" prefWidth="435.0" VBox.vgrow="ALWAYS" />
+            </VBox>
+        </left>
+        <center>
+            <VBox prefHeight="622.0" prefWidth="865.0" style="-fx-background-color: #2a2e2f;" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" prefHeight="105.0" prefWidth="837.0">
+                    <VBox.margin>
+                        <Insets left="20.0" />
+                    </VBox.margin>
+                    <HBox fx:id="testoScroll" alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="619.0" />
+                    <Pane prefHeight="106.0" prefWidth="238.0" style="-fx-background-color: #2a2e2f;" HBox.hgrow="NEVER">
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="134.0" layoutY="12.0" nodeOrientation="INHERIT" onMouseClicked="#linkcrunchyrollLink">
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                            <Image url="@../img/project/logo.png" />
+                        </ImageView>
+                        <Button layoutY="30.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
+                        <Button fx:id="sortButton" layoutX="4.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Ordina" textFill="WHITE">
+                            <font>
+                                <Font name="Tahoma" size="22.0" />
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </Pane>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="652.0" prefWidth="865.0" VBox.vgrow="ALWAYS">
+                    <ScrollPane accessibleRole="LIST_VIEW" depthTest="DISABLE" prefHeight="646.0" prefWidth="824.0" style="-fx-background-color: #121619;" stylesheets="@../style/style.css">
+                        <HBox.margin>
+                            <Insets bottom="10.0" top="10.0" />
+                        </HBox.margin>
+                        <styleClass>
+                            <String fx:value="trasparent" />
+                            <String fx:value="scroll-bar" />
+                            <String fx:value="scroll-text-area" />
+                        </styleClass>
+                        <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0">
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            </rowConstraints>
+                        </GridPane>
+                    </ScrollPane>
+                </HBox>
+            </VBox>
+        </center>
+    </BorderPane>
+</AnchorPane>
