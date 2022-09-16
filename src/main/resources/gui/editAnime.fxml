@@ -12,10 +12,10 @@
 <AnchorPane onKeyReleased="#closeEscape" prefHeight="433.0" prefWidth="650.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditAnimeController">
     <TextField fx:id="titleBox" layoutX="374.0" layoutY="36.0" />
     <TextField fx:id="authorBox" layoutX="374.0" layoutY="91.0" />
-    <TextField fx:id="editorBox" layoutX="374.0" layoutY="146.0" />
+    <TextField fx:id="publisherBox" layoutX="374.0" layoutY="146.0" />
     <TextField fx:id="episodeBox" layoutX="374.0" layoutY="203.0" />
     <TextField fx:id="yearBox" layoutX="374.0" layoutY="258.0" />
-    <TextField fx:id="tramaBox" layoutX="374.0" layoutY="312.0" />
+    <TextField fx:id="plotBox" layoutX="374.0" layoutY="312.0" />
     <TextField fx:id="linkBox" layoutX="374.0" layoutY="369.0" />
     <Label layoutX="267.0" layoutY="36.0" prefHeight="25.0" prefWidth="58.0" text="Titolo" textFill="WHITE">
         <font>
@@ -42,7 +42,7 @@
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Label layoutX="267.0" layoutY="312.0" text="Trama" textFill="WHITE">
+    <Label layoutX="267.0" layoutY="312.0" text="plot" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
@@ -52,7 +52,7 @@
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <ImageView fx:id="imgview" fitHeight="170.0" fitWidth="170.0" layoutX="49.0" layoutY="173.0" nodeOrientation="INHERIT" onMouseClicked="#inserisciImmagine" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="imgview" fitHeight="170.0" fitWidth="170.0" layoutX="49.0" layoutY="173.0" nodeOrientation="INHERIT" onMouseClicked="#insertImage" pickOnBounds="true" preserveRatio="true">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>

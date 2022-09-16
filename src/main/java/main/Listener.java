@@ -4,9 +4,10 @@ import model.Anime;
 
 public interface Listener {
 
-    /** Click Listener
+    /**
+     * Click Anime
      *
-     * @param anime
+     * @return void
      */
     void onClickListener(Anime anime);
 

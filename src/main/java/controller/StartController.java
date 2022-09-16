@@ -25,17 +25,21 @@ public class StartController implements Initializable, Data {
     @FXML
     private AnchorPane anchorPane;
 
-    /** Initialize
-     *
-     * @param url url
-     * @param resourceBundle resourceBundle
+    /**
+     * Initialize
+     * 
+     * @param URL url
+     * @param ResourceBundle resourceBundle
+     * @return void
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
 
-    /** Admin Side
-     *
-     * @throws IOException exception
+    /**
+     * Admin side
+     * 
+     * @throws IOException
+     * @return void
      */
     public void adminSide() throws IOException {
         disableButtons();
@@ -59,9 +63,11 @@ public class StartController implements Initializable, Data {
         timeline.play();
     }
 
-    /** User Side
+    /** 
+     * User Side
      *
-     * @throws IOException exception
+     * @throws IOException
+     * @return void
      */
     public void userSide() throws IOException {
         disableButtons();
@@ -80,8 +86,10 @@ public class StartController implements Initializable, Data {
         timeline.play();
     }
 
-    /** Disable user side and admin side Buttons
+    /**
+     * Disable user and admin side Buttons
      *
+     * @return void
      */
     private void disableButtons(){
         this.userBtn.setOnAction(null);

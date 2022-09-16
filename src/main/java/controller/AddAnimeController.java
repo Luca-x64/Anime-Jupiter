@@ -22,9 +22,9 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class AddAnimeController extends Engine implements Initializable,Data {
+public class AddAnimeController extends Engine implements Initializable, Data {
     @FXML
-    private TextField titleBox,authorBox, editorBox, episodeBox, linkBox, tramaBox, yearBox;
+    private TextField titleBox, authorBox, pubtorBox, episodeBox, linkBox, plotBox, yearBox;
     @FXML
     private ImageView imgview;
     @FXML
@@ -33,19 +33,26 @@ public class AddAnimeController extends Engine implements Initializable,Data {
     private AdminController ac;
     private String imgSelectedPath = null;
     private File selectedFile;
-    private boolean ttl = true,aut = true,edi = true,epi = true,link = true,tra = true,year = true;
+    private boolean ttl = true, aut = true, pub = true, epi = true, link = true, plo = true, year = true;
 
+    /**
+     * Insert Image
+     * 
+     * @return void
+     */
     @FXML
-    void inserisciImmagine() {
+    void insertImage() {
         try {
             Stage stage = new Stage();
             stage.setAlwaysOnTop(true);
             ac.addAnimeStage.setAlwaysOnTop(false);
+
             FileChooser fc = new FileChooser();
-            fc.setTitle("Scegli un'immagine");
+            fc.setTitle("Scegli un'Image");
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image", extPng, extJpg));
             fc.setInitialDirectory(new File(absolutePath));
             selectedFile = fc.showOpenDialog(stage);
+
             String fileName = selectedFile.getName().trim().replace(" ", "");
             imgSelectedPath = absolutePath + fileName;
             imgview.setImage(new Image(selectedFile.getPath()));
@@ -55,29 +62,44 @@ public class AddAnimeController extends Engine implements Initializable,Data {
         }
     }
 
-
+    /**
+     * Add Anime
+     * 
+     * @param MouseEvent mouseEvent click
+     * @throws IOException
+     * @return void
+     */
     public void aggiungiAnime(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         int exit = 0;
-        String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), edi = editorBox.getText().trim(), epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = tramaBox.getText().trim(), link = linkBox.getText().trim();
-        if(checkDuplicatesAdd(getAnimeList(), ttl)){
-            if (ttl.length() > 0 && aut.length() > 0 && edi.length() > 0 && epi.length() > 0 && y.length() > 0 && tr.length() > 0 && link.length() > 0) {
-                if (imgSelectedPath == null) imgSelectedPath = imgDefaultPath;
+        String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), pub = pubtorBox.getText().trim(),
+                epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(),
+                link = linkBox.getText().trim();
+        if (checkDuplicatesAdd(getAnimeList(), ttl)) {
+            if (ttl.length() > 0 && aut.length() > 0 && pub.length() > 0 && epi.length() > 0 && y.length() > 0
+                    && tr.length() > 0 && link.length() > 0) {
+                if (imgSelectedPath == null) {
+                    imgSelectedPath = imgDefaultPath;
+                }
                 // Save img into src/img
-                if (!imgSelectedPath.equalsIgnoreCase(imgDefaultPath)){
+                if (!imgSelectedPath.equalsIgnoreCase(imgDefaultPath)) {
                     BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
                     String fileName = selectedFile.getName().trim().replace(" ", "");
                     String format = fileName.substring(fileName.lastIndexOf(".")).trim();
-                    fileName = ttl.toLowerCase(Locale.ROOT).replace(" ","-") + format;
-                    imgSelectedPath=absolutePath+fileName;
-                    File newFile =  new File(imgSelectedPath);
-                    format = format.replace(".","");
-                    ImageIO.write(bi, format,newFile);
-
+                    fileName = ttl.toLowerCase(Locale.ROOT).replace(" ", "-") + format;
+                    imgSelectedPath = absolutePath + fileName;
+                    File newFile = new File(imgSelectedPath);
+                    format = format.replace(".", "");
+                    ImageIO.write(bi, format, newFile);
                 }
-                try{
-                    ac.addAnime(titleBox.getText(), authorBox.getText(), editorBox.getText(), Integer.parseInt(episodeBox.getText()), Integer.parseInt(yearBox.getText()), tramaBox.getText(), imgSelectedPath, linkBox.getText());
+                try {
+                    ac.addAnime(titleBox.getText(), authorBox.getText(), pubtorBox.getText(),
+                            Integer.parseInt(episodeBox.getText()), Integer.parseInt(yearBox.getText()),
+                            plotBox.getText(), imgSelectedPath, linkBox.getText());
                     ac.reload(ac.getAnimeList());
-                }catch (NumberFormatException en){  exit = 1; } catch (Exception ignored) {}
+                } catch (NumberFormatException en) {
+                    exit = 1;
+                } catch (Exception ignored) {
+                }
             } else {
                 exit = 2;
             }
@@ -89,20 +111,22 @@ public class AddAnimeController extends Engine implements Initializable,Data {
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
+
                 ac.setAddAnimeActive(false);
                 ac.scrollingText(green, msgSuccess("Anime aggiunto"));
             }
             case 1 -> {
-                ac.setMessLungo(true);
+                ac.setLongMessagge(true);
                 ac.scrollingText(red, msgDanger("Anno ed episodi sono numeri"));
                 ac.setAddAnimeActive(false);
             }
             case 2 -> {
-                ac.setMessLungo(true);
+                ac.setLongMessagge(true);
                 ac.scrollingText(red, msgDanger("Campi vuoti non ammessi"));
             }
             case 3 -> {
                 ac.scrollingText(yellow, msgWarning("Anime già presente"));
+
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
@@ -111,107 +135,179 @@ public class AddAnimeController extends Engine implements Initializable,Data {
             }
         }
     }
-    public void closeEscape(javafx.scene.input.KeyEvent keyEvent){
-        if(keyEvent.getCode() == KeyCode.ESCAPE) {
+
+    /**
+     * Close Escape
+     * 
+     * @param KeyEvent keyEvent keyboard press
+     * @return void
+     */
+    public void closeEscape(javafx.scene.input.KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
             Node source = (Node) keyEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
             ac.addClose();
         }
     }
+
+    /**
+     * Set Admin Controller
+     * 
+     * @param AdminController ac admin controller
+     * @return void
+     */
     public void setAc(AdminController ac) {
         this.ac = ac;
     }
 
+    // Event Handlers
     EventHandler<KeyEvent> titleHandler = event -> titleProgress();
     EventHandler<KeyEvent> authorHandler = event -> authorProgress();
-    EventHandler<KeyEvent> studioHandler = event -> studioProgress();
+    EventHandler<KeyEvent> publisherHandler = event -> publisherProgress();
     EventHandler<KeyEvent> episodeHandler = event -> episodeProgress();
     EventHandler<KeyEvent> yearHandler = event -> yearProgress();
-    EventHandler<KeyEvent> tramaHandler = event -> tramaProgress();
+    EventHandler<KeyEvent> plotHandler = event -> plotProgress();
     EventHandler<KeyEvent> linkHandler = event -> linkProgress();
 
-    private void addProgress(){
-        progessBar.setProgress(progessBar.getProgress()+0.125);
+    /**
+     * Add Progress
+     *
+     * @return void
+     */
+    private void addProgress() {
+        progessBar.setProgress(progessBar.getProgress() + 0.125);
     }
 
-    private void removeProgress(){
-        progessBar.setProgress(progessBar.getProgress()-0.125);
+    /**
+     * Remove Progress
+     *
+     * @return void
+     */
+    private void removeProgress() {
+        progessBar.setProgress(progessBar.getProgress() - 0.125);
     }
 
-    private void titleProgress(){
-        if(ttl && titleBox.getText().length()>0){
+    /**
+     * Title Progress
+     *
+     * @return void
+     */
+    private void titleProgress() {
+        if (ttl && titleBox.getText().length() > 0) {
             addProgress();
-            ttl=false;
-        }else if(!ttl && titleBox.getText().length()== 0){
+            ttl = false;
+        } else if (!ttl && titleBox.getText().length() == 0) {
             removeProgress();
-            ttl=true;
+            ttl = true;
         }
     }
+
+    /**
+     * Author Progress
+     *
+     * @return void
+     */
     private void authorProgress() {
-        if(aut && authorBox.getText().length()>0){
+        if (aut && authorBox.getText().length() > 0) {
             addProgress();
-            aut=false;
-        }else if(!aut && authorBox .getText().length()== 0){
+            aut = false;
+        } else if (!aut && authorBox.getText().length() == 0) {
             removeProgress();
-            aut=true;
-        }
-    }
-    private void studioProgress() {
-        if(edi && editorBox.getText().length()>0){
-            addProgress();
-            edi=false;
-        }else if(!edi && editorBox.getText().length()== 0){
-            removeProgress();
-            edi=true;
+            aut = true;
         }
     }
 
-    private void episodeProgress(){
-        if(epi && episodeBox.getText().length()>0){
+    /**
+     * Publisher Progress
+     *
+     * @return void
+     */
+    private void publisherProgress() {
+        if (pub && pubtorBox.getText().length() > 0) {
             addProgress();
-            epi=false;
-        }else if(!epi && episodeBox.getText().length()== 0){
+            pub = false;
+        } else if (!pub && pubtorBox.getText().length() == 0) {
             removeProgress();
-            epi=true;
+            pub = true;
         }
     }
-    private void yearProgress(){
-        if(year && yearBox.getText().length()>0){
+
+    /**
+     * Episode Progress
+     *
+     * @return void
+     */
+    private void episodeProgress() {
+        if (epi && episodeBox.getText().length() > 0) {
             addProgress();
-            year=false;
-        }else if(!year && yearBox.getText().length()== 0){
+            epi = false;
+        } else if (!epi && episodeBox.getText().length() == 0) {
             removeProgress();
-            year=true;
+            epi = true;
         }
     }
-    private void tramaProgress() {
-        if(tra && tramaBox.getText().length()>0){
+
+    /**
+     * Year Progress
+     *
+     * @return void
+     */
+    private void yearProgress() {
+        if (year && yearBox.getText().length() > 0) {
             addProgress();
-            tra=false;
-        }else if(!tra && tramaBox.getText().length()== 0){
+            year = false;
+        } else if (!year && yearBox.getText().length() == 0) {
             removeProgress();
-            tra=true;
+            year = true;
         }
     }
+
+    /**
+     * Plot Progress
+     *
+     * @return void
+     */
+    private void plotProgress() {
+        if (plo && plotBox.getText().length() > 0) {
+            addProgress();
+            plo = false;
+        } else if (!plo && plotBox.getText().length() == 0) {
+            removeProgress();
+            plo = true;
+        }
+    }
+
+    /**
+     * Link Progress
+     *
+     * @return void
+     */
     private void linkProgress() {
-        if(link && linkBox.getText().length()>0){
+        if (link && linkBox.getText().length() > 0) {
             addProgress();
-            link=false;
-        }else if(!link && linkBox.getText().length()== 0){
+            link = false;
+        } else if (!link && linkBox.getText().length() == 0) {
             removeProgress();
-            link=true;
+            link = true;
         }
     }
 
+    /**
+     * Initialize
+     * 
+     * @param URL url
+     * @param ResourceBundle resourceBundle
+     * @return void
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleBox.setOnKeyReleased(titleHandler);
         authorBox.setOnKeyReleased(authorHandler);
-        editorBox.setOnKeyReleased(studioHandler);
+        pubtorBox.setOnKeyReleased(plotHandler);
         episodeBox.setOnKeyReleased(episodeHandler);
         yearBox.setOnKeyReleased(yearHandler);
-        tramaBox.setOnKeyReleased(tramaHandler);
+        plotBox.setOnKeyReleased(plotHandler);
         linkBox.setOnKeyReleased(linkHandler);
     }
 }

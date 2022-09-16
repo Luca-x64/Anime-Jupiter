@@ -11,18 +11,19 @@ import java.util.Objects;
 
 public class Main extends Application implements Data {
 
-    /** Main
+    /**
+     * Launch Applications
      *
-     * @param args arguments
+     * @return void 
      */
     public static void main(String[] args) {
         launch(args);
     }
 
-    /** Loading and showing the Start Window
-     *
-     * @param stage stage
-     * @throws Exception exception
+    /**
+     * Loading and showing the Start Window
+     * 
+     * @throws Exception
      */
     @Override
     public void start(Stage stage) throws Exception {

@@ -21,15 +21,28 @@ public class CardController implements Data {
     private Anime anime;
     private Listener listener;
 
+    /**
+     * Click Listener
+     * 
+     * @return void
+     */
     @FXML
     private void click() {
         listener.onClickListener(anime);
     }
 
+    /**
+     * Set Data
+     * 
+     * @param Anime anime
+     * @param Listener listener
+     * @return void
+     */
     public void setData(Anime anime, Listener listener) {
         this.anime = anime;
         this.listener = listener;
         title.setText(anime.getTitle());
+
         try {
             File file = new File(anime.getImagePath());
             FileInputStream fIStream = new FileInputStream(file);

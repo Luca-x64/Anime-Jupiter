@@ -61,16 +61,28 @@ public class AdminController extends Engine implements Initializable {
     private int cnt=0,cnt2=0;
     private boolean addAnimeActive = false;
     private boolean editAnimeActive = false;
-    private boolean messLungo = false;
+    private boolean LongMessagge = false;
 
     EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {} };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
-
+    
+    /**
+     * Initialize
+     * 
+     * @param URL url
+     * @param ResourceBundle resourceBundle
+     * @return void
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reload(getAnimeList());
     }
 
+    /**
+     * Sort loaded anime
+     * 
+     * @return void
+     */
     @FXML
     void sort(){
         inputBox.setText("");
@@ -99,6 +111,15 @@ public class AdminController extends Engine implements Initializable {
         }
         cnt++;
     }
+
+
+
+    /**
+     * Back to start
+     * 
+     * @throws IOException
+     * @return void
+     */
     @FXML
     void backToStart() throws IOException {
         ttlJupiter.setOnMouseClicked(null);
@@ -115,6 +136,11 @@ public class AdminController extends Engine implements Initializable {
         timeline.play();
     }
 
+    /**
+     * Search Button Click
+     * 
+     * @return void
+     */
     @FXML
     void searchPress() {
         resetScroll();
@@ -132,6 +158,12 @@ public class AdminController extends Engine implements Initializable {
         }
     }
 
+    /**
+     * Reload grid panel (anime)
+     * 
+     * @param List<Anime> al anime list
+     * @return void
+     */
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
         if (al.size() > 0) { //todo dinamico della posizione
@@ -166,6 +198,12 @@ public class AdminController extends Engine implements Initializable {
         } catch (Exception ignored) {}
     }
 
+    /** 
+     * Set Chosen Anime
+     *
+     * @param Anime chosen anime
+     * @return void
+     */
     private void setChosenAnime(Anime anime) {
         if (anime == null) {
             this.selectedAnime = null;
@@ -190,6 +228,13 @@ public class AdminController extends Engine implements Initializable {
         }
     }
 
+
+    /**
+     * Add anime
+     * 
+     * @throws IOException
+     * @return void
+     */
     @FXML
     void addAnimeclick() throws IOException {
         if(!addAnimeActive){
@@ -197,6 +242,7 @@ public class AdminController extends Engine implements Initializable {
             Parent root = fxmlLoader.load();
             AddAnimeController aac = fxmlLoader.getController();
             aac.setAc(ac);
+
             addAnimeStage = new Stage();
             addAnimeStage.getIcons().add(new Image(imgProjectFolder+"icon.png"));
             addAnimeStage.setTitle("Aggiungi anime");
@@ -206,18 +252,27 @@ public class AdminController extends Engine implements Initializable {
             addAnimeStage.setOnCloseRequest(windowEvent -> addClose());
             addAnimeStage.setResizable(false);
             addAnimeStage.show();
+
             addAnimeActive = true;
             scrollingText(yellow, msgWarning("Aggiunta anime"));
         }
     }
 
+    /**
+     * Delete Anime 
+     * 
+     * @return void
+     */
     @FXML
     void deleteAnime() {
+
         int pos = getAnimeList().indexOf(selectedAnime);
         deleteInFile(pos);
+
         List<Anime> alCopy = new ArrayList<>(ac.getAnimeList());
         alCopy.remove(selectedAnime);
         setAnimeList(alCopy);
+
         grid.getChildren().clear();
         reload(getAnimeList());
         if (getAnimeList().size() == 1) {
@@ -234,6 +289,12 @@ public class AdminController extends Engine implements Initializable {
         scrollingText(red, msgDanger("Anime eliminato"));
     }
 
+     /**
+     * Edit Anime
+     * 
+     * @throws IOException
+     * @return void
+     */
     @FXML
     void editAnime() throws IOException {
         if(!editAnimeActive){
@@ -251,54 +312,110 @@ public class AdminController extends Engine implements Initializable {
             editAnimeStage.setOnCloseRequest(windowEvent -> editClose());
             editAnimeStage.setResizable(false);
             editAnimeStage.show();
+
             editAnimeActive = true;
             scrollingText(yellow, msgWarning("Anime in modifica"));
         }
     }
 
-    public void linkTelegram() {
+    /** 
+     * Open CrunchyRoll link
+     * 
+     * @return void
+     */
+    public void linkCrunchyRollLink() {
         openLink(crunchyrollLink);
     }
+
+    /** 
+     * Open Link Anime
+     *
+     * @return void
+     */
     @FXML
     void linkAnime() {
         openLink(selectedAnime.getLink());
     }
 
+    /**
+     * Press Enter
+     *
+     * @param KeyEvent keyEvent keyboard press
+     * @return void
+     */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
     }
 
+    /**
+     * Edit close
+     *
+     * @return void
+     */
     public void editClose(){
         editAnimeActive=false;
         testoScroll.getChildren().clear();
         scrollingText(red,msgDanger("Anime non modificato"));
     }
+
+    /**
+     * Add Close
+     *
+     * @return void
+     */
     public void addClose(){
         addAnimeActive=false;
         testoScroll.getChildren().clear();
         scrollingText(red,msgDanger("Anime non aggiunto"));
     }
 
+    /**
+     * Set Admin Controller
+     *
+     * @param AdminController ac Admin Constroller
+     * @return void 
+     */
     public void setAc(AdminController ac) {
         this.ac = ac;
     }
 
+    /**
+     * Set Add Anime Active
+     *
+     * @param boolean addAnimeActive 
+     * @return void
+     */
     public void setAddAnimeActive(boolean addAnimeActive) {
         this.addAnimeActive = addAnimeActive;
     }
 
+    /**
+     * Set Edit Anime Active
+     *
+     * @param boolean editAnimeActive
+     * @return void
+     */
     public void setEditAnimeActive(boolean editAnimeActive) {
         this.editAnimeActive = editAnimeActive;
     }
-    public void setMessLungo(boolean messLungo) {
-        this.messLungo = messLungo;
+
+    /**
+     * Set Long Messagge
+     *
+     * @param boolean LongMessagge
+     * @return void
+     */
+    public void setLongMessagge(boolean LongMessagge) {
+        this.LongMessagge = LongMessagge;
     }
 
-
+    /**
+     * Scrolling Text
+     *
+     * @return void
+     */
     public void scrollingText(Color color, String text) {
-        if(cnt2!=0){
-            resetScroll();
-        }
+        if(cnt2!=0){ resetScroll(); }
         Text scrollingText = new Text(text);
         testoScroll.getChildren().add(scrollingText);
         testoScroll.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
@@ -308,16 +425,18 @@ public class AdminController extends Engine implements Initializable {
         scrollingText.setLayoutX(0);
         scrollingText.setLayoutY(0);
         scrollingText.setWrappingWidth(0);
+
         int time = text.length()/4*1000+1000;
         tt = new TranslateTransition(Duration.millis(time), scrollingText);
-        if(messLungo){
+        if(LongMessagge){
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 410);
             tt.setToX(scrollingText.getWrappingWidth()+30);
         } else{
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 350);
             tt.setToX(scrollingText.getWrappingWidth()+50);
         }
-        messLungo=false;
+
+        LongMessagge=false;
         tt.setCycleCount(1);
         tt.setAutoReverse(false);
         tt.play();
@@ -325,16 +444,26 @@ public class AdminController extends Engine implements Initializable {
         runLater(time);
 
     }
+
+    /**
+     * Reset Scroll description
+     *
+     * @return void
+     */
     private void resetScroll(){
         try{
         testoScroll.getChildren().clear();
         tt.stop();
         timer.purge();
         timer.cancel();
-    }catch (Exception ignored){}
-    }
+    }catch (Exception ignored){}}
 
-
+    /**
+     * Run Later
+     *
+     * @param int time (delay)
+     * @return void
+     */
     public void runLater(int time) {
         timer = new Timer();
         timerTask = new TimerTask() {
