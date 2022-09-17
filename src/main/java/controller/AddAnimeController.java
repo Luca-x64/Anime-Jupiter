@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class AddAnimeController extends Engine implements Initializable {
     @FXML
-    private TextField titleBox, authorBox, pubtorBox, episodeBox, linkBox, plotBox, yearBox;
+    private TextField titleBox, authorBox, publisherBox, episodeBox, linkBox, plotBox, yearBox;
     @FXML
     private ImageView imgview;
     @FXML
@@ -47,8 +47,8 @@ public class AddAnimeController extends Engine implements Initializable {
             ac.addAnimeStage.setAlwaysOnTop(false);
 
             FileChooser fc = new FileChooser();
-            fc.setTitle("Scegli un'Image");
-            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image", extPng, extJpg));
+            fc.setTitle(fcTitle);
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(description, extPng, extJpg));
             fc.setInitialDirectory(new File(imgAbsFolder));
             selectedFile = fc.showOpenDialog(stage);
 
@@ -68,9 +68,9 @@ public class AddAnimeController extends Engine implements Initializable {
      * @throws IOException
      * @return void
      */
-    public void aggiungiAnime(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+    public void addAnime(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         int exit = 0;
-        String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), pub = pubtorBox.getText().trim(),
+        String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), pub = publisherBox.getText().trim(),
                 epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(),
                 link = linkBox.getText().trim();
         if (checkDuplicatesAdd(getAnimeList(), ttl)) {
@@ -83,15 +83,15 @@ public class AddAnimeController extends Engine implements Initializable {
                 if (!imgSelectedPath.equalsIgnoreCase(imgDefaultRelPath)) {
                     BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
                     String fileName = selectedFile.getName().trim().replace(space,empty);
-                    String format = fileName.substring(fileName.lastIndexOf(".")).trim();
-                    fileName = ttl.toLowerCase(Locale.ROOT).replace(" ", "-") + format;
+                    String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
+                    fileName = ttl.toLowerCase(Locale.ROOT).replace(space, dash) + format;
                     imgSelectedPath = imgAbsFolder + fileName;
                     File newFile = new File(imgSelectedPath);
-                    format = format.replace(".", "");
+                    format = format.replace(dot, empty);
                     ImageIO.write(bi, format, newFile);
                 }
                 try {
-                    ac.addAnime(titleBox.getText(), authorBox.getText(), pubtorBox.getText(),
+                    ac.addAnime(titleBox.getText(), authorBox.getText(), publisherBox.getText(),
                             Integer.parseInt(episodeBox.getText()), Integer.parseInt(yearBox.getText()),
                             plotBox.getText(), imgSelectedPath, linkBox.getText());
                     ac.reload(ac.getAnimeList());
@@ -112,19 +112,19 @@ public class AddAnimeController extends Engine implements Initializable {
                 stage.close();
 
                 ac.setAddAnimeActive(false);
-                ac.scrollingText(green, msgSuccess("Anime aggiunto"));
+                ac.scrollingText(green, msgSuccess(animeAdded));
             }
             case 1 -> {
                 ac.setLongMessagge(true);
-                ac.scrollingText(red, msgDanger("Anno ed episodi sono numeri"));
+                ac.scrollingText(red, msgDanger(yearEpisodesAreNumbers));
                 ac.setAddAnimeActive(false);
             }
             case 2 -> {
                 ac.setLongMessagge(true);
-                ac.scrollingText(red, msgDanger("Campi vuoti non ammessi"));
+                ac.scrollingText(red, msgDanger(blankField));
             }
             case 3 -> {
-                ac.scrollingText(yellow, msgWarning("Anime già presente"));
+                ac.scrollingText(yellow, msgWarning(animeAlreadyPresent));
 
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
@@ -223,10 +223,10 @@ public class AddAnimeController extends Engine implements Initializable {
      * @return void
      */
     private void publisherProgress() {
-        if (pub && pubtorBox.getText().length() > 0) {
+        if (pub && publisherBox.getText().length() > 0) {
             addProgress();
             pub = false;
-        } else if (!pub && pubtorBox.getText().length() == 0) {
+        } else if (!pub && publisherBox.getText().length() == 0) {
             removeProgress();
             pub = true;
         }
@@ -303,7 +303,7 @@ public class AddAnimeController extends Engine implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleBox.setOnKeyReleased(titleHandler);
         authorBox.setOnKeyReleased(authorHandler);
-        pubtorBox.setOnKeyReleased(plotHandler);
+        publisherBox.setOnKeyReleased(publisherHandler);
         episodeBox.setOnKeyReleased(episodeHandler);
         yearBox.setOnKeyReleased(yearHandler);
         plotBox.setOnKeyReleased(plotHandler);

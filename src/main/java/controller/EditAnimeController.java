@@ -62,7 +62,7 @@ public class EditAnimeController extends Engine {
      * @exception IOException
      * @return void
      */
-    public void ConfirmImage(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+    public void confirm(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         boolean result = false;
         String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), edi = publisherBox.getText().trim(), epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(), link = linkBox.getText().trim();
         

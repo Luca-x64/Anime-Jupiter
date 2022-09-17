@@ -12,7 +12,7 @@ public interface Data {
 
     String projectName = "Anime Jupiter";
 
-    // Path costants
+    // Path 
     String resources = "main/resources/";
     String img = "img/";
     String data = "data/";
@@ -41,6 +41,7 @@ public interface Data {
     String guiAdmin = guiFolder+"admin.fxml";
     String guiCard = guiFolder+"card.fxml";
     String guiAddAnime = guiFolder+"addAnime.fxml";
+    String guiEditAnime = guiFolder+"editAnime.fxml";
 
     // Regex separator
     String regex = " §_£% ";
@@ -62,9 +63,6 @@ public interface Data {
     Color green = Color.GREEN;
     Effect glow = new Glow(0.5);
 
-
-    //todo revisionare da qui in su
-
     // Sort Button text
 
     String sort = " Sort ";
@@ -75,11 +73,30 @@ public interface Data {
 
     // Scrolling messagges
 
-    String noAnime = "No anime found";
-    String yearEpisodeNumber = "Years and Episodes have to be a number";
-    String animeAlreadyPresent = "Anime Already Present";
+    String noAnime = "No Anime found";
+    String animeAlreadyPresent = "Anime already present";
     String blankField = "Blank fields not allowed";
+
+    String yearEpisodesAreNumbers = "Years and Episodes are numbers";
+    String yearEpisodeNumber = "Years and Episodes have to be a number";
+
     String animeEdited = "Anime edited";
+    String animeNotEdited = "Anime not edited";
+
+    String addAnime = "Add Anime";
+    String addingAnime = "Addition anime";
+    String animeAdded = "Anime added";
+    String animeNotAdded ="Anime not added";
+
+    String animeDeleted = "Anime deleted";
+
+    String editingAnime = "Edit Anime";
+    String animeModification = "Anime in modification";
+
+    // Scrolling result
+    String success = "✔ ";
+    String warning = "⚠ ";
+    String danger = "✘ ";
 
     // Empty Strings
 
@@ -88,12 +105,28 @@ public interface Data {
 
     // Symbols
     String dot = ".";
+    String doubleDot= ":";
     String dash ="-";
 
-    // Style
+    // New Line
+    String nl = "\n";
 
+    // Error in open link
+    String errorLink = "Error in opening website: ";
+
+    // File
+    String fileCreatingError ="Error in creating file: ";
+
+    // Anime Data
+    String title = "Title"+doubleDot+space;
+    String author = "Author"+doubleDot+space;
+    String publisher = "Publisher"+doubleDot+space;
+    String episodes = "Episodes"+doubleDot+space;
+    String year = "Year"+doubleDot+space;
+    String plot = "Plot"+doubleDot+space;
+
+    // Style
     String chosenAnimeFX = "-fx-background-color: #121619;\n" + "    -fx-background-radius: 30;";
     String scrollingTextFX = " -fx-font: bold 18pt \"Tahoma\";";
-
 
 }

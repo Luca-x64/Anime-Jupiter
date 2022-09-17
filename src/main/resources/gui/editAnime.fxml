@@ -22,27 +22,27 @@
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Label layoutX="267.0" layoutY="91.0" text="Autore" textFill="WHITE">
+    <Label layoutX="267.0" layoutY="91.0" text="Author" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Label layoutX="265.0" layoutY="146.0" text="Studio" textFill="WHITE">
+    <Label layoutX="265.0" layoutY="146.0" text="Publisher" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Label layoutX="265.0" layoutY="204.0" text="Episodi" textFill="WHITE">
+    <Label layoutX="265.0" layoutY="204.0" text="Episodes" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Label layoutX="273.0" layoutY="258.0" text="Anno" textFill="WHITE">
+    <Label layoutX="273.0" layoutY="258.0" text="Year" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Label layoutX="267.0" layoutY="312.0" text="plot" textFill="WHITE">
+    <Label layoutX="267.0" layoutY="312.0" text="Plot" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
@@ -58,12 +58,12 @@
         </cursor>
         <Image url="@../img/data/preview.png" />
     </ImageView>
-    <Label layoutX="89.0" layoutY="91.0" text="Immagine" textFill="WHITE">
+    <Label layoutX="89.0" layoutY="91.0" text="Image" textFill="WHITE">
         <font>
             <Font name="Tahoma" size="20.0" />
         </font>
     </Label>
-    <Button layoutX="551.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#conferma" style="-fx-background-color: #121619;" text="Conferma" textFill="#fffefe">
+    <Button layoutX="551.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#confirm" style="-fx-background-color: #121619;" text="Confirm" textFill="#fffefe">
         <font>
             <Font name="Tahoma" size="14.0" />
         </font>
