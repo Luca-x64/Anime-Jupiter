@@ -1,4 +1,4 @@
-# Anime-Jupiter
+# Anime Jupiter
 
 For run the program: 
 ```
