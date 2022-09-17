@@ -63,7 +63,7 @@ public class AdminController extends Engine implements Initializable {
     private boolean editAnimeActive = false;
     private boolean LongMessagge = false;
 
-    EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {} };
+    EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {System.out.println(ignored);} };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
     
     /**
@@ -242,8 +242,8 @@ public class AdminController extends Engine implements Initializable {
             aac.setAc(ac);
 
             addAnimeStage = new Stage();
-            addAnimeStage.getIcons().add(new Image(imgProjectFolder+"icon.png"));
-            addAnimeStage.setTitle("Aggiungi anime");
+            addAnimeStage.getIcons().add(new Image(iconPath));
+            addAnimeStage.setTitle(addAnime);
             addAnimeStage.setScene(new Scene(root));
             addAnimeStage.setAlwaysOnTop(true);
             addAnimeStage.initModality(Modality.APPLICATION_MODAL);
@@ -252,7 +252,7 @@ public class AdminController extends Engine implements Initializable {
             addAnimeStage.show();
 
             addAnimeActive = true;
-            scrollingText(yellow, msgWarning("Aggiunta anime"));
+            scrollingText(yellow, msgWarning(addingAnime));
         }
     }
 
@@ -284,7 +284,7 @@ public class AdminController extends Engine implements Initializable {
             this.selectedAnime = null;
             setChosenAnime(null);
         }
-        scrollingText(red, msgDanger("Anime eliminato"));
+        scrollingText(red, msgDanger(animeDeleted));
     }
 
      /**
@@ -297,13 +297,13 @@ public class AdminController extends Engine implements Initializable {
     void editAnime() throws IOException {
         if(!editAnimeActive){
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiFolder+"editAnime.fxml")));
+            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiEditAnime)));
             Parent root = fxmlLoader.load();
             EditAnimeController eac = fxmlLoader.getController();
             eac.setData(ac,selectedAnime);
             editAnimeStage = new Stage();
-            editAnimeStage.getIcons().add(new Image(imgProjectFolder+"icon.png"));
-            editAnimeStage.setTitle("Modifica anime");
+            editAnimeStage.getIcons().add(new Image(iconPath));
+            editAnimeStage.setTitle(editingAnime);
             editAnimeStage.setScene(new Scene(root));
             editAnimeStage.setAlwaysOnTop(true);
             editAnimeStage.initModality(Modality.APPLICATION_MODAL);
@@ -312,7 +312,7 @@ public class AdminController extends Engine implements Initializable {
             editAnimeStage.show();
 
             editAnimeActive = true;
-            scrollingText(yellow, msgWarning("Anime in modifica"));
+            scrollingText(yellow, msgWarning(animeModification));
         }
     }
 
@@ -353,7 +353,7 @@ public class AdminController extends Engine implements Initializable {
     public void editClose(){
         editAnimeActive=false;
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger("Anime non modificato"));
+        scrollingText(red,msgDanger(animeNotEdited));
     }
 
     /**
@@ -364,7 +364,7 @@ public class AdminController extends Engine implements Initializable {
     public void addClose(){
         addAnimeActive=false;
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger("Anime non aggiunto"));
+        scrollingText(red,msgDanger(animeNotAdded));
     }
 
     /**
@@ -418,7 +418,7 @@ public class AdminController extends Engine implements Initializable {
         testoScroll.getChildren().add(scrollingText);
         testoScroll.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         scrollingText.setEffect(glow);
-        scrollingText.setStyle(" -fx-font: bold 18pt \"Tahoma\";");
+        scrollingText.setStyle(scrollingTextFX);
         scrollingText.setFill(color);
         scrollingText.setLayoutX(0);
         scrollingText.setLayoutY(0);

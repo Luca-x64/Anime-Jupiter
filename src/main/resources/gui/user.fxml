@@ -45,7 +45,7 @@
                     <VBox.margin>
                         <Insets left="30.0" right="30.0" />
                     </VBox.margin>
-                    <TextField fx:id="inputBox" onKeyReleased="#pressEnter" prefHeight="40.0" prefWidth="235.0" promptText="Digita per cercare" style="-fx-background-color: #121619;" styleClass="search-box" stylesheets="@../style/style.css">
+                    <TextField fx:id="inputBox" onKeyReleased="#pressEnter" prefHeight="40.0" prefWidth="235.0" promptText="Type to search" style="-fx-background-color: #121619;" styleClass="search-box" stylesheets="@../style/style.css">
                         <HBox.margin>
                             <Insets left="20.0" right="20.0" />
                         </HBox.margin>
@@ -53,7 +53,7 @@
                             <Font name="Tahoma" size="18.0" />
                         </font>
                     </TextField>
-                    <Button mnemonicParsing="false" onAction="#searchPress" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #2a2e2f;" styleClass="search-button" stylesheets="@../style/style.css" text="Cerca" textFill="#eeeeee">
+                    <Button mnemonicParsing="false" onAction="#searchPress" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #2a2e2f;" styleClass="search-button" stylesheets="@../style/style.css" text="Search" textFill="#eeeeee">
                         <font>
                             <Font name="Tahoma Bold" size="13.0" />
                         </font>
@@ -122,14 +122,14 @@
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
-                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="134.0" layoutY="12.0" nodeOrientation="INHERIT" onMouseClicked="#linkcrunchyrollLink">
+                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="134.0" layoutY="12.0" nodeOrientation="INHERIT" onMouseClicked="#crunchyRollLink">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <Image url="@../img/project/logo.png" />
                         </ImageView>
                         <Button layoutY="30.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
-                        <Button fx:id="sortButton" layoutX="4.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Ordina" textFill="WHITE">
+                        <Button fx:id="sortButton" layoutX="4.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="22.0" />
                             </font>

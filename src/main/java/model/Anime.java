@@ -5,7 +5,7 @@ import main.Data;
 public class Anime implements Data {
 
     private final String title, author, publisher, plot,link,imagePath;
-    private final Integer episodes,anno;
+    private final Integer episodes,year;
 
     /** 
      * Anime Constructor
@@ -24,7 +24,7 @@ public class Anime implements Data {
         this.author = aut;
         this.publisher = pub;
         this.episodes = epi;
-        this.anno = y;
+        this.year = y;
         this.plot = pl;
         this.imagePath = imgPath;
         this.link = url;
@@ -37,12 +37,12 @@ public class Anime implements Data {
      */
     @Override
     public String toString() {
-        return "Titolo: " + getTitle()
-                + "\nAutore: " + getAuthor()
-                + "\nStudio: " + getPublisher()
-                + "\nEpisodi: " + getEpisodes()
-                + "\nAnno: " + getYear()
-                + "\nplot: " + getPlot();
+        return Data.title + getTitle()
+                + nl+Data.author + getAuthor()
+                + nl+Data.publisher + getPublisher()
+                + nl+Data.episodes + getEpisodes()
+                + nl+Data.year + getYear()
+                + nl+Data.plot + getPlot();
     }
 
     /** 
@@ -51,7 +51,7 @@ public class Anime implements Data {
      * @return String 
      */
     public String textFormat() {
-        return title + regex + author + regex + publisher + regex + episodes + regex + anno + regex + plot + regex + imagePath + regex + link + "\n";
+        return title + regex + author + regex + publisher + regex + episodes + regex + year + regex + plot + regex + imagePath + regex + link + nl;
     }
 
     // Getters
@@ -103,7 +103,7 @@ public class Anime implements Data {
      * @return Integer year
      */
     public Integer getYear() {
-        return anno;
+        return year;
     }
 
     /** 

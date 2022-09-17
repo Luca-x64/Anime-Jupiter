@@ -64,7 +64,7 @@ public abstract class Engine implements Data {
 
         for (Anime i : animeList) {
             String title = stringFormat(i.getTitle());
-            String[] titleSplitted = title.split(" ");
+            String[] titleSplitted = title.split(space);
 
             if (titleSplitted.length == 1 && title.startsWith(input)) result.add(i);
             else {
@@ -132,7 +132,7 @@ public abstract class Engine implements Data {
      * @return String
      */
     public String msgSuccess(String msg){
-        return "✔ "+msg +" ✔";
+        return success+msg +success;
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class Engine implements Data {
      * @return String
      */
     public String msgWarning(String msg){
-        return "⚠ "+msg +" ⚠";
+        return warning+msg +warning;
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class Engine implements Data {
      * @return String
      */
     public String msgDanger(String msg){
-        return "✘ "+msg +" ✘";
+        return danger+msg +danger;
     }
 
     /**
@@ -165,7 +165,7 @@ public abstract class Engine implements Data {
         try {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
         } catch (Exception e) {
-            System.out.println("Error in opening website: " + url);
+            System.out.println(errorLink + url);
         }
     }
 
@@ -178,11 +178,9 @@ public abstract class Engine implements Data {
      */
     private void createFile() {
         try {
-            if (file.createNewFile()) {
-                System.out.println("File creato");
-            } else load();
+            if (!file.createNewFile()) load();
         } catch (Exception e) {
-            System.out.println("error in creating file: " + e);
+            System.out.println(fileCreatingError + e);
         }
     }
 
@@ -231,7 +229,7 @@ public abstract class Engine implements Data {
             List<String> old = Files.readAllLines(Paths.get(String.valueOf(file)));
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             String toRemove = old.get(pos);
-            for (String s : old) if (!s.equals(toRemove)) bw.write(s + "\n");
+            for (String s : old) if (!s.equals(toRemove)) bw.write(s + nl);
             bw.close();
         } catch (Exception ignored) {
         }

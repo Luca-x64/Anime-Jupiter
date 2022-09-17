@@ -299,7 +299,7 @@ public class UserController extends Engine implements Initializable {
      * 
      * @return void
      */
-    public void linkCrunchyRollLink() {
+    public void crunchyRollLink() {
         openLink(crunchyRollLink);
     }
 

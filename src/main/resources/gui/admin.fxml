@@ -45,7 +45,7 @@
                     <VBox.margin>
                         <Insets left="30.0" right="30.0" />
                     </VBox.margin>
-                    <TextField fx:id="inputBox" onKeyReleased="#pressEnter" prefHeight="40.0" prefWidth="235.0" promptText="Digita per cercare" style="-fx-background-color: #121619;" styleClass="search-box" stylesheets="@../style/style.css">
+                    <TextField fx:id="inputBox" onKeyReleased="#pressEnter" prefHeight="40.0" prefWidth="235.0" promptText="Type to search" style="-fx-background-color: #121619;" styleClass="search-box" stylesheets="@../style/style.css">
                         <HBox.margin>
                             <Insets left="20.0" right="20.0" />
                         </HBox.margin>
@@ -53,7 +53,7 @@
                             <Font name="Tahoma" size="18.0" />
                         </font>
                     </TextField>
-                    <Button mnemonicParsing="false" onAction="#searchPress" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #2a2e2f;" styleClass="search-button" stylesheets="@../style/style.css" text="Cerca" textFill="#eeeeee">
+                    <Button mnemonicParsing="false" onAction="#searchPress" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #2a2e2f;" styleClass="search-button" stylesheets="@../style/style.css" text="Search" textFill="#eeeeee">
                         <font>
                             <Font name="Tahoma Bold" size="13.0" />
                         </font>
@@ -134,14 +134,14 @@
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
-                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="311.0" layoutY="11.0" nodeOrientation="INHERIT" onMouseClicked="#linkTelegram">
+                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="311.0" layoutY="11.0" nodeOrientation="INHERIT" onMouseClicked="#linkAnime">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <Image url="@../img/project/logo.png" />
                         </ImageView>
                         <Button layoutX="145.0" layoutY="29.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="146.0" style="-fx-background-radius: 30;" text="Add radius" />
-                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#addAnimeclick" prefHeight="28.0" prefWidth="140.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Aggiungi" textFill="WHITE">
+                        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="148.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#addAnimeclick" prefHeight="28.0" prefWidth="140.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Add" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="22.0" />
                             </font>
@@ -150,7 +150,7 @@
                             </cursor>
                         </Button>
                         <Button layoutY="29.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
-                        <Button fx:id="sortButton" layoutX="4.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Ordina" textFill="WHITE">
+                        <Button fx:id="sortButton" layoutX="4.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="22.0" />
                             </font>
