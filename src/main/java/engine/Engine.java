@@ -12,7 +12,7 @@ import java.util.*;
 
 public abstract class Engine implements Data {
     public List<Anime> animeList = new ArrayList<>();
-    private final File file = new File(absoluteFilePath);
+    private final File file = new File(absFilePath);
 
     /**
      * Engine Constructor
