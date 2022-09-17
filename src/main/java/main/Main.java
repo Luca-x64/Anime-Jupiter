@@ -29,7 +29,7 @@ public class Main extends Application implements Data {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(guiStart)));
         stage.setTitle(projectName);
-        stage.getIcons().add(new Image(iconProjectFolder));
+        stage.getIcons().add(new Image(iconPath));
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();

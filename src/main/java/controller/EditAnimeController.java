@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.Data;
 import model.Anime;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class EditAnimeController extends Engine implements Data {
+public class EditAnimeController extends Engine {
 
     @FXML
     private TextField authorBox, publisherBox, episodeBox, linkBox, titleBox, plotBox, yearBox;
@@ -43,14 +42,14 @@ public class EditAnimeController extends Engine implements Data {
         ac.editAnimeStage.setAlwaysOnTop(false);
 
         FileChooser fc = new FileChooser();
-        fc.setTitle("Choose an Image");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image", extPng,extJpg));
-        fc.setInitialDirectory(new File(absolutePath));
+        fc.setTitle(fcTitle);
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(description, extPng,extJpg));
+        fc.setInitialDirectory(new File(imgAbsFolder));
         selectedFile = fc.showOpenDialog(stage);
 
         try {
-            String fileName = selectedFile.getName().trim().replace(" ", "");
-            imgSelectedPath = absolutePath + fileName;
+            String fileName = selectedFile.getName().trim().replace(space, empty);
+            imgSelectedPath = imgAbsFolder + fileName;
 
             imgview.setImage(new Image(selectedFile.getPath()));
         } catch (Exception ignored) {}
@@ -77,12 +76,12 @@ public class EditAnimeController extends Engine implements Data {
                 if(alCopy.stream().noneMatch(e->stringFormat(e.getTitle()).equals(stringFormat(ttl)))){
                     if(!imgSelectedPath.equalsIgnoreCase(animeSelected.getImagePath())){
                         BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
-                        String fileName = selectedFile.getName().trim().replace(" ", "");
-                        String format = fileName.substring(fileName.lastIndexOf(".")).trim();
-                        fileName = ttl.toLowerCase(Locale.ROOT).replace(" ","-") + format;
-                        imgSelectedPath=absolutePath+fileName;
+                        String fileName = selectedFile.getName().trim().replace(space, empty);
+                        String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
+                        fileName = ttl.toLowerCase(Locale.ROOT).replace(space,dash) + format;
+                        imgSelectedPath=imgAbsFolder+fileName;
                         File newFile =  new File(imgSelectedPath);
-                        format = format.replace(".","");
+                        format = format.replace(dot,empty);
                         ImageIO.write(bi, format,newFile);
                     }
                     Anime newAnime;
@@ -94,15 +93,15 @@ public class EditAnimeController extends Engine implements Data {
                         result=true;
                     }catch (NumberFormatException ne){
                         ac.setLongMessagge(true);
-                        ac.scrollingText(red,msgDanger("Anno ed episodi devono essere un numero"));
+                        ac.scrollingText(red,msgDanger(yearEpisodeNumber));
                     }catch (Exception ignored){}
                 }else{
-                    ac.scrollingText(yellow,msgWarning ("Anime già presente"));
+                    ac.scrollingText(yellow,msgWarning (animeAlreadyPresent));
                 }
             }
 
         }else{
-            ac.scrollingText(red,msgDanger("Campi vuoti non ammessi"));
+            ac.scrollingText(red,msgDanger(blankField));
         }
 
         Node source = (Node) mouseEvent.getSource();
@@ -111,7 +110,7 @@ public class EditAnimeController extends Engine implements Data {
 
         ac.reload(ac.getAnimeList());
         ac.setEditAnimeActive(false);
-        if(result) { ac.scrollingText(green,msgSuccess("Anime modificato")); }
+        if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
         else { ac.editClose(); }
     }
 
@@ -141,7 +140,7 @@ public class EditAnimeController extends Engine implements Data {
             imgview.setImage(image);
             imgSelectedPath = a.getImagePath();
         } catch (Exception ignored) {
-            imgSelectedPath = imgDefaultPath;
+            imgSelectedPath = imgAbsFolder;
         }
     }
 

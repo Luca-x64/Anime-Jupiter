@@ -13,7 +13,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.Data;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,7 +21,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class AddAnimeController extends Engine implements Initializable, Data {
+public class AddAnimeController extends Engine implements Initializable {
     @FXML
     private TextField titleBox, authorBox, pubtorBox, episodeBox, linkBox, plotBox, yearBox;
     @FXML
@@ -50,11 +49,11 @@ public class AddAnimeController extends Engine implements Initializable, Data {
             FileChooser fc = new FileChooser();
             fc.setTitle("Scegli un'Image");
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image", extPng, extJpg));
-            fc.setInitialDirectory(new File(absolutePath));
+            fc.setInitialDirectory(new File(imgAbsFolder));
             selectedFile = fc.showOpenDialog(stage);
 
-            String fileName = selectedFile.getName().trim().replace(" ", "");
-            imgSelectedPath = absolutePath + fileName;
+            String fileName = selectedFile.getName().trim().replace(space,empty);
+            imgSelectedPath = imgAbsFolder + fileName;
             imgview.setImage(new Image(selectedFile.getPath()));
             addProgress();
         } catch (Exception ignored) {
@@ -78,15 +77,15 @@ public class AddAnimeController extends Engine implements Initializable, Data {
             if (ttl.length() > 0 && aut.length() > 0 && pub.length() > 0 && epi.length() > 0 && y.length() > 0
                     && tr.length() > 0 && link.length() > 0) {
                 if (imgSelectedPath == null) {
-                    imgSelectedPath = imgDefaultPath;
+                    imgSelectedPath = imgDefaultRelPath;
                 }
                 // Save img into src/img
-                if (!imgSelectedPath.equalsIgnoreCase(imgDefaultPath)) {
+                if (!imgSelectedPath.equalsIgnoreCase(imgDefaultRelPath)) {
                     BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
-                    String fileName = selectedFile.getName().trim().replace(" ", "");
+                    String fileName = selectedFile.getName().trim().replace(space,empty);
                     String format = fileName.substring(fileName.lastIndexOf(".")).trim();
                     fileName = ttl.toLowerCase(Locale.ROOT).replace(" ", "-") + format;
-                    imgSelectedPath = absolutePath + fileName;
+                    imgSelectedPath = imgAbsFolder + fileName;
                     File newFile = new File(imgSelectedPath);
                     format = format.replace(".", "");
                     ImageIO.write(bi, format, newFile);

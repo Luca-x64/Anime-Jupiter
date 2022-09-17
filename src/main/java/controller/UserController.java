@@ -234,7 +234,7 @@ public class UserController extends Engine implements Initializable {
             this.selectedAnime = null;
             animeTitle.setText(empty);
             animeData.setText(empty);
-            animeImg.setImage(new Image(imgDefaultRelativePath));
+            animeImg.setImage(new Image(imgDefaultRelPath));
             chosenAnime.setStyle(chosenAnimeFX);
         } else {
             this.selectedAnime = anime;
@@ -243,7 +243,7 @@ public class UserController extends Engine implements Initializable {
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
             } catch (Exception ignored) {
-                animeImg.setImage(new Image(imgDefaultRelativePath));
+                animeImg.setImage(new Image(imgDefaultRelPath));
             }
             chosenAnime.setStyle(chosenAnimeFX);
         }
@@ -300,7 +300,7 @@ public class UserController extends Engine implements Initializable {
      * @return void
      */
     public void linkCrunchyRollLink() {
-        openLink(crunchyrollLink);
+        openLink(crunchyRollLink);
     }
 
     /** 

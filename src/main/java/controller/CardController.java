@@ -49,7 +49,7 @@ public class CardController implements Data {
             Image image = new Image(fIStream);
             img.setImage(image);
         } catch (Exception e) {
-            img.setImage(new Image(imgDefaultRelativePath));
+            img.setImage(new Image(imgDefaultRelPath));
         }
 
         Rectangle rect = new Rectangle();

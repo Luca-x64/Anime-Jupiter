@@ -26,11 +26,13 @@ public interface Data {
 
     String imgDataFolder = img+data;
     String imgProjectFolder = img+project;
-    String iconProjectFolder = imgProjectFolder+icon;
-    String imgDefaultRelativePath = imgDataFolder+preview;
-    String absolutePath = src + resources + imgDataFolder;
-    String imgDefaultPath = absolutePath + preview;
-    String absoluteFilePath = src + resources +"data/"+filename;
+    String imgAbsFolder = src + resources + imgDataFolder;
+
+    String iconPath = imgProjectFolder+icon;
+
+    String imgDefaultRelPath = imgDataFolder+preview;
+    String imgDefaultAbsPath = imgAbsFolder + preview;
+    String absFilePath = src + resources +data+filename;
 
 
     String guiFolder = "/"+gui;
@@ -38,10 +40,17 @@ public interface Data {
     String guiUser = guiFolder+"user.fxml";
     String guiAdmin = guiFolder+"admin.fxml";
     String guiCard = guiFolder+"card.fxml";
+    String guiAddAnime = guiFolder+"addAnime.fxml";
 
     // Regex separator
     String regex = " §_£% ";
-    String crunchyrollLink = "https://www.crunchyroll.com/it/videos/anime";
+    String crunchyRollLink = "https://www.crunchyroll.com/it/videos/anime";
+
+    // File Chooser
+    String fcTitle = "Choose an Image";
+
+    // Extension Filter
+    String description = "Image";
 
     // Extensions
     String extPng = "*.png";
@@ -67,10 +76,19 @@ public interface Data {
     // Scrolling messagges
 
     String noAnime = "No anime found";
+    String yearEpisodeNumber = "Years and Episodes have to be a number";
+    String animeAlreadyPresent = "Anime Already Present";
+    String blankField = "Blank fields not allowed";
+    String animeEdited = "Anime edited";
 
-    // Empty String
+    // Empty Strings
 
     String empty = "";
+    String space = " ";
+
+    // Symbols
+    String dot = ".";
+    String dash ="-";
 
     // Style
 
