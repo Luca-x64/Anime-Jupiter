@@ -29,7 +29,7 @@
             <opaqueInsets>
                 <Insets/>
             </opaqueInsets>
-            <Label fx:id="title" contentDisplay="CENTER" stylesheets="@../style/style.css" text="Titolo"
+            <Label fx:id="title" contentDisplay="CENTER" stylesheets="@../style/style.css" text="Title"
                    textFill="#eeeeee">
                 <font>
                     <Font name="Tahoma" size="24.0"/>

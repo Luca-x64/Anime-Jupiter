@@ -61,49 +61,68 @@ public class AdminController extends Engine implements Initializable {
     private int cnt=0,cnt2=0;
     private boolean addAnimeActive = false;
     private boolean editAnimeActive = false;
-    private boolean messLungo = false;
+    private boolean LongMessagge = false;
 
-    EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {} };
+    EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {System.out.println(ignored);} };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
-
+    
+    /**
+     * Initialize
+     * 
+     * @param URL url
+     * @param ResourceBundle resourceBundle
+     * @return void
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reload(getAnimeList());
     }
 
-    @FXML
-    void sort(){
-        inputBox.setText("");
-        switch (cnt) {
-            case 0 -> {
-                reload(sortTitle(true));
-                sortButton.setText(" A ↓ Z ");
-            }
-            case 1 -> {
-                reload(sortTitle(false));
-                sortButton.setText(" Z ↓ A ");
-            }
-            case 2 -> {
-                reload(sortYear(false));
-                sortButton.setText("Y+ ↓ Y-");
-            }
-            case 3 -> {
-                reload(sortYear(true));
-                sortButton.setText("Y- ↓ Y+");
-            }
-            default -> {
-                reload(getAnimeList());
-                sortButton.setText("Ordina");
-                cnt = -1;
-            }
-        }
-        cnt++;
-    }
+    /**
+     * Sort loaded anime
+     * 
+     * @return void
+     */
+     @FXML
+     void sort(){
+         inputBox.setText(empty);
+         switch (cnt) {
+             case 0 -> {
+                 reload(sortTitle(true));
+                 sortButton.setText(orderAlpha);
+             }
+             case 1 -> {
+                 reload(sortTitle(false));
+                 sortButton.setText(reversedAlpha);
+             }
+             case 2 -> {
+                 reload(sortYear(false));
+                 sortButton.setText(orderYear);
+             }
+             case 3 -> {
+                 reload(sortYear(true));
+                 sortButton.setText(reversedYear);
+             }
+             default -> {
+                 reload(getAnimeList());
+                 sortButton.setText(sort);
+                 cnt = -1;
+             }
+         }
+         cnt++;
+     }
+
+    /**
+     * Back to start
+     * 
+     * @throws IOException
+     * @return void
+     */
     @FXML
     void backToStart() throws IOException {
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiFolder+"start.fxml"))));
+        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiStart))));
         Scene scene = ttlAnime.getScene();
         root.translateYProperty().set(scene.getHeight());
         anchorPane.getChildren().add(root);
@@ -115,6 +134,11 @@ public class AdminController extends Engine implements Initializable {
         timeline.play();
     }
 
+    /**
+     * Search Button Click
+     * 
+     * @return void
+     */
     @FXML
     void searchPress() {
         resetScroll();
@@ -124,7 +148,7 @@ public class AdminController extends Engine implements Initializable {
             if (resultQuery.size() > 0) reload(resultQuery);
             else {
                 reload(new ArrayList<>());
-                scrollingText(red,msgDanger("Nessun anime trovato"));
+                scrollingText(red,msgDanger(noAnime));
             }
         } else {
             reload(getAnimeList());
@@ -132,6 +156,12 @@ public class AdminController extends Engine implements Initializable {
         }
     }
 
+    /**
+     * Reload grid panel (anime)
+     * 
+     * @param List<Anime> al anime list
+     * @return void
+     */
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
         if (al.size() > 0) { //todo dinamico della posizione
@@ -144,7 +174,7 @@ public class AdminController extends Engine implements Initializable {
         int row = 1;
         try {
             for (Anime a : al) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiFolder+"card.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
                 AnchorPane anchorPane = fxmlLoader.load();
                 CardController cardController = fxmlLoader.getController();
                 cardController.setData(a, listener);
@@ -166,13 +196,19 @@ public class AdminController extends Engine implements Initializable {
         } catch (Exception ignored) {}
     }
 
+    /** 
+     * Set Chosen Anime
+     *
+     * @param Anime chosen anime
+     * @return void
+     */
     private void setChosenAnime(Anime anime) {
         if (anime == null) {
             this.selectedAnime = null;
-            animeTitle.setText("");
-            animeData.setText("");
-            animeImg.setImage(new Image(imgDefaultRelativePath));
-            chosenAnime.setStyle("-fx-background-color: #121619;\n" + "    -fx-background-radius: 30;"); //sposta da qui
+            animeTitle.setText(empty);
+            animeData.setText(empty);
+            animeImg.setImage(new Image(imgDefaultRelPath));
+            chosenAnime.setStyle(chosenAnimeFX); //sposta da qui
             animeDelete.setOnMouseClicked(null);
             animeEdit.setOnMouseClicked(null);
         } else {
@@ -182,42 +218,59 @@ public class AdminController extends Engine implements Initializable {
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
             } catch (Exception ignored) {
-                animeImg.setImage(new Image(imgDefaultRelativePath));
+                animeImg.setImage(new Image(imgDefaultRelPath));
             }
-            chosenAnime.setStyle("-fx-background-color: #121619;\n" + "    -fx-background-radius: 30;");
+            chosenAnime.setStyle(chosenAnimeFX);
             animeDelete.setOnMouseClicked(deleteHandler);
             animeEdit.setOnMouseClicked(editHandler);
         }
     }
 
+
+    /**
+     * Add anime
+     * 
+     * @throws IOException
+     * @return void
+     */
     @FXML
     void addAnimeclick() throws IOException {
         if(!addAnimeActive){
-            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiFolder+"addAnime.fxml")));
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAddAnime)));
             Parent root = fxmlLoader.load();
             AddAnimeController aac = fxmlLoader.getController();
             aac.setAc(ac);
+
             addAnimeStage = new Stage();
-            addAnimeStage.getIcons().add(new Image(imgProjectFolder+"icon.png"));
-            addAnimeStage.setTitle("Aggiungi anime");
+            addAnimeStage.getIcons().add(new Image(iconPath));
+            addAnimeStage.setTitle(addAnime);
             addAnimeStage.setScene(new Scene(root));
             addAnimeStage.setAlwaysOnTop(true);
             addAnimeStage.initModality(Modality.APPLICATION_MODAL);
             addAnimeStage.setOnCloseRequest(windowEvent -> addClose());
             addAnimeStage.setResizable(false);
             addAnimeStage.show();
+
             addAnimeActive = true;
-            scrollingText(yellow, msgWarning("Aggiunta anime"));
+            scrollingText(yellow, msgWarning(addingAnime));
         }
     }
 
+    /**
+     * Delete Anime 
+     * 
+     * @return void
+     */
     @FXML
     void deleteAnime() {
+
         int pos = getAnimeList().indexOf(selectedAnime);
         deleteInFile(pos);
+
         List<Anime> alCopy = new ArrayList<>(ac.getAnimeList());
         alCopy.remove(selectedAnime);
         setAnimeList(alCopy);
+
         grid.getChildren().clear();
         reload(getAnimeList());
         if (getAnimeList().size() == 1) {
@@ -231,93 +284,157 @@ public class AdminController extends Engine implements Initializable {
             this.selectedAnime = null;
             setChosenAnime(null);
         }
-        scrollingText(red, msgDanger("Anime eliminato"));
+        scrollingText(red, msgDanger(animeDeleted));
     }
 
+     /**
+     * Edit Anime
+     * 
+     * @throws IOException
+     * @return void
+     */
     @FXML
     void editAnime() throws IOException {
         if(!editAnimeActive){
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiFolder+"editAnime.fxml")));
+            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiEditAnime)));
             Parent root = fxmlLoader.load();
             EditAnimeController eac = fxmlLoader.getController();
             eac.setData(ac,selectedAnime);
             editAnimeStage = new Stage();
-            editAnimeStage.getIcons().add(new Image(imgProjectFolder+"icon.png"));
-            editAnimeStage.setTitle("Modifica anime");
+            editAnimeStage.getIcons().add(new Image(iconPath));
+            editAnimeStage.setTitle(editingAnime);
             editAnimeStage.setScene(new Scene(root));
             editAnimeStage.setAlwaysOnTop(true);
             editAnimeStage.initModality(Modality.APPLICATION_MODAL);
             editAnimeStage.setOnCloseRequest(windowEvent -> editClose());
             editAnimeStage.setResizable(false);
             editAnimeStage.show();
+
             editAnimeActive = true;
-            scrollingText(yellow, msgWarning("Anime in modifica"));
+            scrollingText(yellow, msgWarning(animeModification));
         }
     }
 
-    public void linkTelegram() {
-        openLink(crunchyrollLink);
+    /** 
+     * Open CrunchyRoll link
+     * 
+     * @return void
+     */
+    public void linkCrunchyRollLink() {
+        openLink(crunchyRollLink);
     }
+
+    /** 
+     * Open Link Anime
+     *
+     * @return void
+     */
     @FXML
     void linkAnime() {
         openLink(selectedAnime.getLink());
     }
 
+    /**
+     * Press Enter
+     *
+     * @param KeyEvent keyEvent keyboard press
+     * @return void
+     */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
     }
 
+    /**
+     * Edit close
+     *
+     * @return void
+     */
     public void editClose(){
         editAnimeActive=false;
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger("Anime non modificato"));
+        scrollingText(red,msgDanger(animeNotEdited));
     }
+
+    /**
+     * Add Close
+     *
+     * @return void
+     */
     public void addClose(){
         addAnimeActive=false;
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger("Anime non aggiunto"));
+        scrollingText(red,msgDanger(animeNotAdded));
     }
 
+    /**
+     * Set Admin Controller
+     *
+     * @param AdminController ac Admin Constroller
+     * @return void 
+     */
     public void setAc(AdminController ac) {
         this.ac = ac;
     }
 
+    /**
+     * Set Add Anime Active
+     *
+     * @param boolean addAnimeActive 
+     * @return void
+     */
     public void setAddAnimeActive(boolean addAnimeActive) {
         this.addAnimeActive = addAnimeActive;
     }
 
+    /**
+     * Set Edit Anime Active
+     *
+     * @param boolean editAnimeActive
+     * @return void
+     */
     public void setEditAnimeActive(boolean editAnimeActive) {
         this.editAnimeActive = editAnimeActive;
     }
-    public void setMessLungo(boolean messLungo) {
-        this.messLungo = messLungo;
+
+    /**
+     * Set Long Messagge
+     *
+     * @param boolean LongMessagge
+     * @return void
+     */
+    public void setLongMessagge(boolean LongMessagge) {
+        this.LongMessagge = LongMessagge;
     }
 
-
+    /**
+     * Scrolling Text
+     *
+     * @return void
+     */
     public void scrollingText(Color color, String text) {
-        if(cnt2!=0){
-            resetScroll();
-        }
+        if(cnt2!=0){ resetScroll(); }
         Text scrollingText = new Text(text);
         testoScroll.getChildren().add(scrollingText);
         testoScroll.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         scrollingText.setEffect(glow);
-        scrollingText.setStyle(" -fx-font: bold 18pt \"Tahoma\";");
+        scrollingText.setStyle(scrollingTextFX);
         scrollingText.setFill(color);
         scrollingText.setLayoutX(0);
         scrollingText.setLayoutY(0);
         scrollingText.setWrappingWidth(0);
+
         int time = text.length()/4*1000+1000;
         tt = new TranslateTransition(Duration.millis(time), scrollingText);
-        if(messLungo){
+        if(LongMessagge){
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 410);
             tt.setToX(scrollingText.getWrappingWidth()+30);
         } else{
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 350);
             tt.setToX(scrollingText.getWrappingWidth()+50);
         }
-        messLungo=false;
+
+        LongMessagge=false;
         tt.setCycleCount(1);
         tt.setAutoReverse(false);
         tt.play();
@@ -325,16 +442,26 @@ public class AdminController extends Engine implements Initializable {
         runLater(time);
 
     }
+
+    /**
+     * Reset Scroll description
+     *
+     * @return void
+     */
     private void resetScroll(){
         try{
         testoScroll.getChildren().clear();
         tt.stop();
         timer.purge();
         timer.cancel();
-    }catch (Exception ignored){}
-    }
+    }catch (Exception ignored){}}
 
-
+    /**
+     * Run Later
+     *
+     * @param int time (delay)
+     * @return void
+     */
     public void runLater(int time) {
         timer = new Timer();
         timerTask = new TimerTask() {

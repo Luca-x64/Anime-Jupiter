@@ -11,24 +11,25 @@ import java.util.Objects;
 
 public class Main extends Application implements Data {
 
-    /** Main
+    /**
+     * Launch Applications
      *
-     * @param args arguments
+     * @return void 
      */
     public static void main(String[] args) {
         launch(args);
     }
 
-    /** Loading and showing the Start Window
-     *
-     * @param stage stage
-     * @throws Exception exception
+    /**
+     * Loading and showing the Start Window
+     * 
+     * @throws Exception
      */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(guiStart)));
         stage.setTitle(projectName);
-        stage.getIcons().add(new Image(iconProjectFolder));
+        stage.getIcons().add(new Image(iconPath));
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();

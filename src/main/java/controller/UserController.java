@@ -53,18 +53,22 @@ public class UserController extends Engine implements Initializable {
     private boolean longMessagge = false;
     private int cnt=0, cnt2=0;
 
-    /** Initialize
-     *
-     * @param url link
-     * @param resourceBundle resourceBundle
+    /**
+     * Initialize
+     * 
+     * @param URL url
+     * @param ResourceBundle resourceBundle
+     * @return void
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         reload(getAnimeList());
     }
 
-    /** Sort loaded animes
-     *
+    /**
+     * Sort loaded anime
+     * 
+     * @return void
      */
     @FXML
     void sort(){
@@ -95,8 +99,10 @@ public class UserController extends Engine implements Initializable {
         cnt++;
     }
 
-    /** Search Button Click
-     *
+    /**
+     * Search Button Click
+     * 
+     * @return void
      */
     @FXML
     void searchPress() {
@@ -117,10 +123,12 @@ public class UserController extends Engine implements Initializable {
         }
     }
 
-    /** Scrolling text
+    /** 
+     * Scrolling text
      *
-     * @param color text color
-     * @param text content
+     * @param Color text color
+     * @param String text content
+     * @return void
      */
     public void scrollingText(Color color, String text) {
 
@@ -158,8 +166,10 @@ public class UserController extends Engine implements Initializable {
         runLater(time);
     }
 
-    /** Reset Scrolling text
+    /** 
+     * Reset Scrolling text
      *
+     * @return void
      */
     private void resetScroll(){
         try{
@@ -170,9 +180,11 @@ public class UserController extends Engine implements Initializable {
         }catch (Exception ignored){}
     }
 
-    /** Run later with time
+    /** 
+     * Run later with time
      *
-     * @param time duration
+     * @param int duration time
+     * @return void
      */
     public void runLater(int time){
         timer = new Timer();
@@ -186,9 +198,11 @@ public class UserController extends Engine implements Initializable {
         timer.schedule(timerTask,time,time);
     }
 
-    /** Back to start window
+    /** 
+     * Back to start window
      *
      * @throws IOException Exception
+     * @return void
      */
     @FXML
     void backToStart() throws IOException {
@@ -209,16 +223,18 @@ public class UserController extends Engine implements Initializable {
         timeline.play();
     }
 
-    /** Set Chosen Anime
+    /** 
+     * Set Chosen Anime
      *
-     * @param anime chosen anime
+     * @param Anime chosen anime
+     * @return void
      */
     private void setChosenAnime(Anime anime) {
         if (anime == null) {
             this.selectedAnime = null;
             animeTitle.setText(empty);
             animeData.setText(empty);
-            animeImg.setImage(new Image(imgDefaultRelativePath));
+            animeImg.setImage(new Image(imgDefaultRelPath));
             chosenAnime.setStyle(chosenAnimeFX);
         } else {
             this.selectedAnime = anime;
@@ -227,15 +243,16 @@ public class UserController extends Engine implements Initializable {
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
             } catch (Exception ignored) {
-                animeImg.setImage(new Image(imgDefaultRelativePath));
+                animeImg.setImage(new Image(imgDefaultRelPath));
             }
             chosenAnime.setStyle(chosenAnimeFX);
         }
     }
 
-    /** Reload Grid panel
+    /** Reload Grid panel (anime)
      *
-     * @param al anime list
+     * @param List<Anime> anime list
+     * @return void
      */
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
@@ -277,15 +294,19 @@ public class UserController extends Engine implements Initializable {
         } catch (Exception ignored) {}
     }
 
-    /** Open Telegram link
-     *
+    /** 
+     * Open CrunchyRoll link
+     * 
+     * @return void
      */
-    public void linkcrunchyrollLink() {
-        openLink(crunchyrollLink);
+    public void crunchyRollLink() {
+        openLink(crunchyRollLink);
     }
 
-    /** Open Link Anime
+    /** 
+     * Open Link Anime
      *
+     * @return void
      */
     @FXML
     void linkAnime() {
@@ -294,7 +315,8 @@ public class UserController extends Engine implements Initializable {
 
     /** Enter press
      *
-     * @param keyEvent event
+     * @param KeyEvent keyEvent keyboard press
+     * @return void
      */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();

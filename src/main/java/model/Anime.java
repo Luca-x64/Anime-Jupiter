@@ -5,9 +5,10 @@ import main.Data;
 public class Anime implements Data {
 
     private final String title, author, publisher, plot,link,imagePath;
-    private final Integer episodes,anno;
+    private final Integer episodes,year;
 
-    /** Anime Constructor
+    /** 
+     * Anime Constructor
      *
      * @param ttl
      * @param aut
@@ -23,39 +24,41 @@ public class Anime implements Data {
         this.author = aut;
         this.publisher = pub;
         this.episodes = epi;
-        this.anno = y;
+        this.year = y;
         this.plot = pl;
         this.imagePath = imgPath;
         this.link = url;
     }
 
-    /** ToString Overwritten
+    /** 
+     * ToString Overwritten
      *
      * @return String
      */
     @Override
     public String toString() {
-        return "Titolo: " + getTitle()
-                + "\nAutore: " + getAuthor()
-                + "\nStudio: " + getPublisher()
-                + "\nEpisodi: " + getEpisodes()
-                + "\nAnno: " + getYear()
-                + "\nTrama: " + getPlot();
+        return Data.title + getTitle()
+                + nl+Data.author + getAuthor()
+                + nl+Data.publisher + getPublisher()
+                + nl+Data.episodes + getEpisodes()
+                + nl+Data.year + getYear()
+                + nl+Data.plot + getPlot();
     }
 
-    /** Text formatted for the file
+    /** 
+     * Text formatted for the file
      *
-     * @return String
+     * @return String 
      */
     public String textFormat() {
-        return title + regex + author + regex + publisher + regex + episodes + regex + anno + regex + plot + regex + imagePath + regex + link + "\n";
+        return title + regex + author + regex + publisher + regex + episodes + regex + year + regex + plot + regex + imagePath + regex + link + nl;
     }
 
     // Getters
 
     /**
      *
-     * @return String
+     * @return String title
      */
     public String getTitle() {
         return title;
@@ -63,7 +66,7 @@ public class Anime implements Data {
 
     /**
      *
-     * @return String
+     * @return String author
      */
     public String getAuthor() {
         return author;
@@ -71,7 +74,7 @@ public class Anime implements Data {
 
     /**
      *
-     * @return String
+     * @return String publisher
      */
     public String getPublisher() {
         return publisher;
@@ -79,39 +82,43 @@ public class Anime implements Data {
 
     /**
      *
-     * @return Integer
+     * @return Integer number of episodes
      */
     public Integer getEpisodes() {
         return episodes;
     }
 
-    /** Get Trama
+    /** 
+     * Get plot
      *
-     * @return String
+     * @return String plot
      */
     public String getPlot() {
         return plot;
     }
 
-    /** Get Year
+    /** 
+     * Get Year
      *
-     * @return Integer
+     * @return Integer year
      */
     public Integer getYear() {
-        return anno;
+        return year;
     }
 
-    /** Get Link
+    /** 
+     * Get Link
      *
-     * @return String
+     * @return String link
      */
     public String getLink() {
         return link;
     }
 
-    /** Get Image Path
+    /** 
+     * Get Image Path
      *
-     * @return String
+     * @return String image path
      */
     public String getImagePath() {
         return imagePath;
