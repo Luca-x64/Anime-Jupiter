@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class Main extends Application implements Data {
+public class App extends Application implements Data {
 
     /**
      * Launch Applications
