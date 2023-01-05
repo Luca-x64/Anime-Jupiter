@@ -1,8 +1,8 @@
 package model;
 
-import main.Data;
+import app.Data;
 
-public class Anime implements Data {
+public class Anime {
 
     private final String title, author, publisher, plot,link,imagePath;
     private final Integer episodes,year;
@@ -38,11 +38,11 @@ public class Anime implements Data {
     @Override
     public String toString() {
         return Data.title + getTitle()
-                + nl+Data.author + getAuthor()
-                + nl+Data.publisher + getPublisher()
-                + nl+Data.episodes + getEpisodes()
-                + nl+Data.year + getYear()
-                + nl+Data.plot + getPlot();
+                + Data.nl+Data.author + getAuthor()
+                + Data.nl+Data.publisher + getPublisher()
+                + Data.nl+Data.episodes + getEpisodes()
+                + Data.nl+Data.year + getYear()
+                + Data.nl+Data.plot + getPlot();
     }
 
     /** 
@@ -51,7 +51,8 @@ public class Anime implements Data {
      * @return String 
      */
     public String textFormat() {
-        return title + regex + author + regex + publisher + regex + episodes + regex + year + regex + plot + regex + imagePath + regex + link + nl;
+        String regex = Data.regex;
+        return title + regex + author + regex + publisher + regex + episodes + regex + year + regex + plot + regex + imagePath + regex + link + Data.nl;
     }
 
     // Getters

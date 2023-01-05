@@ -21,12 +21,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import main.Listener;
 import model.Anime;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import app.Data;
+import app.Listener;
 
 public class UserController extends Engine implements Initializable {
     @FXML
@@ -72,27 +74,27 @@ public class UserController extends Engine implements Initializable {
      */
     @FXML
     void sort(){
-        inputBox.setText(empty);
+        inputBox.setText(Data.empty);
         switch (cnt) {
             case 0 -> {
                 reload(sortTitle(true));
-                sortButton.setText(orderAlpha);
+                sortButton.setText(Data.orderAlpha);
             }
             case 1 -> {
                 reload(sortTitle(false));
-                sortButton.setText(reversedAlpha);
+                sortButton.setText(Data.reversedAlpha);
             }
             case 2 -> {
                 reload(sortYear(false));
-                sortButton.setText(orderYear);
+                sortButton.setText(Data.orderYear);
             }
             case 3 -> {
                 reload(sortYear(true));
-                sortButton.setText(reversedYear);
+                sortButton.setText(Data.reversedYear);
             }
             default -> {
                 reload(getAnimeList());
-                sortButton.setText(sort);
+                sortButton.setText(Data.sort);
                 cnt = -1;
             }
         }
@@ -115,7 +117,7 @@ public class UserController extends Engine implements Initializable {
                 reload(resultQuery);
             } else {
                 reload(new ArrayList<>());
-                scrollingText(red,msgDanger(noAnime));
+                scrollingText(Data.red,msgDanger(Data.noAnime));
             }
         } else {
             reload(getAnimeList());
@@ -140,8 +142,8 @@ public class UserController extends Engine implements Initializable {
         testoScroll.getChildren().add(scrollingText);
         testoScroll.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-        scrollingText.setEffect(glow);
-        scrollingText.setStyle(scrollingTextFX);
+        scrollingText.setEffect(Data.glow);
+        scrollingText.setStyle(Data.scrollingTextFX);
         scrollingText.setFill(color);
         scrollingText.setLayoutX(0);
         scrollingText.setLayoutY(0);
@@ -209,7 +211,7 @@ public class UserController extends Engine implements Initializable {
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
 
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiStart))));
+        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(Data.guiStart))));
         Scene scene = ttlAnime.getScene();
         root.translateYProperty().set(scene.getHeight());
         anchorPane.getChildren().add(root);
@@ -232,10 +234,10 @@ public class UserController extends Engine implements Initializable {
     private void setChosenAnime(Anime anime) {
         if (anime == null) {
             this.selectedAnime = null;
-            animeTitle.setText(empty);
-            animeData.setText(empty);
-            animeImg.setImage(new Image(imgDefaultRelPath));
-            chosenAnime.setStyle(chosenAnimeFX);
+            animeTitle.setText(Data.empty);
+            animeData.setText(Data.empty);
+            animeImg.setImage(new Image(Data.imgDefaultRelPath));
+            chosenAnime.setStyle(Data.chosenAnimeFX);
         } else {
             this.selectedAnime = anime;
             animeTitle.setText(anime.getTitle());
@@ -243,9 +245,9 @@ public class UserController extends Engine implements Initializable {
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
             } catch (Exception ignored) {
-                animeImg.setImage(new Image(imgDefaultRelPath));
+                animeImg.setImage(new Image(Data.imgDefaultRelPath));
             }
-            chosenAnime.setStyle(chosenAnimeFX);
+            chosenAnime.setStyle(Data.chosenAnimeFX);
         }
     }
 
@@ -269,7 +271,7 @@ public class UserController extends Engine implements Initializable {
         int row = 1;
         try {
             for (Anime a : al) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Data.guiCard));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 CardController cardController = fxmlLoader.getController();
@@ -300,7 +302,7 @@ public class UserController extends Engine implements Initializable {
      * @return void
      */
     public void crunchyRollLink() {
-        openLink(crunchyRollLink);
+        openLink(Data.crunchyRollLink);
     }
 
     /** 

@@ -1,7 +1,6 @@
 package engine;
 
 import javafx.scene.image.Image;
-import main.Data;
 import model.Anime;
 
 import java.io.*;
@@ -10,9 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public abstract class Engine implements Data {
+import app.Data;
+
+public abstract class Engine {
     public List<Anime> animeList = new ArrayList<>();
-    private final File file = new File(absFilePath);
+    private final File file = new File(Data.absFilePath);
 
     /**
      * Engine Constructor
@@ -64,7 +65,7 @@ public abstract class Engine implements Data {
 
         for (Anime i : animeList) {
             String title = stringFormat(i.getTitle());
-            String[] titleSplitted = title.split(space);
+            String[] titleSplitted = title.split(Data.space);
 
             if (titleSplitted.length == 1 && title.startsWith(input)) result.add(i);
             else {
@@ -132,7 +133,7 @@ public abstract class Engine implements Data {
      * @return String
      */
     public String msgSuccess(String msg){
-        return success+msg +success;
+        return Data.success+msg +Data.success;
     }
 
     /**
@@ -142,7 +143,7 @@ public abstract class Engine implements Data {
      * @return String
      */
     public String msgWarning(String msg){
-        return warning+msg +warning;
+        return Data.warning+msg +Data.warning;
     }
 
     /**
@@ -152,7 +153,7 @@ public abstract class Engine implements Data {
      * @return String
      */
     public String msgDanger(String msg){
-        return danger+msg +danger;
+        return Data.danger+msg +Data.danger;
     }
 
     /**
@@ -165,7 +166,7 @@ public abstract class Engine implements Data {
         try {
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
         } catch (Exception e) {
-            System.out.println(errorLink + url);
+            System.out.println(Data.errorLink + url);
         }
     }
 
@@ -180,7 +181,7 @@ public abstract class Engine implements Data {
         try {
             if (!file.createNewFile()) load();
         } catch (Exception e) {
-            System.out.println(fileCreatingError + e);
+            System.out.println(Data.fileCreatingError + e);
         }
     }
 
@@ -196,7 +197,7 @@ public abstract class Engine implements Data {
             if (fileBuffer.size() != 0) {
                 for (String i : fileBuffer) {
                     try {
-                        String[] d = i.split(regex);
+                        String[] d = i.split(Data.regex);
                         Anime anime = new Anime(d[0], d[1], d[2], Integer.parseInt(d[3]), Integer.parseInt(d[4]), d[5], d[6], d[7]);
                         loadedAnime.add(anime);
                     }catch (Exception ignored){}
@@ -229,7 +230,7 @@ public abstract class Engine implements Data {
             List<String> old = Files.readAllLines(Paths.get(String.valueOf(file)));
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             String toRemove = old.get(pos);
-            for (String s : old) if (!s.equals(toRemove)) bw.write(s + nl);
+            for (String s : old) if (!s.equals(toRemove)) bw.write(s + Data.nl);
             bw.close();
         } catch (Exception ignored) {
         }

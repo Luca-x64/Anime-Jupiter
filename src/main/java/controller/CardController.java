@@ -5,14 +5,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import main.Data;
-import main.Listener;
 import model.Anime;
 
 import java.io.File;
 import java.io.FileInputStream;
 
-public class CardController implements Data {
+import app.Data;
+import app.Listener;
+
+public class CardController {
 
     @FXML
     private Label title;
@@ -49,7 +50,7 @@ public class CardController implements Data {
             Image image = new Image(fIStream);
             img.setImage(image);
         } catch (Exception e) {
-            img.setImage(new Image(imgDefaultRelPath));
+            img.setImage(new Image(Data.imgDefaultRelPath));
         }
 
         Rectangle rect = new Rectangle();

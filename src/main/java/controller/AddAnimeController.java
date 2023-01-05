@@ -13,7 +13,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import javax.imageio.ImageIO;
+
+import app.Data;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,13 +51,13 @@ public class AddAnimeController extends Engine implements Initializable {
             ac.addAnimeStage.setAlwaysOnTop(false);
 
             FileChooser fc = new FileChooser();
-            fc.setTitle(fcTitle);
-            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(description, extPng, extJpg));
-            fc.setInitialDirectory(new File(imgAbsFolder));
+            fc.setTitle(Data.fcTitle);
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(Data.description, Data.extPng, Data.extJpg));
+            fc.setInitialDirectory(new File(Data.imgAbsFolder));
             selectedFile = fc.showOpenDialog(stage);
 
-            String fileName = selectedFile.getName().trim().replace(space,empty);
-            imgSelectedPath = imgAbsFolder + fileName;
+            String fileName = selectedFile.getName().trim().replace(Data.space,Data.empty);
+            imgSelectedPath = Data.imgAbsFolder + fileName;
             imgview.setImage(new Image(selectedFile.getPath()));
             addProgress();
         } catch (Exception ignored) {
@@ -77,17 +81,17 @@ public class AddAnimeController extends Engine implements Initializable {
             if (ttl.length() > 0 && aut.length() > 0 && pub.length() > 0 && epi.length() > 0 && y.length() > 0
                     && tr.length() > 0 && link.length() > 0) {
                 if (imgSelectedPath == null) {
-                    imgSelectedPath = imgDefaultRelPath;
+                    imgSelectedPath = Data.imgDefaultRelPath;
                 }
                 // Save img into src/img
-                if (!imgSelectedPath.equalsIgnoreCase(imgDefaultRelPath)) {
+                if (!imgSelectedPath.equalsIgnoreCase(Data.imgDefaultRelPath)) {
                     BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
-                    String fileName = selectedFile.getName().trim().replace(space,empty);
-                    String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
-                    fileName = ttl.toLowerCase(Locale.ROOT).replace(space, dash) + format;
-                    imgSelectedPath = imgAbsFolder + fileName;
+                    String fileName = selectedFile.getName().trim().replace(Data.space,Data.empty);
+                    String format = fileName.substring(fileName.lastIndexOf(Data.dot)).trim();
+                    fileName = ttl.toLowerCase(Locale.ROOT).replace(Data.space, Data.dash) + format;
+                    imgSelectedPath = Data.imgAbsFolder + fileName;
                     File newFile = new File(imgSelectedPath);
-                    format = format.replace(dot, empty);
+                    format = format.replace(Data.dot, Data.empty);
                     ImageIO.write(bi, format, newFile);
                 }
                 try {
@@ -112,19 +116,19 @@ public class AddAnimeController extends Engine implements Initializable {
                 stage.close();
 
                 ac.setAddAnimeActive(false);
-                ac.scrollingText(green, msgSuccess(animeAdded));
+                ac.scrollingText(Data.green, msgSuccess(Data.animeAdded));
             }
             case 1 -> {
                 ac.setLongMessagge(true);
-                ac.scrollingText(red, msgDanger(yearEpisodesAreNumbers));
+                ac.scrollingText(Data.red, msgDanger(Data.yearEpisodesAreNumbers));
                 ac.setAddAnimeActive(false);
             }
             case 2 -> {
                 ac.setLongMessagge(true);
-                ac.scrollingText(red, msgDanger(blankField));
+                ac.scrollingText(Data.red, msgDanger(Data.blankField));
             }
             case 3 -> {
-                ac.scrollingText(yellow, msgWarning(animeAlreadyPresent));
+                ac.scrollingText(Data.yellow, msgWarning(Data.animeAlreadyPresent));
 
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();

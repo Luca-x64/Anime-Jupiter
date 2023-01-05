@@ -12,12 +12,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18.0.2</version>
+            <version>19</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18.0.2</version>
+            <version>19</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -72,7 +72,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>main.App</mainClass>
+                            <mainClass>app.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>
