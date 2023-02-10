@@ -2,7 +2,7 @@
 
 Anime Jupiter is a program for view your personal list of Anime
 
-#Features:
+# Features:
 - Admin / User Side
 - Admin Anime CRUD operations
 - Search bar
