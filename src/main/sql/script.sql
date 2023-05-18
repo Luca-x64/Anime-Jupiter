@@ -1,3 +1,6 @@
+drop database anime_jupyter;
+create database anime_jupyter;
+use anime_jupyter;
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/

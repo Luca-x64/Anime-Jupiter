@@ -36,21 +36,21 @@ public class ServerThread implements Runnable {
 
         String queryLogin = "SELECT * FROM users WHERE email=?";
         ResultSet rs=null;
-        try {
-            PreparedStatement pst = DB.getConn().prepareStatement(queryLogin);
+        Boolean verified = false;
+        try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)){
             pst.setString(1, email);
             rs = pst.executeQuery();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        try {
-            String realPassword = rs.getString("password");
-            Boolean verified = realPassword == password;
-            send(verified);
-            if(verified){
-                send(rs.getString("id"));
+            boolean checkEmail = rs.next();
+            send(checkEmail);
+            if(checkEmail){
+                String realPassword = rs.getString("password");
+                verified = realPassword.equals(password);
+                send(verified);
+                if(verified){
+                    send(rs.getBoolean("isAdmin"));
+                }
             }
+            
             
         } catch (SQLException e) {
             // TODO Auto-generated catch block

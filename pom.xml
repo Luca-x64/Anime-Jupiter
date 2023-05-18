@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-controls</artifactId>
@@ -12,12 +14,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18.0.2</version>
+            <version>20.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18.0.2</version>
+            <version>20.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -28,6 +30,13 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>   mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
         </dependency>
     </dependencies>
     <build>
@@ -42,6 +51,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -53,9 +63,9 @@
                             </filters>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <transformers>
-                                <transformer implementation=
-                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>main.Main</mainClass>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>server.A</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -68,13 +78,23 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
-                        <id>default-cli</id>
+                        <!-- Usage: mvn clean javafx:run@server -->
+                        <id>server</id>
                         <configuration>
-                            <mainClass>main.App</mainClass>
+                            <mainClass>server.Server</mainClass>
+
                         </configuration>
                     </execution>
+                    <execution>
+
+                        <!-- Usage: mvn clean javafx:run@client -->
+                        <id>client</id>
+                        <configuration>
+                            <mainClass>main.App</mainClass>
+
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
         </plugins>
