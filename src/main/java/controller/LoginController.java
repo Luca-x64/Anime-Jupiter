@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import main.Data;
@@ -26,6 +27,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import com.google.protobuf.Field;
+
 import config.Config;
 
 public class LoginController implements Initializable, Data {
@@ -33,10 +36,10 @@ public class LoginController implements Initializable, Data {
     @FXML
     private Button loginBtn;
     @FXML
-    private Label inputEmail,inputPassword;
+    private TextField inputEmail, inputPassword;
     @FXML
     private AnchorPane anchorPane;
-    
+
     private EventHandler<ActionEvent> loginAction;
     private Socket socket;
     private ObjectOutputStream os;
@@ -45,7 +48,7 @@ public class LoginController implements Initializable, Data {
     /**
      * Initialize
      * 
-     * @param URL url
+     * @param URL            url
      * @param ResourceBundle resourceBundle
      * @return void
      */
@@ -56,39 +59,53 @@ public class LoginController implements Initializable, Data {
             os = new ObjectOutputStream(socket.getOutputStream());
             is = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
+            System.exit(5);
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public void login() throws IOException{
+    public void login() throws IOException {
         disableButton();
+        String responseMsg = "";
+
         send(inputEmail.getText());
         send(inputPassword.getText());
-        Boolean response = (Boolean) receive();
-        int userID = (Integer) receive();
-        if(response){
-            if(userID==0){ //Controllare
-                adminSide();
-            }else{
-                userSide();
+
+        Boolean emailVerify = (Boolean) receive();
+
+        if (emailVerify) {
+            Boolean isLogged = (Boolean) receive();
+            if (isLogged) {
+                boolean isAdmin = (Boolean) receive();
+                if (isAdmin) {
+                    adminSide();
+                } else {
+                    userSide();
+                }
+            } else {
+                System.out.println("Wrong password!");
+                this.loginBtn.setOnAction(loginAction);
             }
-        }else{
-            System.out.println("TODO Dati sbagliati, riprova");
+
+        } else {
+            System.out.println("Wrong email!");
             this.loginBtn.setOnAction(loginAction);
         }
+
     }
 
     private void send(Object o) {
         try {
-        os.writeObject(o);
-        os.flush();
+            os.writeObject(o);
+            os.flush();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-    private Object receive(){
+
+    private Object receive() {
         Object received = null;
         try {
             received = is.readObject();
@@ -126,7 +143,7 @@ public class LoginController implements Initializable, Data {
         timeline.play();
     }
 
-    /** 
+    /**
      * User Side
      *
      * @throws IOException
@@ -154,7 +171,7 @@ public class LoginController implements Initializable, Data {
      *
      * @return void
      */
-    private void disableButton(){
+    private void disableButton() {
         loginAction = this.loginBtn.getOnAction();
         this.loginBtn.setOnAction(null);
     }

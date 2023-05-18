@@ -27,7 +27,8 @@ public class App extends Application implements Data {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(guiStart)));
+        //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(guiStart)));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
         stage.setTitle(projectName);
         stage.getIcons().add(new Image(iconPath));
         stage.setScene(new Scene(root));

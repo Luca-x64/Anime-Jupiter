@@ -1,9 +1,12 @@
+drop database anime_jupyter;
+create database anime_jupyter;
+use anime_jupyter;
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Mag 17, 2023 alle 23:02
+-- Host: localhost
+-- Creato il: Mag 18, 2023 alle 20:15
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -36,6 +39,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dump dei dati per la tabella `users`
+--
+
+INSERT INTO `users` (`id`, `nome`, `email`, `password`, `isAdmin`) VALUES
+(1, 'admin', 'admin@gmail.com', 'admin', 1),
+(2, 'manuel', 'manuel@gmail.com', 'manuel', 0),
+(3, 'luca', 'luca@gmail.com', 'luca', 0);
+
+--
 -- Indici per le tabelle scaricate
 --
 
@@ -54,7 +66,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

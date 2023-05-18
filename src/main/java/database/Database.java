@@ -14,21 +14,20 @@ public class Database {
         try {
             createConnection();
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Cant connect to DB "+e);
+            System.exit(1);
         }
-        // try {
-        //     createConnection();
-        // } catch (ClassNotFoundException | SQLException e) {
-        //     System.out.println("Cant connect to DB "+e);
-        //     System.exit(1);
-        // }
         
     }
 
     private void createConnection() throws ClassNotFoundException {
         Class.forName(Config.DRIVER);
-        //conn = DriverManager.getConnection(Config.URL_CONNECTION, Config.USERNAME, Config.PW);
+        try {
+            conn = DriverManager.getConnection(Config.URL_CONNECTION, Config.USERNAME, Config.PW);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
