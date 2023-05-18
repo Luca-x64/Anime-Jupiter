@@ -41,3 +41,6 @@ mvn clean javafx:run@client
 mvn clean javafx:run@server
 ```
 
+# Credits:
+- BCrypt: https://www.mindrot.org/projects/jBCrypt/
+
