@@ -39,16 +39,16 @@ public class ServerThread implements Runnable {
 
         String queryLogin = "SELECT * FROM users WHERE email=?";
 
-        //TEMP
-        password = BCrypt.hashpw(password, BCrypt.gensalt());
-        String queryRegister = "INSERT INTO users (nome,email,password) values('manuel','manuel@gmail.com','"+password+"')";
-        try {
-            DB.getConn().createStatement().execute(queryRegister);
-            System.exit(0);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //TEMP [codice per aggiungere un utente, da aggiungere il prepared statement] 
+        // password = BCrypt.hashpw(password, BCrypt.gensalt());
+        // String queryRegister = "INSERT INTO users (nome,email,password) values('manuel','manuel@gmail.com','"+password+"')";
+        // try {
+        //     DB.getConn().createStatement().execute(queryRegister);
+        //     System.exit(0);
+        // } catch (SQLException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
         //FINE TEMP
 
