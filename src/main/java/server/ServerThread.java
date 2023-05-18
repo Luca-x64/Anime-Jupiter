@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import config.Config;
 import database.Database;
+import jbcrypt.BCrypt;
 
 public class ServerThread implements Runnable {
 
@@ -33,8 +34,24 @@ public class ServerThread implements Runnable {
     private void login() {
         String email = (String) receive();
         String password = (String) receive();
+        
+        
 
         String queryLogin = "SELECT * FROM users WHERE email=?";
+
+        //TEMP
+        password = BCrypt.hashpw(password, BCrypt.gensalt());
+        String queryRegister = "INSERT INTO users (nome,email,password) values('manuel','manuel@gmail.com','"+password+"')";
+        try {
+            DB.getConn().createStatement().execute(queryRegister);
+            System.exit(0);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        //FINE TEMP
+
         ResultSet rs=null;
         Boolean verified = false;
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)){
@@ -43,8 +60,9 @@ public class ServerThread implements Runnable {
             boolean checkEmail = rs.next();
             send(checkEmail);
             if(checkEmail){
-                String realPassword = rs.getString("password");
-                verified = realPassword.equals(password);
+                String hashedPassword = rs.getString("password");
+                verified = BCrypt.checkpw(password,hashedPassword);
+                System.out.println(verified);
                 send(verified);
                 if(verified){
                     send(rs.getBoolean("isAdmin"));

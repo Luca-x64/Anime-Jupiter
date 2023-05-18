@@ -11,23 +11,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1300.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1300.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <ImageView fitHeight="800.0" fitWidth="1441.0" layoutX="-141.0">
         <Image url="@../img/project/background.gif" />
     </ImageView>
-    <Label layoutX="852.0" layoutY="218.0" prefHeight="88.0" prefWidth="139.0" text="Login" textFill="#5b5b5b">
-        <font>
-            <Font name="Tahoma Bold" size="35.0" />
-        </font>
-    </Label>
-    <Button fx:id="adminBtn" layoutX="822.0" layoutY="238.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="68.0" prefWidth="163.0" style="-fx-background-color: transparent;" text="Login" textFill="WHITE">
-        <font>
-            <Font name="Tahoma Bold" size="35.0" />
-        </font>
-        <cursor>
-            <Cursor fx:constant="HAND" />
-        </cursor>
-    </Button>
     <Label layoutX="52.0" layoutY="61.0" prefHeight="82.0" prefWidth="213.0" text="Anime" textFill="#5b5b5b">
         <font>
             <Font name="Tahoma Bold" size="65.0" />
@@ -56,11 +43,11 @@
           <Insets left="10.0" />
         </padding>
     </Label>
-   <Pane layoutX="829.0" layoutY="306.0" prefHeight="309.0" prefWidth="332.0" style="-fx-background-color: red;">
+   <Pane layoutX="829.0" layoutY="306.0" prefHeight="309.0" prefWidth="292.0" style="-fx-background-color: red;">
       <children>
-         <Button fx:id="loginBtn" layoutX="140.0" layoutY="270.0" mnemonicParsing="false" onAction="#login" text="Login" />
+         <Button fx:id="loginBtn" layoutX="112.0" layoutY="256.0" mnemonicParsing="false" onAction="#login" text="Login" />
          <TextField fx:id="inputEmail" layoutX="38.0" layoutY="115.0" />
-         <Button fx:id="adminBtn11" layoutX="38.0" layoutY="73.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: transparent;" text="Email" textFill="WHITE">
+         <Button fx:id="adminBtn11" alignment="TOP_LEFT" layoutX="38.0" layoutY="76.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="39.0" prefWidth="149.0" style="-fx-background-color: transparent;" text="Email" textFill="WHITE">
             <font>
                <Font name="Tahoma Bold" size="20.0" />
             </font>
@@ -68,7 +55,7 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <Button fx:id="adminBtn113" layoutX="38.0" layoutY="147.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="18.0" prefWidth="118.0" style="-fx-background-color: transparent;" text="Password" textFill="WHITE">
+         <Button fx:id="adminBtn113" alignment="BASELINE_LEFT" layoutX="38.0" layoutY="147.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="39.0" prefWidth="149.0" style="-fx-background-color: transparent;" text="Password" textFill="WHITE">
             <font>
                <Font name="Tahoma Bold" size="20.0" />
             </font>
@@ -76,7 +63,17 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <TextField fx:id="inputPassword" layoutX="38.0" layoutY="183.0" />
+         <TextField fx:id="inputPassword" layoutX="38.0" layoutY="186.0" />
       </children>
    </Pane>
+   <Label layoutX="829.0" layoutY="239.0" prefHeight="82.0" prefWidth="213.0" text="Login" textFill="#5b5b5b">
+      <font>
+         <Font name="Tahoma Bold" size="36.0" />
+      </font>
+   </Label>
+   <Label layoutX="831.0" layoutY="243.0" prefHeight="82.0" prefWidth="213.0" text="Login" textFill="WHITE">
+      <font>
+         <Font name="Tahoma Bold" size="36.0" />
+      </font>
+   </Label>
 </AnchorPane>

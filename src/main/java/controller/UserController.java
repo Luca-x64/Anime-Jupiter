@@ -199,17 +199,17 @@ public class UserController extends Engine implements Initializable {
     }
 
     /** 
-     * Back to start window
+     * Back to login window
      *
      * @throws IOException Exception
      * @return void
      */
     @FXML
-    void backToStart() throws IOException {
+    void backToLogin() throws IOException {
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
 
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiStart))));
+        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
         Scene scene = ttlAnime.getScene();
         root.translateYProperty().set(scene.getHeight());
         anchorPane.getChildren().add(root);

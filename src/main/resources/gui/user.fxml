@@ -24,7 +24,7 @@
         <left>
             <VBox depthTest="ENABLE" prefHeight="200.0" prefWidth="435.0" style="-fx-background-color: #212529;" styleClass="right-bar" BorderPane.alignment="CENTER">
                 <HBox alignment="CENTER" prefHeight="107.0" prefWidth="451.0">
-                    <Label fx:id="ttlAnime" onMouseClicked="#backToStart" prefHeight="49.0" prefWidth="128.0" text="Anime" textFill="#eeeeee">
+                    <Label fx:id="ttlAnime" onMouseClicked="#backToLogin" prefHeight="49.0" prefWidth="128.0" text="Anime" textFill="#eeeeee">
                         <font>
                             <Font name="Tahoma Bold" size="40.0" />
                         </font>
@@ -32,7 +32,7 @@
                             <Cursor fx:constant="HAND" />
                         </cursor>
                     </Label>
-                    <Label fx:id="ttlJupiter" onMouseClicked="#backToStart" text="Jupiter" textFill="#b789f7">
+                    <Label fx:id="ttlJupiter" onMouseClicked="#backToLogin" text="Jupiter" textFill="#b789f7">
                         <font>
                             <Font name="Tahoma Bold" size="40.0" />
                         </font>

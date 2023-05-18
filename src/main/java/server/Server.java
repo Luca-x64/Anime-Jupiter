@@ -24,12 +24,14 @@ public class Server{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
             psServerConsole.println("[SERVER ONLINE]");
+            System.out.println("[SERVER ONLINE]");
         final Database DB = new Database();
       
         try (ServerSocket serverSocket = new ServerSocket(Config.PORT)) {
             serverSocket.setSoTimeout(120000); // 2 minuts timeout
-            serverSocket.setSoTimeout(1000000000);
+            //serverSocket.setSoTimeout(1000000000); //CHECK remove
 
             while (!serverSocket.isClosed()) {
                counter++;
