@@ -62,7 +62,6 @@ public class ServerThread implements Runnable {
             if(checkEmail){
                 String hashedPassword = rs.getString("password");
                 verified = BCrypt.checkpw(password,hashedPassword);
-                System.out.println(verified);
                 send(verified);
                 if(verified){
                     send(rs.getBoolean("isAdmin"));

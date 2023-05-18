@@ -6,7 +6,8 @@
     - fix login.fxml
 
 # back:
-    - add registerController
+    - TODO registerController
+    - spostare la connessione del socket (client) al file `main.App.java`
     + Login con password hash B CRYPT [OK]
 
 # database:
