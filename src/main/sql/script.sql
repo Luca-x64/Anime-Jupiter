@@ -6,7 +6,7 @@ use anime_jupyter;
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 18, 2023 alle 23:40
+-- Creato il: Mag 19, 2023 alle 00:12
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -35,7 +35,7 @@ CREATE TABLE `users` (
   `nome` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` char(60) DEFAULT NULL,
-  `isAdmin` tinyint(1) DEFAULT false
+  `isAdmin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -44,8 +44,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `nome`, `email`, `password`, `isAdmin`) VALUES
 (0, 'admin', 'admin@gmail.com', '$2a$10$2V5kA2rwdiXljcD2sgHULunHA3Jw.Xt2nWrs4q4QsvDgG2/6SSI8S', 1),
-(2, 'manuel', 'manuel@gmail.com', 'manuel', 0),
-(3, 'luca', 'luca@gmail.com', 'luca', 0);
+(1, 'luca', 'luca@gmail.com', '$2a$10$P9A53deA/60emkyJfz4oSu4vfjm2jSwu9726J0qtYkgqICQnezwEO', 0),
+(2, 'manuel', 'manuel@gmail.com', '$2a$10$u.9xCGcg..HqEVcwDjaVI.mz8HAvQmqAXB9qU3IwH4QqeUVF/SbFe', 0);
 
 --
 -- Indici per le tabelle scaricate
@@ -66,7 +66,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
