@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import main.Data;
+import model.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,7 +32,7 @@ import com.google.protobuf.Field;
 
 import config.Config;
 
-public class LoginController implements Initializable, Data {
+public class LoginController implements interfaces.Controller, Initializable, Data {
 
     @FXML
     private Button loginBtn;
@@ -53,24 +54,15 @@ public class LoginController implements Initializable, Data {
      * @return void
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            socket = new Socket(InetAddress.getLocalHost(), Config.PORT);
-            os = new ObjectOutputStream(socket.getOutputStream());
-            is = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            System.exit(5);
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     public void login() throws IOException {
         disableButton();
-        String responseMsg = "";
 
-        send(inputEmail.getText());
-        send(inputPassword.getText());
+        User user = new User(inputEmail.getText(),inputPassword.getText());
+        send(user);
+
+        // TODO continuare sotto
 
         Boolean emailVerify = (Boolean) receive();
 
@@ -174,5 +166,17 @@ public class LoginController implements Initializable, Data {
     private void disableButton() {
         loginAction = this.loginBtn.getOnAction();
         this.loginBtn.setOnAction(null);
+    }
+
+    @Override
+    public void setSocket(Socket s) {
+        this.socket = s;
+        try {
+            os = new ObjectOutputStream(socket.getOutputStream());
+            is = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
