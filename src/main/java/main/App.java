@@ -42,7 +42,7 @@ public class App extends Application implements Data {
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
             Parent root = fxmlLoader.load();
-            interfaces.Controller controller = fxmlLoader.getController();
+            interfaces.SocketController controller = fxmlLoader.getController();
             controller.setSocket(socket);
             stage.setTitle(projectName);
             stage.getIcons().add(new Image(iconPath));

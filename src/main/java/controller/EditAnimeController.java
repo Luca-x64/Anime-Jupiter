@@ -89,7 +89,7 @@ public class EditAnimeController extends Engine {
                         newAnime = new Anime(ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr, imgSelectedPath, link);
                         alCopy.add(pos, newAnime);
                         ac.setAnimeList(alCopy);
-                        ac.reloadFile();
+                        //ac.reloadFile(); // TODO REMOVE
                         result=true;
                     }catch (NumberFormatException ne){
                         ac.setLongMessagge(true);

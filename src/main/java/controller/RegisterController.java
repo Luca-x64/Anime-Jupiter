@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 import config.Config;
 
-public class RegisterController implements interfaces.Controller, Initializable, Data {
+public class RegisterController implements interfaces.SocketController, Initializable, Data {
 
     @FXML
     private Button registerBtn;
@@ -78,7 +78,7 @@ public class RegisterController implements interfaces.Controller, Initializable,
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
             Parent root = fxmlLoader.load();
-            interfaces.Controller controller = fxmlLoader.getController();
+            interfaces.SocketController controller = fxmlLoader.getController();
             controller.setSocket(socket);
             Scene loginScene = registerBtn.getScene();
             root.translateYProperty().set(loginScene.getHeight());

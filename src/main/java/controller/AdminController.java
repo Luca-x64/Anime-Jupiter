@@ -1,6 +1,7 @@
 package controller;
 
 import engine.Engine;
+import interfaces.SocketController;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -29,10 +30,13 @@ import main.Listener;
 import model.Anime;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class AdminController extends Engine implements Initializable {
+public class AdminController extends Engine implements  Initializable {
     @FXML
     private ImageView animeImg, animeDelete, animeEdit;
     @FXML
@@ -65,6 +69,7 @@ public class AdminController extends Engine implements Initializable {
 
     EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {System.out.println(ignored);} };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
+
     
     /**
      * Initialize
@@ -265,7 +270,7 @@ public class AdminController extends Engine implements Initializable {
     void deleteAnime() {
 
         int pos = getAnimeList().indexOf(selectedAnime);
-        deleteInFile(pos);
+        //deleteInFile(pos); //TODO REMOVE
 
         List<Anime> alCopy = new ArrayList<>(ac.getAnimeList());
         alCopy.remove(selectedAnime);
@@ -473,4 +478,6 @@ public class AdminController extends Engine implements Initializable {
         time *= 2;
         timer.schedule(timerTask, time, time);
     }
+
+   
 }

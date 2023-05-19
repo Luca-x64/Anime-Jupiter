@@ -1,6 +1,7 @@
 package controller;
 
 import engine.Engine;
+import interfaces.SocketController;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,6 +26,9 @@ import main.Listener;
 import model.Anime;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
@@ -52,7 +56,6 @@ public class UserController extends Engine implements Initializable {
     private Timer timer;
     private boolean longMessagge = false;
     private int cnt=0, cnt2=0;
-
     /**
      * Initialize
      * 
@@ -62,7 +65,7 @@ public class UserController extends Engine implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        reload(getAnimeList());
+       // reload(getAnimeList()); UPDATING PROCESS CHECK
     }
 
     /**
@@ -321,4 +324,5 @@ public class UserController extends Engine implements Initializable {
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
     }
+
 }

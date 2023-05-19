@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
+
 import main.Data;
 
-public class Anime implements Data {
+public class Anime implements Serializable, Data {
 
     private final String title, author, publisher, plot,link,imagePath;
     private final Integer episodes,year;

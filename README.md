@@ -5,13 +5,15 @@
     - change register.fxml
     - change login.fxml
     - RegisterController gotoLogin() not working
+
 # back:
-   - after register process OK (What to do???)
+    - update userController to DB
+    - update adminController to DB
+    - after register process OK (What to do???)
 
 
 # database:
-    - add anime table
-    - add favourite table (N-N tra users e anime)
+    
 
 
 # bug:
