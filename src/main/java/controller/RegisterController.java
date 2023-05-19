@@ -30,12 +30,12 @@ import java.util.ResourceBundle;
 
 import config.Config;
 
-public class RegisterController implements interfaces.Controller,Initializable, Data {
+public class RegisterController implements interfaces.Controller, Initializable, Data {
 
     @FXML
     private Button registerBtn;
     @FXML
-    private TextField inputName, inputEmail, inputPassword,inputCheckPassword;
+    private TextField inputName, inputEmail, inputPassword, inputCheckPassword;
     @FXML
     private AnchorPane anchorPane;
 
@@ -52,23 +52,57 @@ public class RegisterController implements interfaces.Controller,Initializable, 
      * @return void
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
-
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
     public void register() throws IOException {
         disableButton();
 
         Boolean checkPassword = inputPassword.getText().equals(inputCheckPassword.getText());
-        if(checkPassword){
-            User user = new User(inputName.getText(),inputEmail.getText(),inputPassword.getText());
+        if (checkPassword) {
+            User user = new User(inputName.getText(), inputEmail.getText(), inputPassword.getText());
             send(user);
-           
+
             Boolean response = (Boolean) receive();
             send(response);
-        }else{
+        } else {
             this.registerBtn.setOnAction(loginAction);
         }
 
+        gotoLogin();
+
+    }
+
+    //TODO controllare, non funziona
+    private void gotoLogin() { 
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
+            Parent root = fxmlLoader.load();
+            interfaces.Controller controller = fxmlLoader.getController();
+            controller.setSocket(socket);
+            Scene loginScene = registerBtn.getScene();
+            root.translateYProperty().set(loginScene.getHeight());
+            anchorPane.getChildren().add(root);
+
+            // CHECK (idk)
+            // stage.setTitle(projectName);
+            // stage.getIcons().add(new Image(iconPath));
+            // stage.setScene(new Scene(root));
+            // stage.setResizable(false);
+            // stage.show();
+
+            // Transition
+
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+            timeline.play();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
@@ -94,57 +128,58 @@ public class RegisterController implements interfaces.Controller,Initializable, 
     }
 
     // /**
-    //  * Admin side
-    //  * 
-    //  * @throws IOException
-    //  * @return void
-    //  */
+    // * Admin side
+    // *
+    // * @throws IOException
+    // * @return void
+    // */
     // public void adminSide() throws IOException {
 
-    //     FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
-    //     Parent root = fxmlLoader.load();
-    //     AdminController ac = fxmlLoader.getController();
-    //     ac.setAc(ac);
+    // FXMLLoader fxmlLoader = new
+    // FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
+    // Parent root = fxmlLoader.load();
+    // AdminController ac = fxmlLoader.getController();
+    // ac.setAc(ac);
 
-    //     Scene adminScene = registerBtn.getScene();
-    //     root.translateYProperty().set(adminScene.getHeight());
-    //     anchorPane.getChildren().add(root);
+    // Scene adminScene = registerBtn.getScene();
+    // root.translateYProperty().set(adminScene.getHeight());
+    // anchorPane.getChildren().add(root);
 
-    //     // Transition
+    // // Transition
 
-    //     Timeline timeline = new Timeline();
-    //     KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
-    //     KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-    //     timeline.getKeyFrames().add(kf);
-    //     timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
-    //     timeline.play();
+    // Timeline timeline = new Timeline();
+    // KeyValue kv = new KeyValue(root.translateYProperty(), 0,
+    // Interpolator.EASE_IN);
+    // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+    // timeline.getKeyFrames().add(kf);
+    // timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+    // timeline.play();
     // }
 
     // /**
-    //  * User Side
-    //  *
-    //  * @throws IOException
-    //  * @return void
-    //  */
+    // * User Side
+    // *
+    // * @throws IOException
+    // * @return void
+    // */
     // public void userSide() throws IOException {
-    //     disableButton();
+    // disableButton();
 
-    //     Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiUser))));
-    //     Scene userScene = registerBtn.getScene();
-    //     root.translateYProperty().set(userScene.getHeight());
-    //     anchorPane.getChildren().add(root);
+    // Parent root =
+    // FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiUser))));
+    // Scene userScene = registerBtn.getScene();
+    // root.translateYProperty().set(userScene.getHeight());
+    // anchorPane.getChildren().add(root);
 
-    //     // Transition
-    //     Timeline timeline = new Timeline();
-    //     KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
-    //     KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-    //     timeline.getKeyFrames().add(kf);
-    //     timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
-    //     timeline.play();
+    // // Transition
+    // Timeline timeline = new Timeline();
+    // KeyValue kv = new KeyValue(root.translateYProperty(), 0,
+    // Interpolator.EASE_IN);
+    // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+    // timeline.getKeyFrames().add(kf);
+    // timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+    // timeline.play();
     // }
-
-
-   
 
     /**
      * Disable user and admin side Buttons
@@ -155,7 +190,6 @@ public class RegisterController implements interfaces.Controller,Initializable, 
         loginAction = this.registerBtn.getOnAction();
         this.registerBtn.setOnAction(null);
     }
-
 
     public void setSocket(Socket s) {
         this.socket = s;
@@ -168,5 +202,4 @@ public class RegisterController implements interfaces.Controller,Initializable, 
         }
     }
 
-    
 }

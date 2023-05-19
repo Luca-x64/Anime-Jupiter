@@ -4,9 +4,10 @@
 # front:
     - change register.fxml
     - change login.fxml
-
+    - RegisterController gotoLogin() not working
 # back:
    - after register process OK (What to do???)
+
 
 # database:
     - add anime table
@@ -15,7 +16,7 @@
 
 # bug:
     - [BACK] doppio click sul tasto login (loginController->login()) con dati sbagliati crea un crash
-    - login, back to login, re-attempt login crash
+    - [BACK] login, back to login, re-attempt login crash
 
 
 # Users: [name,email,pw]
@@ -26,7 +27,7 @@
 
 == How to kill the process with the xx port used:
 - Windows: 
-`netstat -ano | findstr :<PORT> `
+`netstat -ano | findstr 20006 `
 `taskkill /PID <PID> /F`
 - Linux: Prossimamente
 
@@ -36,8 +37,8 @@ ALTER TABLE tablename AUTO_INCREMENT = `<N>`
 
 For run the program: 
 ```
-mvn clean javafx:run@client 
-mvn clean javafx:run@server
+mvn javafx:run@server / mvn clean javafx:run@server
+mvn javafx:run@client / mvn clean javafx:run@client 
 ```
 
 # Credits:
