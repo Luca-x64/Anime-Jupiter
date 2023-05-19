@@ -7,14 +7,22 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.lang.ModuleLayer.Controller;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.Objects;
+
+import javax.security.auth.login.LoginContext;
+
+import config.Config;
 
 public class App extends Application implements Data {
 
     /**
      * Launch Applications
      *
-     * @return void 
+     * @return void
      */
     public static void main(String[] args) {
         launch(args);
@@ -26,14 +34,26 @@ public class App extends Application implements Data {
      * @throws Exception
      */
     @Override
-    public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(guiStart)));
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
-        stage.setTitle(projectName);
-        stage.getIcons().add(new Image(iconPath));
-        stage.setScene(new Scene(root));
-        stage.setResizable(false);
-        stage.show();
+    public void start(Stage stage) {
+
+        Socket socket;
+        try {
+            socket = new Socket(InetAddress.getLocalHost(), Config.PORT);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
+            Parent root = fxmlLoader.load();
+            interfaces.Controller controller = fxmlLoader.getController();
+            controller.setSocket(socket);
+            stage.setTitle(projectName);
+            stage.getIcons().add(new Image(iconPath));
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 }

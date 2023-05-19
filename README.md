@@ -2,13 +2,11 @@
 
 ## todolist:
 # front:
-    - add register.fxml
-    - fix login.fxml
+    - change register.fxml
+    - change login.fxml
 
 # back:
-    - TODO registerController
-    - spostare la connessione del socket (client) al file `main.App.java`
-    + Login con password hash B CRYPT [OK]
+   - after register process OK (What to do???)
 
 # database:
     - add anime table
@@ -17,6 +15,7 @@
 
 # bug:
     - [BACK] doppio click sul tasto login (loginController->login()) con dati sbagliati crea un crash
+    - login, back to login, re-attempt login crash
 
 
 # Users: [name,email,pw]
@@ -32,7 +31,7 @@
 - Linux: Prossimamente
 
 == Sql tips:
-ALTER TABLE tablename AUTO_INCREMENT = <N>
+ALTER TABLE tablename AUTO_INCREMENT = `<N>`
 
 
 For run the program: 
