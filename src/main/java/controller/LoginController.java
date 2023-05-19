@@ -26,9 +26,13 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import com.mysql.cj.protocol.SocketConnection;
+
+import interfaces.SocketController;
 
 
-public class LoginController implements interfaces.Controller, Initializable, Data {
+
+public class LoginController implements interfaces.SocketController, Initializable, Data {
 
     @FXML
     private Button loginBtn;
@@ -114,8 +118,12 @@ public class LoginController implements interfaces.Controller, Initializable, Da
 
         FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
         Parent root = fxmlLoader.load();
-        AdminController ac = fxmlLoader.getController();
+
+        AdminController ac = fxmlLoader.getController(); //TODO CHECK these 2 lines
         ac.setAc(ac);
+
+        ac.setSocket(socket); 
+
 
         Scene adminScene = loginBtn.getScene();
         root.translateYProperty().set(adminScene.getHeight());
@@ -140,7 +148,11 @@ public class LoginController implements interfaces.Controller, Initializable, Da
     public void userSide() throws IOException {
         disableButton();
 
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource(guiUser))));
+        FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
+        Parent root = fxmlLoader.load();
+        SocketController sc = fxmlLoader.getController();
+        sc.setSocket(socket);
+
         Scene userScene = loginBtn.getScene();
         root.translateYProperty().set(userScene.getHeight());
         anchorPane.getChildren().add(root);
