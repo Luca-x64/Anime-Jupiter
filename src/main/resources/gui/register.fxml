@@ -41,52 +41,66 @@
           <Insets left="10.0" />
         </padding>
     </Label>
-   <Pane layoutX="550.0" layoutY="255.0" prefHeight="426.0" prefWidth="220.0" stylesheets="@../style/style.css">
+   <Pane layoutX="505.0" layoutY="254.0" prefHeight="426.0" prefWidth="291.0" stylesheets="@../style/style.css">
       <children>
-         <Pane layoutX="32.0" prefHeight="69.0" prefWidth="156.0">
+         <Pane layoutX="-3.0" layoutY="7.0" prefHeight="69.0" prefWidth="156.0">
             <children>
-               <Label prefHeight="82.0" prefWidth="163.0" text="Register" textFill="#5b5b5b">
+               <Label alignment="CENTER" prefHeight="69.0" prefWidth="163.0" text="Register" textFill="#5b5b5b">
                   <font>
                      <Font name="Tahoma Bold" size="36.0" />
                   </font>
                </Label>
-               <Label prefHeight="82.0" prefWidth="163.0" text="Register" textFill="WHITE">
+               <Label alignment="CENTER" layoutX="4.0" layoutY="6.0" prefHeight="62.0" prefWidth="163.0" text="Register" textFill="#b789f7">
                   <font>
                      <Font name="Tahoma Bold" size="36.0" />
                   </font>
                </Label>
             </children>
          </Pane>
-         <TextField fx:id="inputEmail" layoutY="152.0" prefHeight="38.0" prefWidth="220.0" promptText="Email" styleClass="text-login" stylesheets="@../style/style.css">
+         <TextField fx:id="inputEmail" layoutY="152.0" prefHeight="38.0" prefWidth="291.0" promptText="Email" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
                <Font name="Tahoma Bold" size="19.0" />
             </font>
          </TextField>
-         <TextField fx:id="inputPassword" layoutY="213.0" prefHeight="39.0" prefWidth="220.0" promptText="Password" styleClass="text-login" stylesheets="@../style/style.css">
+         <TextField fx:id="inputPassword" layoutY="213.0" prefHeight="39.0" prefWidth="291.0" promptText="Password" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
                <Font name="Tahoma Bold" size="19.0" />
             </font>
          </TextField>
-         <Label alignment="CENTER" layoutX="143.0" layoutY="340.0" prefHeight="41.0" prefWidth="75.0" style="-fx-border-radius: 30; -fx-border-color: #5b5b5b;" text="登録" textFill="#5b5b5b">
+         <Label alignment="CENTER" layoutX="214.0" layoutY="340.0" prefHeight="41.0" prefWidth="75.0" style="-fx-border-radius: 30; -fx-border-color: #5b5b5b;" text="登録" textFill="#5b5b5b">
             <font>
                <Font name="Tahoma Bold" size="31.0" />
             </font>
          </Label>
-         <Label fx:id="registerBtn" alignment="CENTER" layoutX="145.0" layoutY="342.0" onMouseClicked="#register" prefHeight="40.0" prefWidth="75.0" style="-fx-border-radius: 30; -fx-border-color: #b789f7;" text="登録" textFill="#b789f7">
+         <Label fx:id="registerBtn" alignment="CENTER" layoutX="216.0" layoutY="342.0" onMouseClicked="#register" prefHeight="40.0" prefWidth="75.0" style="-fx-border-radius: 30; -fx-border-color: #b789f7;" text="登録" textFill="#b789f7">
             <font>
                <Font name="Tahoma Bold" size="30.0" />
             </font>
          </Label>
-         <TextField fx:id="inputName" layoutY="90.0" prefHeight="38.0" prefWidth="220.0" promptText="Name" styleClass="text-login" stylesheets="@../style/style.css">
+         <TextField fx:id="inputName" layoutY="90.0" prefHeight="38.0" prefWidth="291.0" promptText="Name" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
                <Font name="Tahoma Bold" size="19.0" />
             </font>
          </TextField>
-         <TextField fx:id="inputCheckPassword" layoutY="276.0" prefHeight="39.0" prefWidth="220.0" promptText="Reply Password" styleClass="text-login" stylesheets="@../style/style.css">
+         <TextField fx:id="inputCheckPassword" layoutY="276.0" prefHeight="39.0" prefWidth="291.0" promptText="Reply Password" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
                <Font name="Tahoma Bold" size="19.0" />
             </font>
          </TextField>
+         <Pane layoutX="208.0" layoutY="3.0" prefHeight="69.0" prefWidth="84.0">
+            <children>
+               <Label prefHeight="82.0" prefWidth="107.0" text="Login" textFill="#5b5b5b">
+                  <font>
+                     <Font name="Tahoma Bold" size="30.0" />
+                  </font>
+               </Label>
+               <Label layoutX="-4.0" layoutY="2.0" prefHeight="82.0" prefWidth="115.0" text="Login" textFill="WHITE">
+                  <font>
+                     <Font name="Tahoma Bold" size="30.0" />
+                  </font>
+               </Label>
+            </children>
+         </Pane>
       </children>
    </Pane>
 </AnchorPane>
