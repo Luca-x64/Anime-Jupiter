@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -28,13 +27,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import com.mysql.cj.protocol.SocketConnection;
-
-import interfaces.StreamController;
 
 
-
-public class LoginController implements interfaces.SocketController, Initializable, Data {
+public class LoginController implements interfaces.StreamController, Initializable, Data {
 
     @FXML
     private Label loginBtn;
@@ -43,7 +38,6 @@ public class LoginController implements interfaces.SocketController, Initializab
     @FXML
     private AnchorPane anchorPane;
 
-    private Socket socket;
     private ObjectOutputStream os;
     private ObjectInputStream is;
 
@@ -179,25 +173,10 @@ public class LoginController implements interfaces.SocketController, Initializab
       
     }
 
-    /**
-     * Disable user and admin side Buttons
-     *
-     * @return void
-     */
-
-
     @Override
-    public void setSocket(Socket s) {
-        this.socket = s;
-        try {
-            os = new ObjectOutputStream(socket.getOutputStream());
-            is = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+        this.os=os;
+        this.is=is;
     }
-
-
    
 }
