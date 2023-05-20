@@ -123,6 +123,7 @@ public class LoginController implements interfaces.SocketController, Initializab
         ac.setAc(ac);
 
         ac.setStream(os,is); 
+        ac.begin();
 
 
         Scene adminScene = loginBtn.getScene();
@@ -153,7 +154,8 @@ public class LoginController implements interfaces.SocketController, Initializab
 
         UserController uc = fxmlLoader.getController();
         uc.setStream(os,is);
-
+        uc.begin();
+            
         Scene userScene = loginBtn.getScene();
         root.translateYProperty().set(userScene.getHeight());
         anchorPane.getChildren().add(root);

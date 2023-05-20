@@ -32,11 +32,11 @@ import model.Anime;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Stream;
 
-public class AdminController extends Engine implements  Initializable {
+public class AdminController extends Engine implements StreamController, Initializable {
     @FXML
     private ImageView animeImg, animeDelete, animeEdit;
     @FXML
@@ -69,6 +69,9 @@ public class AdminController extends Engine implements  Initializable {
 
     EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {System.out.println(ignored);} };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
+    private ObjectOutputStream os;
+    private ObjectInputStream is;
+  
 
     
     /**
@@ -80,7 +83,7 @@ public class AdminController extends Engine implements  Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        reload(getAnimeList());
+        //reload(getAnimeList()); UPDATING PROCESS CHECK
     }
 
     /**
@@ -127,10 +130,12 @@ public class AdminController extends Engine implements  Initializable {
     void backToLogin() throws IOException {
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
+        
         Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
         Scene scene = ttlAnime.getScene();
         root.translateYProperty().set(scene.getHeight());
         anchorPane.getChildren().add(root);
+
         Timeline timeline = new Timeline();
         KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
         KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
@@ -147,11 +152,13 @@ public class AdminController extends Engine implements  Initializable {
     @FXML
     void searchPress() {
         resetScroll();
+
         String input = stringFormat(inputBox.getText());
         if (input.length() > 0) {
             List<Anime> resultQuery = query(input);
-            if (resultQuery.size() > 0) reload(resultQuery);
-            else {
+            if (resultQuery.size() > 0) {
+                reload(resultQuery);
+            } else {
                 reload(new ArrayList<>());
                 scrollingText(red,msgDanger(noAnime));
             }
@@ -161,46 +168,7 @@ public class AdminController extends Engine implements  Initializable {
         }
     }
 
-    /**
-     * Reload grid panel (anime)
-     * 
-     * @param List<Anime> al anime list
-     * @return void
-     */
-    public void reload(List<Anime> al) {
-        grid.getChildren().clear();
-        if (al.size() > 0) { //todo dinamico della posizione
-            setChosenAnime(al.get(0));
-            this.selectedAnime = al.get(0);
-        } else setChosenAnime(null);
-
-        Listener listener = this::setChosenAnime;
-        int column = 3;
-        int row = 1;
-        try {
-            for (Anime a : al) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
-                AnchorPane anchorPane = fxmlLoader.load();
-                CardController cardController = fxmlLoader.getController();
-                cardController.setData(a, listener);
-                if (column == 3) {
-                    column = 0;
-                    row++;
-                }
-                grid.add(anchorPane, column++, row);
-                //set grid width
-                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                grid.setMaxWidth(Region.USE_PREF_SIZE);
-                //set grid height
-                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                grid.setMaxHeight(Region.USE_PREF_SIZE);
-                GridPane.setMargin(anchorPane, new Insets(8));
-            }
-        } catch (Exception ignored) {}
-    }
-
+    
     /** 
      * Set Chosen Anime
      *
@@ -239,12 +207,17 @@ public class AdminController extends Engine implements  Initializable {
      * @return void
      */
     @FXML
-    void addAnimeclick() throws IOException {
+    void addAnimeclick() throws IOException { // TODO CHECK LATER
         if(!addAnimeActive){
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAddAnime)));
+           
+            
+           
             Parent root = fxmlLoader.load();
-            AddAnimeController aac = fxmlLoader.getController();
-            aac.setAc(ac);
+
+
+            StreamController sc = fxmlLoader.getController();
+            sc.setStream(os, is);
 
             addAnimeStage = new Stage();
             addAnimeStage.getIcons().add(new Image(iconPath));
@@ -252,7 +225,7 @@ public class AdminController extends Engine implements  Initializable {
             addAnimeStage.setScene(new Scene(root));
             addAnimeStage.setAlwaysOnTop(true);
             addAnimeStage.initModality(Modality.APPLICATION_MODAL);
-            addAnimeStage.setOnCloseRequest(windowEvent -> addClose());
+            addAnimeStage.setOnCloseRequest(windowEvent -> addClose()); // TODO aggiungere reload all anime
             addAnimeStage.setResizable(false);
             addAnimeStage.show();
 
@@ -268,24 +241,23 @@ public class AdminController extends Engine implements  Initializable {
      */
     @FXML
     void deleteAnime() {
-
         int pos = getAnimeList().indexOf(selectedAnime);
-        //deleteInFile(pos); //TODO REMOVE
+        deleteAnime(selectedAnime.getID());
 
-        List<Anime> alCopy = new ArrayList<>(ac.getAnimeList());
-        alCopy.remove(selectedAnime);
-        setAnimeList(alCopy);
 
         grid.getChildren().clear();
         reload(getAnimeList());
-        if (getAnimeList().size() == 1) {
+
+
+        if (getAnimeList().size() == 1) { //CHECK forse spostare this.selectedeAnime = XXX ; inside the function setChosenAnime
             this.selectedAnime = getAnimeList().get(0);
             setChosenAnime(getAnimeList().get(0));
-        } else if(getAnimeList().size() >1){
-            this.selectedAnime = getAnimeList().get(pos-1);
-            setChosenAnime(getAnimeList().get(pos-1));
+        } else if(getAnimeList().size() >1){ //CHECK anche qui
+            pos = pos-1 == -1 ? 0 : pos-1;
+            this.selectedAnime = getAnimeList().get(pos);
+            setChosenAnime(getAnimeList().get(pos));
         }
-        else {
+        else {                              //CHECK anche qui
             this.selectedAnime = null;
             setChosenAnime(null);
         }
@@ -299,13 +271,15 @@ public class AdminController extends Engine implements  Initializable {
      * @return void
      */
     @FXML
-    void editAnime() throws IOException {
+    void editAnime() throws IOException {  // TODO CHECK LATER
         if(!editAnimeActive){
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiEditAnime)));
             Parent root = fxmlLoader.load();
-            EditAnimeController eac = fxmlLoader.getController();
-            eac.setData(ac,selectedAnime);
+            
+            StreamController sc = fxmlLoader.getController();
+            sc.setStream(os, is);
+            
             editAnimeStage = new Stage();
             editAnimeStage.getIcons().add(new Image(iconPath));
             editAnimeStage.setTitle(editingAnime);
@@ -319,6 +293,49 @@ public class AdminController extends Engine implements  Initializable {
             editAnimeActive = true;
             scrollingText(yellow, msgWarning(animeModification));
         }
+    }
+
+    /**
+     * Reload grid panel (anime)
+     * 
+     * @param List<Anime> al anime list
+     * @return void
+     */
+    public void reload(List<Anime> al) {
+        grid.getChildren().clear();
+
+        if (al.size() > 0) { //todo dinamico della posizione
+            setChosenAnime(al.get(0));
+            this.selectedAnime = al.get(0);
+        } else {
+            setChosenAnime(null);
+        }
+
+        Listener listener = this::setChosenAnime;
+        int column = 3;
+        int row = 1;
+        try {
+            for (Anime a : al) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
+                AnchorPane anchorPane = fxmlLoader.load();
+                CardController cardController = fxmlLoader.getController();
+                cardController.setData(a, listener);
+                if (column == 3) {
+                    column = 0;
+                    row++;
+                }
+                grid.add(anchorPane, column++, row);
+                //set grid width
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                grid.setMaxWidth(Region.USE_PREF_SIZE);
+                //set grid height
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                grid.setMaxHeight(Region.USE_PREF_SIZE);
+                GridPane.setMargin(anchorPane, new Insets(8));
+            }
+        } catch (Exception ignored) {}
     }
 
     /** 
@@ -368,6 +385,7 @@ public class AdminController extends Engine implements  Initializable {
      */
     public void addClose(){
         addAnimeActive=false;
+        addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
         scrollingText(red,msgDanger(animeNotAdded));
     }
@@ -479,5 +497,18 @@ public class AdminController extends Engine implements  Initializable {
         timer.schedule(timerTask, time, time);
     }
 
-   
+    public void begin() {
+        receiveAllAnime();
+        reload(getAnimeList());
+    }
+
+    @Override
+    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+        this.os = os;
+        this.is=is;
+        super.setStream(os, is);
+    }
+
+
+    
 }

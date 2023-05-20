@@ -25,8 +25,7 @@ public class Database {
         try {
             conn = DriverManager.getConnection(Config.URL_CONNECTION, Config.USERNAME, Config.PW);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println("Connection with DataBase Closed!");
         }
 
     }

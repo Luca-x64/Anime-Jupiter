@@ -32,7 +32,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `anime` (
   `id` bigint(20) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) UNIQUE NOT NULL,
   `author` varchar(255) NOT NULL,
   `publisher` varchar(255) NOT NULL,
   `plot` text NOT NULL,
