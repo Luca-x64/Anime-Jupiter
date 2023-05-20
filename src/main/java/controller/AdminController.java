@@ -1,7 +1,7 @@
 package controller;
 
 import engine.Engine;
-import interfaces.SocketController;
+import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

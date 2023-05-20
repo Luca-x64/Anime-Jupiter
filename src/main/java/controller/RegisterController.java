@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 import config.Config;
 
-public class RegisterController implements interfaces.SocketController, Initializable, Data {
+public class RegisterController implements interfaces.StreamController, Initializable, Data {
 
     @FXML
     private Button registerBtn;
@@ -78,8 +78,8 @@ public class RegisterController implements interfaces.SocketController, Initiali
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
             Parent root = fxmlLoader.load();
-            interfaces.SocketController controller = fxmlLoader.getController();
-            controller.setSocket(socket);
+            interfaces.StreamController controller = fxmlLoader.getController();
+            controller.setStream(os,is);
             Scene loginScene = registerBtn.getScene();
             root.translateYProperty().set(loginScene.getHeight());
             anchorPane.getChildren().add(root);
@@ -200,6 +200,12 @@ public class RegisterController implements interfaces.SocketController, Initiali
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+        this.os=os;
+        this.is=is;
     }
 
 }

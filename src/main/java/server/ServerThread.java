@@ -75,15 +75,16 @@ public class ServerThread implements Runnable {
     private void searchAnime(String query,String search) {
         List<Anime> animeList = new ArrayList<>();
         try {
-            PreparedStatement pst =  DB.getConn().prepareStatement(search);
-            pst.setString(1, "%\""+search+"\"%");
+            PreparedStatement pst =  DB.getConn().prepareStatement(query);
+            search = "%"+search+"%";
+            pst.setString(1,search); // TODO ERROR here (syntax to use near '= '%ble%'' at line 1)
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
                 animeList.add(new Anime(rs.getString("title"),rs.getString("author"),rs.getString("publisher"),rs.getInt("episodes"),rs.getInt("year"),rs.getString("plot"),rs.getString("imagePath"),rs.getString("link")));
             }
             send(animeList);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e);
         }
     }
 
