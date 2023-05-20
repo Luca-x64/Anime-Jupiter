@@ -12,7 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import main.Data;
@@ -35,13 +37,12 @@ import interfaces.StreamController;
 public class LoginController implements interfaces.SocketController, Initializable, Data {
 
     @FXML
-    private Button loginBtn;
+    private Label loginBtn;
     @FXML
     private TextField inputEmail, inputPassword;
     @FXML
     private AnchorPane anchorPane;
 
-    private EventHandler<ActionEvent> loginAction;
     private Socket socket;
     private ObjectOutputStream os;
     private ObjectInputStream is;
@@ -56,8 +57,8 @@ public class LoginController implements interfaces.SocketController, Initializab
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
 
-    public void login() throws IOException {
-        disableButton();
+    public void login(MouseEvent event) {
+        loginBtn.setDisable(true);
 
         User user = new User(inputEmail.getText(),inputPassword.getText());
         send(user);
@@ -77,12 +78,12 @@ public class LoginController implements interfaces.SocketController, Initializab
                 }
             } else {
                 System.out.println("Wrong password!");
-                this.loginBtn.setOnAction(loginAction);
+                loginBtn.setDisable(false);
             }
 
         } else {
             System.out.println("Wrong email!");
-            this.loginBtn.setOnAction(loginAction);
+            loginBtn.setDisable(false);
         }
 
     }
@@ -114,30 +115,34 @@ public class LoginController implements interfaces.SocketController, Initializab
      * @throws IOException
      * @return void
      */
-    public void adminSide() throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
-        Parent root = fxmlLoader.load();
-
-        AdminController ac = fxmlLoader.getController(); //TODO CHECK these 2 lines
-        ac.setAc(ac);
-
-        ac.setStream(os,is); 
-        ac.begin();
-
-
-        Scene adminScene = loginBtn.getScene();
-        root.translateYProperty().set(adminScene.getHeight());
-        anchorPane.getChildren().add(root);
-
-        // Transition
-
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
-        timeline.play();
+    public void adminSide() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
+            Parent root = fxmlLoader.load();
+    
+            AdminController ac = fxmlLoader.getController(); //TODO CHECK these 2 lines
+            ac.setAc(ac);
+    
+            ac.setStream(os,is); 
+            ac.begin();
+    
+    
+            Scene adminScene = loginBtn.getScene();
+            root.translateYProperty().set(adminScene.getHeight());
+            anchorPane.getChildren().add(root);
+    
+            // Transition
+    
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+            timeline.play();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+      
     }
 
     /**
@@ -146,27 +151,32 @@ public class LoginController implements interfaces.SocketController, Initializab
      * @throws IOException
      * @return void
      */
-    public void userSide() throws IOException {
-        disableButton();
+    public void userSide() {
+        try {
+            loginBtn.setDisable(true);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
-        Parent root = fxmlLoader.load();
-
-        UserController uc = fxmlLoader.getController();
-        uc.setStream(os,is);
-        uc.begin();
-            
-        Scene userScene = loginBtn.getScene();
-        root.translateYProperty().set(userScene.getHeight());
-        anchorPane.getChildren().add(root);
-
-        // Transition
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
-        timeline.play();
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
+            Parent root = fxmlLoader.load();
+    
+            UserController uc = fxmlLoader.getController();
+            uc.setStream(os,is);
+            uc.begin();
+                
+            Scene userScene = loginBtn.getScene();
+            root.translateYProperty().set(userScene.getHeight());
+            anchorPane.getChildren().add(root);
+    
+            // Transition
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+            timeline.play();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+      
     }
 
     /**
@@ -174,10 +184,7 @@ public class LoginController implements interfaces.SocketController, Initializab
      *
      * @return void
      */
-    private void disableButton() {
-        loginAction = this.loginBtn.getOnAction();
-        this.loginBtn.setOnAction(null);
-    }
+
 
     @Override
     public void setSocket(Socket s) {
