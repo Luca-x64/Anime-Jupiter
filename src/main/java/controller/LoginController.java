@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 import com.mysql.cj.protocol.SocketConnection;
 
-import interfaces.SocketController;
+import interfaces.StreamController;
 
 
 
@@ -122,7 +122,7 @@ public class LoginController implements interfaces.SocketController, Initializab
         AdminController ac = fxmlLoader.getController(); //TODO CHECK these 2 lines
         ac.setAc(ac);
 
-        ac.setSocket(socket); 
+        ac.setStream(os,is); 
 
 
         Scene adminScene = loginBtn.getScene();
@@ -150,8 +150,9 @@ public class LoginController implements interfaces.SocketController, Initializab
 
         FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
         Parent root = fxmlLoader.load();
-        SocketController sc = fxmlLoader.getController();
-        sc.setSocket(socket);
+
+        UserController uc = fxmlLoader.getController();
+        uc.setStream(os,is);
 
         Scene userScene = loginBtn.getScene();
         root.translateYProperty().set(userScene.getHeight());
@@ -187,4 +188,7 @@ public class LoginController implements interfaces.SocketController, Initializab
             e.printStackTrace();
         }
     }
+
+
+   
 }

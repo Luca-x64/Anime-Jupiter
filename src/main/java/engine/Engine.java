@@ -11,10 +11,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import interfaces.SocketController;
+import interfaces.StreamController;
 
 // CHECK why abstact
-public class Engine implements SocketController, Data {
+public class Engine implements StreamController, Data {
     public List<Anime> animeList = new ArrayList<>();
     private Socket socket;
     private ObjectOutputStream os;
@@ -24,9 +24,10 @@ public class Engine implements SocketController, Data {
      * Engine Constructor
      */
     public Engine() {
+
     }
 
-    private void receiveAllAnime() {
+    protected void receiveAllAnime() {
         send(1);
         animeList = (ArrayList<Anime>) receive(); // TODO CHECK correttezza runtime
     }
@@ -79,8 +80,9 @@ public class Engine implements SocketController, Data {
     protected List<Anime> query(String input) {
         input = stringFormat(input);
         send(4);
-        List<Anime> result = (ArrayList) receive();
-
+        send(input);
+        List<Anime> result = (ArrayList<Anime>) receive();
+        System.out.println("len:" +result.size());
         return result;
     }
 
@@ -213,19 +215,6 @@ public class Engine implements SocketController, Data {
         return new Image(fIStream);
     }
 
-    @Override
-    public void setSocket(Socket s) {
-        this.socket = s;
-        try {
-            os = new ObjectOutputStream(socket.getOutputStream());
-            is = new ObjectInputStream(socket.getInputStream());
-            receiveAllAnime();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
     private void send(Object o) {
         try {
             os.writeObject(o);
@@ -246,5 +235,13 @@ public class Engine implements SocketController, Data {
         }
         return received;
     }
+
+    @Override
+    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+        this.os=os;
+        this.is=is;
+    }
+
+
 
 }

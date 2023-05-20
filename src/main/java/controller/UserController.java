@@ -1,7 +1,7 @@
 package controller;
 
 import engine.Engine;
-import interfaces.SocketController;
+import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -32,7 +32,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class UserController extends Engine implements Initializable {
+public class UserController extends Engine implements StreamController,Initializable {
     @FXML
     private VBox chosenAnime;
     @FXML
@@ -56,6 +56,9 @@ public class UserController extends Engine implements Initializable {
     private Timer timer;
     private boolean longMessagge = false;
     private int cnt=0, cnt2=0;
+    private Socket socket;
+    private ObjectOutputStream os;
+    private ObjectInputStream is;
     /**
      * Initialize
      * 
@@ -112,6 +115,7 @@ public class UserController extends Engine implements Initializable {
         resetScroll();
 
         String input = stringFormat(inputBox.getText());
+        System.out.println("input:"+input);
         if (input.length() > 0) {
             List<Anime> resultQuery = query(input);
             if (resultQuery.size() > 0) {
@@ -121,7 +125,7 @@ public class UserController extends Engine implements Initializable {
                 scrollingText(red,msgDanger(noAnime));
             }
         } else {
-            reload(getAnimeList());
+            reload(getAnimeList()); // CHECK
             resetScroll();
         }
     }
@@ -324,5 +328,14 @@ public class UserController extends Engine implements Initializable {
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
     }
+
+    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+        this.os=os;
+        this.is=is;
+        super.setStream(os,is);
+        receiveAllAnime();
+        reload(getAnimeList());
+    }
+
 
 }
