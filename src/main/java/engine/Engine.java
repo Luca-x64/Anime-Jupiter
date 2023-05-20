@@ -7,16 +7,11 @@ import model.User;
 
 import java.awt.Desktop;
 import java.io.*;
-import java.net.Socket;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 import interfaces.StreamController;
 
-// CHECK why abstact
 public class Engine implements StreamController, Data {
     public List<Anime> animeList = new ArrayList<>();
 
@@ -74,6 +69,19 @@ public class Engine implements StreamController, Data {
             receiveAllAnime();
         } else {
             System.out.println("Can't add Anime!");
+        }
+    }
+
+    protected void editAnime(int id,String ttl,String aut,String pub,int epi,int y, String pl,String imgPath, String link){
+        Anime editedAnime = new Anime(ttl, aut, pub, epi, y, pl, imgPath, link);
+        send(6);
+        send(editedAnime);
+        boolean response = (Boolean) receive();
+        if(response){
+            System.out.println("Anime Edited!");
+            receiveAllAnime();
+        }else{
+            System.out.println("Can't edit anime");
         }
     }
 

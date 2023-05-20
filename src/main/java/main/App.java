@@ -40,10 +40,12 @@ public class App extends Application implements Data {
         try {
             socket = new Socket(InetAddress.getLocalHost(), Config.PORT);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
             Parent root = fxmlLoader.load();
+           
             interfaces.SocketController controller = fxmlLoader.getController();
             controller.setSocket(socket);
+
             stage.setTitle(projectName);
             stage.getIcons().add(new Image(iconPath));
             stage.setScene(new Scene(root));

@@ -25,8 +25,7 @@ public class EditAnimeController extends Engine {
     private TextField authorBox, publisherBox, episodeBox, linkBox, titleBox, plotBox, yearBox;
     @FXML
     private ImageView imgview;
-    private AdminController ac;
-    private String imgSelectedPath = null;
+    private String imgPath = null;
     private File selectedFile;
     private Anime animeSelected;
 
@@ -39,7 +38,6 @@ public class EditAnimeController extends Engine {
     void insertImage() {
         Stage stage = new Stage();
         stage.setAlwaysOnTop(true);
-        ac.editAnimeStage.setAlwaysOnTop(false);
 
         FileChooser fc = new FileChooser();
         fc.setTitle(fcTitle);
@@ -49,7 +47,7 @@ public class EditAnimeController extends Engine {
 
         try {
             String fileName = selectedFile.getName().trim().replace(space, empty);
-            imgSelectedPath = imgAbsFolder + fileName;
+            imgPath = imgAbsFolder + fileName;
 
             imgview.setImage(new Image(selectedFile.getPath()));
         } catch (Exception ignored) {}
@@ -63,56 +61,59 @@ public class EditAnimeController extends Engine {
      * @return void
      */
     public void confirm(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
-        boolean result = false;
         String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), edi = publisherBox.getText().trim(), epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(), link = linkBox.getText().trim();
         
         if (ttl.length() > 0 && aut.length() > 0 && edi.length() > 0 && epi.length() > 0 && y.length() > 0 && tr.length() > 0 && link.length() > 0) {
-            if(stringFormat(ttl).equals(stringFormat(animeSelected.getTitle())) && stringFormat(aut).equals(stringFormat(animeSelected.getAuthor())) && stringFormat(edi).equals(stringFormat(animeSelected.getPublisher())) && stringFormat(epi).equals(stringFormat(String.valueOf(animeSelected.getEpisodes()))) && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear()))) && stringFormat(tr).equals(stringFormat(animeSelected.getPlot())) && stringFormat(link).equals(stringFormat(animeSelected.getLink())) && stringFormat(imgSelectedPath).equals(stringFormat(animeSelected.getImagePath()))){
+            if(stringFormat(ttl).equals(stringFormat(animeSelected.getTitle())) && stringFormat(aut).equals(stringFormat(animeSelected.getAuthor())) && stringFormat(edi).equals(stringFormat(animeSelected.getPublisher())) && stringFormat(epi).equals(stringFormat(String.valueOf(animeSelected.getEpisodes()))) && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear()))) && stringFormat(tr).equals(stringFormat(animeSelected.getPlot())) && stringFormat(link).equals(stringFormat(animeSelected.getLink())) && stringFormat(imgPath).equals(stringFormat(animeSelected.getImagePath()))){
             } else {
-                List<Anime> alCopy = new ArrayList<>(ac.getAnimeList());
-                int pos = alCopy.indexOf(animeSelected);
+               
+                // controllo nome anime duplicato, MAYBE spostare da qui
+                List<Anime> alCopy = new ArrayList<>(getAnimeList());
                 alCopy.remove(animeSelected);
 
                 if(alCopy.stream().noneMatch(e->stringFormat(e.getTitle()).equals(stringFormat(ttl)))){
-                    if(!imgSelectedPath.equalsIgnoreCase(animeSelected.getImagePath())){
+                    if(!imgPath.equalsIgnoreCase(animeSelected.getImagePath())){
                         BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
                         String fileName = selectedFile.getName().trim().replace(space, empty);
                         String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
                         fileName = ttl.toLowerCase(Locale.ROOT).replace(space,dash) + format;
-                        imgSelectedPath=imgAbsFolder+fileName;
-                        File newFile =  new File(imgSelectedPath);
+                        imgPath=imgAbsFolder+fileName;
+                        File newFile =  new File(imgPath);
                         format = format.replace(dot,empty);
                         ImageIO.write(bi, format,newFile);
                     }
-                    Anime newAnime;
+
                     try{
-                        newAnime = new Anime(ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr, imgSelectedPath, link);
-                        alCopy.add(pos, newAnime);
-                        ac.setAnimeList(alCopy);
-                        //ac.reloadFile(); // TODO REMOVE
-                        result=true;
+                        editAnime(animeSelected.getID(),ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr, imgPath, link);
+                        
                     }catch (NumberFormatException ne){
-                        ac.setLongMessagge(true);
-                        ac.scrollingText(red,msgDanger(yearEpisodeNumber));
-                    }catch (Exception ignored){}
+                        //TODO
+                        //ac.setLongMessagge(true);
+                        //ac.scrollingText(red,msgDanger(yearEpisodeNumber));
+                    }catch (Exception ignored){
+                        System.err.println(ignored);
+                    }
                 }else{
-                    ac.scrollingText(yellow,msgWarning (animeAlreadyPresent));
+                   //TODO
+                    // ac.scrollingText(yellow,msgWarning (animeAlreadyPresent));
                 }
             }
 
         }else{
-            ac.scrollingText(red,msgDanger(blankField));
+           //TODO
+           // ac.scrollingText(red,msgDanger(blankField));
         }
 
         Node source = (Node) mouseEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
 
-        ac.reload(ac.getAnimeList());
-        ac.setEditAnimeActive(false);
-        if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
-        else { ac.editClose(); }
+        //TODO
+        //setEditAnimeActive(false);
+        //if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
+        //else { ac.editClose(); }
     }
+
 
     /**
      * Set Data
@@ -121,8 +122,7 @@ public class EditAnimeController extends Engine {
      * @param Anime a anime
      * @return void
      */
-    public void setData(AdminController ac, Anime a) {
-        this.ac = ac;
+    public void setData(Anime a) {
         this.animeSelected = a;
 
         titleBox.setText(a.getTitle());
@@ -138,9 +138,9 @@ public class EditAnimeController extends Engine {
             FileInputStream fIStream = new FileInputStream(file);
             Image image = new Image(fIStream);
             imgview.setImage(image);
-            imgSelectedPath = a.getImagePath();
+            imgPath = a.getImagePath();
         } catch (Exception ignored) {
-            imgSelectedPath = imgAbsFolder;
+            imgPath = imgAbsFolder;
         }
     }
 
@@ -155,7 +155,6 @@ public class EditAnimeController extends Engine {
             Node source = (Node) keyEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
-            ac.editClose();
         }
     }
 }

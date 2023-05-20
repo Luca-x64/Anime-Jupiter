@@ -96,6 +96,23 @@ public class ServerThread implements Runnable {
 
     private void updateAnime(Integer toUpdateId, Anime updated) {
         if(isAdmin){
+            String query = "UPDATE anime SET title = ?, author = ?, publisher = ?, plot = ?, link = ?, imagePath = ?, episodes = ?, year = ? WHERE id = ?";
+            try {
+                PreparedStatement pst = DB.getConn().prepareStatement(query);pst.setString(1, updated.getTitle());
+                pst.setString(2, updated.getAuthor());
+                pst.setString(3, updated.getPublisher());
+                pst.setString(4, updated.getPlot());
+                pst.setString(5, updated.getLink());
+                pst.setString(6, updated.getImagePath());
+                pst.setInt(7, updated.getEpisodes());
+                pst.setInt(8, updated.getYear());
+                pst.setInt(9, updated.getID());
+                Boolean response = pst.executeUpdate()==1;
+                send(response);
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             
         }else{
             send(isAdmin);

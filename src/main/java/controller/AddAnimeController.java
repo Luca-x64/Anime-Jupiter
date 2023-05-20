@@ -300,7 +300,7 @@ public class AddAnimeController extends Engine implements Initializable {
     /**
      * Initialize
      * 
-     * @param URL            url
+     * @param URL url
      * @param ResourceBundle resourceBundle
      * @return void
      */

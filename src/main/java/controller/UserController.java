@@ -56,9 +56,6 @@ public class UserController extends Engine implements Initializable {
     private Timer timer;
     private boolean longMessagge = false;
     private int cnt=0, cnt2=0;
-    private Socket socket;
-    private ObjectOutputStream os;
-    private ObjectInputStream is;
     /**
      * Initialize
      * 
@@ -316,7 +313,7 @@ public class UserController extends Engine implements Initializable {
      */
     @FXML
     void linkAnime() {
-        System.out.println("link: "+selectedAnime.getLink()); //DEBUG
+        System.out.println("link: " + selectedAnime.getLink()); //DEBUG
         openLink(selectedAnime.getLink());
     }
 
