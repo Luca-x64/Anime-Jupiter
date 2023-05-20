@@ -8,6 +8,7 @@ public class Anime implements Serializable, Data {
 
     private final String title, author, publisher, plot,link,imagePath;
     private final Integer episodes,year;
+    private int ID;
 
     /** 
      * Anime Constructor
@@ -66,6 +67,7 @@ public class Anime implements Serializable, Data {
         return title;
     }
 
+    
     /**
      *
      * @return String author
@@ -124,5 +126,13 @@ public class Anime implements Serializable, Data {
      */
     public String getImagePath() {
         return imagePath;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int iD) {
+        ID = iD;
     }
 }

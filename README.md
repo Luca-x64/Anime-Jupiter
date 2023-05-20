@@ -5,12 +5,16 @@
     - change register.fxml
     - change login.fxml
     - RegisterController gotoLogin() not working
+    - gestione messaggio di uscita addAnime
+    - windows size on Linux is bugged, on windows seems ok
 
 # back:
-    - update userController to DB
-    - update adminController to DB
-    - after register process OK (What to do???)
+    - finish updating AdminController
+    - check update AddAnimeController
+    - update EditAnimeController
 
+    - after register process OK (What to do???)
+    
 
 # database:
     
@@ -19,6 +23,7 @@
 # bug:
     - [BACK] doppio click sul tasto login (loginController->login()) con dati sbagliati crea un crash
     - [BACK] login, back to login, re-attempt login crash
+    - OpenLink (Engine) non funziona => crash 
 
 
 # Users: [name,email,pw]
@@ -31,7 +36,7 @@
 - Windows: 
 `netstat -ano | findstr 20006 `
 `taskkill /PID <PID> /F`
-- Linux: Prossimamente
+- Linux: (non serve perchè è un sistema fatto bene)
 
 == Sql tips:
 ALTER TABLE tablename AUTO_INCREMENT = `<N>`

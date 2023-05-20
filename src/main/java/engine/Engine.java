@@ -3,9 +3,12 @@ package engine;
 import javafx.scene.image.Image;
 import main.Data;
 import model.Anime;
+import model.User;
 
+import java.awt.Desktop;
 import java.io.*;
 import java.net.Socket;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,9 +19,11 @@ import interfaces.StreamController;
 // CHECK why abstact
 public class Engine implements StreamController, Data {
     public List<Anime> animeList = new ArrayList<>();
-    private Socket socket;
+
     private ObjectOutputStream os;
     private ObjectInputStream is;
+
+    private List<Anime> displayedAnimeList;
 
     /**
      * Engine Constructor
@@ -30,6 +35,7 @@ public class Engine implements StreamController, Data {
     protected void receiveAllAnime() {
         send(1);
         animeList = (ArrayList<Anime>) receive(); // TODO CHECK correttezza runtime
+        displayedAnimeList = animeList;
     }
 
     /**
@@ -57,17 +63,29 @@ public class Engine implements StreamController, Data {
      * 
      * @return void
      */
-    public void addAnime(String ttl, String aut, String pub, Integer epi, Integer y, String pl, String imgPath,
+    protected void addAnime(String ttl, String aut, String pub, Integer epi, Integer y, String pl, String imgPath,
             String link) throws IOException {
         Anime anime = new Anime(ttl, aut, pub, epi, y, pl, imgPath, link);
         send(3);
         send(anime);
-        int response = (Integer) receive();
-        if (response == 1) {
+        boolean response = (Boolean) receive();
+        if (response) {
             System.out.println("Anime added!");
             receiveAllAnime();
         } else {
             System.out.println("Can't add Anime!");
+        }
+    }
+
+    protected void deleteAnime(int id) {
+        send(5);
+        send(id);
+        Boolean response = (Boolean) receive();
+        if (response) {
+            System.out.println("Anime deleted!");
+            receiveAllAnime();
+        } else {
+            System.out.println("Can't delete Anime!");
         }
     }
 
@@ -81,9 +99,8 @@ public class Engine implements StreamController, Data {
         input = stringFormat(input);
         send(4);
         send(input);
-        List<Anime> result = (ArrayList<Anime>) receive();
-        System.out.println("len:" +result.size());
-        return result;
+        displayedAnimeList = (ArrayList<Anime>) receive();
+        return displayedAnimeList;
     }
 
     /**
@@ -93,7 +110,8 @@ public class Engine implements StreamController, Data {
      * @return List<Anime>
      */
     public List<Anime> sortTitle(boolean b) {
-        List<Anime> al = new ArrayList<>(List.copyOf(animeList));
+        List<Anime> al = new ArrayList<>(List.copyOf(displayedAnimeList)); // TODO change animeList, to displayed anime
+                                                                           // list
         if (b)
             al.sort(Comparator.comparing(Anime::getTitle));
         else
@@ -108,7 +126,7 @@ public class Engine implements StreamController, Data {
      * @return List<Anime>
      */
     public List<Anime> sortYear(boolean b) {
-        List<Anime> al = new ArrayList<>(List.copyOf(animeList));
+        List<Anime> al = new ArrayList<>(List.copyOf(displayedAnimeList));
         if (b)
             al.sort(Comparator.comparing(Anime::getYear));
         else
@@ -174,11 +192,21 @@ public class Engine implements StreamController, Data {
      * @return void
      */
     public void openLink(String url) {
+
         try {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+            Desktop desktop = java.awt.Desktop.getDesktop();
+            URI uri = new URI(url);
+
+            if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(uri);
+            } else {
+                System.out.println("Desktop browsing is not supported on this platform.");
+                // Handle the case when desktop browsing is not supported
+            }
         } catch (Exception e) {
             System.out.println(errorLink + url);
         }
+
     }
 
     // Getter & Setter
@@ -189,6 +217,7 @@ public class Engine implements StreamController, Data {
      * @return List<Anime>
      */
     public List<Anime> getAnimeList() {
+        displayedAnimeList = animeList;
         return animeList;
     }
 
@@ -238,10 +267,8 @@ public class Engine implements StreamController, Data {
 
     @Override
     public void setStream(ObjectOutputStream os, ObjectInputStream is) {
-        this.os=os;
-        this.is=is;
+        this.os = os;
+        this.is = is;
     }
-
-
 
 }

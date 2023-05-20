@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,7 +30,6 @@ public class AddAnimeController extends Engine implements Initializable {
     @FXML
     private ProgressBar progessBar;
 
-    private AdminController ac;
     private String imgSelectedPath = null;
     private File selectedFile;
     private boolean ttl = true, aut = true, pub = true, epi = true, link = true, plo = true, year = true;
@@ -44,7 +44,7 @@ public class AddAnimeController extends Engine implements Initializable {
         try {
             Stage stage = new Stage();
             stage.setAlwaysOnTop(true);
-            ac.addAnimeStage.setAlwaysOnTop(false);
+            // ac.addAnimeStage.setAlwaysOnTop(false); SPOSTATO
 
             FileChooser fc = new FileChooser();
             fc.setTitle(fcTitle);
@@ -52,7 +52,7 @@ public class AddAnimeController extends Engine implements Initializable {
             fc.setInitialDirectory(new File(imgAbsFolder));
             selectedFile = fc.showOpenDialog(stage);
 
-            String fileName = selectedFile.getName().trim().replace(space,empty);
+            String fileName = selectedFile.getName().trim().replace(space, empty);
             imgSelectedPath = imgAbsFolder + fileName;
             imgview.setImage(new Image(selectedFile.getPath()));
             addProgress();
@@ -82,7 +82,7 @@ public class AddAnimeController extends Engine implements Initializable {
                 // Save img into src/img
                 if (!imgSelectedPath.equalsIgnoreCase(imgDefaultRelPath)) {
                     BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
-                    String fileName = selectedFile.getName().trim().replace(space,empty);
+                    String fileName = selectedFile.getName().trim().replace(space, empty);
                     String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
                     fileName = ttl.toLowerCase(Locale.ROOT).replace(space, dash) + format;
                     imgSelectedPath = imgAbsFolder + fileName;
@@ -91,10 +91,10 @@ public class AddAnimeController extends Engine implements Initializable {
                     ImageIO.write(bi, format, newFile);
                 }
                 try {
-                    ac.addAnime(titleBox.getText(), authorBox.getText(), publisherBox.getText(),
+                    addAnime(titleBox.getText(), authorBox.getText(), publisherBox.getText(),
                             Integer.parseInt(episodeBox.getText()), Integer.parseInt(yearBox.getText()),
                             plotBox.getText(), imgSelectedPath, linkBox.getText());
-                    ac.reload(ac.getAnimeList());
+
                 } catch (NumberFormatException en) {
                     exit = 1;
                 } catch (Exception ignored) {
@@ -105,32 +105,37 @@ public class AddAnimeController extends Engine implements Initializable {
         } else {
             exit = 3;
         }
-        switch (exit) {
+
+           // TODO spostare tutta la gestione del messaggio di uscita, da inserire nel server (come mediatore di messaggi)
+        switch (exit) { 
             case 0 -> {
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
 
-                ac.setAddAnimeActive(false);
-                ac.scrollingText(green, msgSuccess(animeAdded));
+                //ac.setAddAnimeActive(false);
+                //ac.scrollingText(green, msgSuccess(animeAdded));
             }
             case 1 -> {
-                ac.setLongMessagge(true);
-                ac.scrollingText(red, msgDanger(yearEpisodesAreNumbers));
-                ac.setAddAnimeActive(false);
+                // ac.setLongMessagge(true);
+                // ac.scrollingText(red, msgDanger(yearEpisodesAreNumbers));
+                // ac.setAddAnimeActive(false);
             }
             case 2 -> {
-                ac.setLongMessagge(true);
-                ac.scrollingText(red, msgDanger(blankField));
+                // ac.setLongMessagge(true);
+                // ac.scrollingText(red, msgDanger(blankField));
             }
             case 3 -> {
-                ac.scrollingText(yellow, msgWarning(animeAlreadyPresent));
+                // ac.scrollingText(yellow, msgWarning(animeAlreadyPresent));
 
-                Node source = (Node) mouseEvent.getSource();
-                Stage stage = (Stage) source.getScene().getWindow();
-                stage.close();
-                ac.reload(ac.getAnimeList());
-                ac.setAddAnimeActive(false);
+                // questo non serve, fare l'alert
+                // Node source = (Node) mouseEvent.getSource();
+                // Stage stage = (Stage) source.getScene().getWindow();
+                // stage.close();
+
+                // TODO spostare
+                // ac.reload(ac.getAnimeList());
+                // ac.setAddAnimeActive(false);
             }
         }
     }
@@ -146,7 +151,7 @@ public class AddAnimeController extends Engine implements Initializable {
             Node source = (Node) keyEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
-            ac.addClose();
+            //ac.addClose(); CHECK serve?
         }
     }
 
@@ -157,7 +162,7 @@ public class AddAnimeController extends Engine implements Initializable {
      * @return void
      */
     public void setAc(AdminController ac) {
-        this.ac = ac;
+        // this.ac = ac;
     }
 
     // Event Handlers
@@ -295,7 +300,7 @@ public class AddAnimeController extends Engine implements Initializable {
     /**
      * Initialize
      * 
-     * @param URL url
+     * @param URL            url
      * @param ResourceBundle resourceBundle
      * @return void
      */

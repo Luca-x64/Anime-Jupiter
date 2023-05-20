@@ -1,5 +1,6 @@
 package server;
 
+import java.beans.Statement;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,6 +25,7 @@ public class ServerThread implements Runnable {
     private ObjectOutputStream os;
     private ObjectInputStream is;
     private User user;
+    private boolean isAdmin;
 
     public ServerThread(Socket s, Database db) throws IOException {
         this.DB = db;
@@ -35,52 +37,96 @@ public class ServerThread implements Runnable {
     @Override
     public void run() {
         account();
-        while (socket.isConnected()) {
+        while (!socket.isClosed()) {
             functions();
         }
     }
 
     private void functions() {
-        Object o = receive();
-        System.out.println((Integer) o);
-        int receive = (Integer) o;
-        switch (receive) {
-            case 1: { 
-                selectAnime("SELECT * FROM anime");
-                break;
-            }
-            case 2: { 
-                int user_id = (Integer) receive();
-                selectAnime("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where id=\""+user_id+"\"");
-                break;
-            }
-            case 3: { // add anime
-                Anime anime = (Anime) receive();
-                insertAnime(anime);
-                break;
-            }
-            case 4: { 
-                String search = (String) receive();
-                searchAnime("SELECT * FROM anime WHERE title LIKE = ?",search);
-                break;
-            }
+        try {
+            int receive = (Integer) receive();
+            switch (receive) {
+                case 1: {
+                    selectAnime("SELECT * FROM anime");
+                    break;
+                }
+                case 2: {
+                    int user_id = (Integer) receive();
+                    selectAnime("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where id=\""
+                            + user_id + "\"");
+                    break;
+                }
+                case 3: { // add anime (only admin)
+                    Anime anime = (Anime) receive();
+                    insertAnime(anime);
+                    break;
+                }
+                case 4: { // search filter
+                    String search = (String) receive();
+                    searchAnime("SELECT * FROM anime WHERE title LIKE ?", search);
+                    break;
+                }
+                case 5: { // delete anime (only admin)
+                    Integer toDeleteId = (Integer) receive();
+                    deleteAnime(toDeleteId);
+                    break;
+                }
+                case 6: { // update anime (only admin)
+                    Integer toUpdateId = (Integer) receive();
+                    Anime updated = (Anime) receive();
+                    updateAnime(toUpdateId,updated);
+                    break;
+                }
+                case 22: { // CHECK maybe not needed
+                    send(isAdmin);
+                    break;
+                }
+                default: {
+                }
 
-            default: {
-
             }
-
+        } catch (NullPointerException ne) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 
-    private void searchAnime(String query,String search) {
+    private void updateAnime(Integer toUpdateId, Anime updated) {
+        if(isAdmin){
+            
+        }else{
+            send(isAdmin);
+        }
+    }
+
+    private void deleteAnime(Integer id) {
+        if (isAdmin) {
+            String query = "DELETE FROM anime WHERE id =" + id + "";
+            try {
+                send(DB.getConn().createStatement().executeUpdate(query) == 1);
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        } else {
+            send(isAdmin);
+        }
+    }
+
+    private void searchAnime(String query, String search) {
         List<Anime> animeList = new ArrayList<>();
         try {
-            PreparedStatement pst =  DB.getConn().prepareStatement(query);
-            search = "%"+search+"%";
-            pst.setString(1,search); // TODO ERROR here (syntax to use near '= '%ble%'' at line 1)
+            PreparedStatement pst = DB.getConn().prepareStatement(query);
+            pst.setString(1, "%" + search + "%");
             ResultSet rs = pst.executeQuery();
-            while(rs.next()){
-                animeList.add(new Anime(rs.getString("title"),rs.getString("author"),rs.getString("publisher"),rs.getInt("episodes"),rs.getInt("year"),rs.getString("plot"),rs.getString("imagePath"),rs.getString("link")));
+            while (rs.next()) {
+                Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
+                        rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
+                        rs.getString("link"));
+                anime.setID(rs.getInt("id"));
+                animeList.add(anime);
             }
             send(animeList);
         } catch (SQLException e) {
@@ -89,31 +135,40 @@ public class ServerThread implements Runnable {
     }
 
     private void insertAnime(Anime a) {
-        String query = "INSERT INTO anime (title,author,publisher,plot,link,imagePath,episodes,year) VALUES (?,?,?,?,?,?,?,?)";
-        PreparedStatement pst;
-        try {
-            pst = DB.getConn().prepareStatement(query);
-            pst.setString(1,a.getTitle());
-            pst.setString(2,a.getAuthor());
-            pst.setString(3,a.getPublisher());
-            pst.setString(4,a.getPlot());
-            pst.setString(5,a.getLink());
-            pst.setString(6,a.getImagePath());
-            pst.setInt(7,a.getEpisodes());
-            pst.setInt(8,a.getYear());
-            int response = pst.executeUpdate();
-            send(response);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
+        if(isAdmin){
+            String query = "INSERT INTO anime (title,author,publisher,plot,link,imagePath,episodes,year) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement pst;
+            try {
+                pst = DB.getConn().prepareStatement(query);
+                pst.setString(1, a.getTitle());
+                pst.setString(2, a.getAuthor());
+                pst.setString(3, a.getPublisher());
+                pst.setString(4, a.getPlot());
+                pst.setString(5, a.getLink());
+                pst.setString(6, a.getImagePath());
+                pst.setInt(7, a.getEpisodes());
+                pst.setInt(8, a.getYear());
+                Boolean response = pst.executeUpdate() == 1;
+                send(response);
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        }else{
+            send(isAdmin);
         }
+        
     }
 
     private void selectAnime(String query) { // TODO CHECK correttezza runtime
         List<Anime> animeList = new ArrayList<>();
         try {
-            ResultSet rs =  DB.getConn().createStatement().executeQuery(query);
-            while(rs.next()){
-                animeList.add(new Anime(rs.getString("title"),rs.getString("author"),rs.getString("publisher"),rs.getInt("episodes"),rs.getInt("year"),rs.getString("plot"),rs.getString("imagePath"),rs.getString("link")));
+            ResultSet rs = DB.getConn().createStatement().executeQuery(query);
+            while (rs.next()) {
+                Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
+                        rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
+                        rs.getString("link"));
+                anime.setID(rs.getInt("id"));
+                animeList.add(anime);
             }
             send(animeList);
         } catch (SQLException e) {
@@ -137,14 +192,15 @@ public class ServerThread implements Runnable {
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)) {
             pst.setString(1, user.getEmail());
             rs = pst.executeQuery();
-            boolean checkEmail = rs.next();
+            boolean checkEmail = rs.next(); //CHECK
             send(checkEmail);
             if (checkEmail) {
                 String hashedPassword = rs.getString("password");
                 verified = BCrypt.checkpw(user.getPassword(), hashedPassword);
                 send(verified);
                 if (verified) {
-                    send(rs.getBoolean("isAdmin"));
+                    isAdmin = rs.getBoolean("isAdmin");
+                    send(isAdmin);
                 }
             }
 

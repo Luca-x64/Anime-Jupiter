@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private String username,email,password;
-    private static final Boolean isAdmin = false;  //CHECK maybe remove
 
     public User(String email,String pw){
         this.email = email;
@@ -24,6 +23,9 @@ public class User implements Serializable {
     }
     public String getPassword() {
         return password;
+    }
+    public Object isAdmin() {
+        return null;
     }
     
 }

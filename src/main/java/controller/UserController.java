@@ -32,7 +32,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class UserController extends Engine implements StreamController,Initializable {
+public class UserController extends Engine implements Initializable {
     @FXML
     private VBox chosenAnime;
     @FXML
@@ -113,9 +113,8 @@ public class UserController extends Engine implements StreamController,Initializ
     @FXML
     void searchPress() {
         resetScroll();
-
+        
         String input = stringFormat(inputBox.getText());
-        System.out.println("input:"+input);
         if (input.length() > 0) {
             List<Anime> resultQuery = query(input);
             if (resultQuery.size() > 0) {
@@ -125,7 +124,7 @@ public class UserController extends Engine implements StreamController,Initializ
                 scrollingText(red,msgDanger(noAnime));
             }
         } else {
-            reload(getAnimeList()); // CHECK
+            reload(getAnimeList());
             resetScroll();
         }
     }
@@ -317,6 +316,7 @@ public class UserController extends Engine implements StreamController,Initializ
      */
     @FXML
     void linkAnime() {
+        System.out.println("link: "+selectedAnime.getLink()); //DEBUG
         openLink(selectedAnime.getLink());
     }
 
@@ -329,13 +329,9 @@ public class UserController extends Engine implements StreamController,Initializ
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
     }
 
-    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
-        this.os=os;
-        this.is=is;
-        super.setStream(os,is);
+    public void begin() {
         receiveAllAnime();
         reload(getAnimeList());
     }
-
 
 }
