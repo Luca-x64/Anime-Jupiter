@@ -1,7 +1,6 @@
 package controller;
 
 import engine.Engine;
-import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -26,9 +25,6 @@ import main.Listener;
 import model.Anime;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
