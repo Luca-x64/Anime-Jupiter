@@ -8,12 +8,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Objects;
 
-import javax.security.auth.login.LoginContext;
 
 import config.Config;
 
@@ -43,8 +43,8 @@ public class App extends Application implements Data {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
             Parent root = fxmlLoader.load();
            
-            interfaces.SocketController controller = fxmlLoader.getController();
-            controller.setSocket(socket);
+            interfaces.StreamController controller = fxmlLoader.getController();
+            controller.setStream(new ObjectOutputStream(socket.getOutputStream()) ,new ObjectInputStream(socket.getInputStream()));
 
             stage.setTitle(projectName);
             stage.getIcons().add(new Image(iconPath));

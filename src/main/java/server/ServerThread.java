@@ -77,6 +77,16 @@ public class ServerThread implements Runnable {
                     updateAnime(toUpdateId,updated);
                     break;
                 }
+                case 7: { // register user
+                    account();
+                    // User user = (User) receive();
+                    // boolean response = true; // TODO
+                    // send(response);
+                    // Integer toUpdateId = (Integer) receive();
+                    // Anime updated = (Anime) receive();
+                    // updateAnime(toUpdateId,updated);
+                    break;
+                }
                 case 22: { // CHECK maybe not needed
                     send(isAdmin);
                     break;

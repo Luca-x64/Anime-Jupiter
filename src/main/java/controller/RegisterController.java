@@ -61,10 +61,13 @@ public class RegisterController implements interfaces.StreamController, Initiali
         Boolean checkPassword = inputPassword.getText().equals(inputCheckPassword.getText());
         if (checkPassword) {
             User user = new User(inputName.getText(), inputEmail.getText(), inputPassword.getText());
+            send(7);
             send(user);
 
             Boolean response = (Boolean) receive();
-            send(response);
+            if(response){ // TODO
+
+            }
         } else {
             registerBtn.setDisable(false);
         }
