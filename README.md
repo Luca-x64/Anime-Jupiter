@@ -2,9 +2,7 @@
 
 ## todolist:
 # front:
-    - change register.fxml
-    - change login.fxml
-    - RegisterController gotoLogin() not working
+    - make switch for login and register
     - gestione messaggio di uscita addAnime
     - windows size on Linux is bugged, on windows seems ok
 
@@ -12,6 +10,7 @@
     - finish updating AdminController
     - check update AddAnimeController
     - update EditAnimeController
+    - gestione Server(register/login)
 
     - after register process OK (What to do???)
     
