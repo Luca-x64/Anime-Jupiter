@@ -210,11 +210,7 @@ public class AdminController extends Engine implements StreamController, Initial
     void addAnimeclick() throws IOException { // TODO CHECK LATER
         if(!addAnimeActive){
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAddAnime)));
-           
-            
-           
             Parent root = fxmlLoader.load();
-
 
             StreamController sc = fxmlLoader.getController();
             sc.setStream(os, is);
@@ -279,6 +275,7 @@ public class AdminController extends Engine implements StreamController, Initial
             
             StreamController sc = fxmlLoader.getController();
             sc.setStream(os, is);
+            //sc.setData();
             
             editAnimeStage = new Stage();
             editAnimeStage.getIcons().add(new Image(iconPath));
@@ -374,8 +371,11 @@ public class AdminController extends Engine implements StreamController, Initial
      */
     public void editClose(){
         editAnimeActive=false;
+        editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
         scrollingText(red,msgDanger(animeNotEdited));
+        // receiveAllAnime();
+        // reload(getAnimeList());
     }
 
     /**
@@ -388,6 +388,8 @@ public class AdminController extends Engine implements StreamController, Initial
         addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
         scrollingText(red,msgDanger(animeNotAdded));
+        // receiveAllAnime();
+        // reload(getAnimeList());
     }
 
     /**

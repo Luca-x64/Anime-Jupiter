@@ -12,7 +12,6 @@ import java.util.List;
 
 import config.Config;
 import database.Database;
-import javafx.geometry.Side;
 
 public class Server {
     private int counter = 0;
@@ -77,7 +76,6 @@ public class Server {
                System.err.println(e.getMessage());
             }
         }
-
     }
 
     public static void main(String[] args) {
