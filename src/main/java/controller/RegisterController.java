@@ -12,7 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import main.Data;
@@ -30,13 +32,12 @@ import java.util.ResourceBundle;
 public class RegisterController implements interfaces.StreamController, Initializable, Data {
 
     @FXML
-    private Button registerBtn;
+    private Label registerBtn;
     @FXML
     private TextField inputName, inputEmail, inputPassword, inputCheckPassword;
     @FXML
     private AnchorPane anchorPane;
 
-    private EventHandler<ActionEvent> loginAction;
     private Socket socket;
     private ObjectOutputStream os;
     private ObjectInputStream is;
@@ -46,14 +47,16 @@ public class RegisterController implements interfaces.StreamController, Initiali
      * 
      * @param URL            url
      * @param ResourceBundle resourceBundle
-     * @return void
+     * @return               void
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    public void register() throws IOException {
-        disableButton();
+    @FXML
+    void register(MouseEvent event) {
+
+        registerBtn.setDisable(true);
 
         Boolean checkPassword = inputPassword.getText().equals(inputCheckPassword.getText());
         if (checkPassword) {
@@ -63,17 +66,17 @@ public class RegisterController implements interfaces.StreamController, Initiali
             Boolean response = (Boolean) receive();
             send(response);
         } else {
-            this.registerBtn.setOnAction(loginAction);
+            registerBtn.setDisable(false);
         }
 
-        gotoLogin();
+        //gotoLogin();
 
     }
 
     //TODO controllare, non funziona
     private void gotoLogin() { 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/register.fxml")));
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
             Parent root = fxmlLoader.load();
             interfaces.StreamController controller = fxmlLoader.getController();
             controller.setStream(os,is);
@@ -183,10 +186,6 @@ public class RegisterController implements interfaces.StreamController, Initiali
      *
      * @return void
      */
-    private void disableButton() {
-        loginAction = this.registerBtn.getOnAction();
-        this.registerBtn.setOnAction(null);
-    }
 
     public void setSocket(Socket s) {
         this.socket = s;

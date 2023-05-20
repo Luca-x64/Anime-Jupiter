@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -43,37 +41,41 @@
           <Insets left="10.0" />
         </padding>
     </Label>
-   <Pane layoutX="829.0" layoutY="306.0" prefHeight="309.0" prefWidth="292.0" style="-fx-background-color: red;">
+   <Pane layoutX="540.0" layoutY="269.0" prefHeight="356.0" prefWidth="220.0" stylesheets="@../style/style.css">
       <children>
-         <Button fx:id="loginBtn" layoutX="112.0" layoutY="256.0" mnemonicParsing="false" onAction="#login" text="Login" />
-         <TextField fx:id="inputEmail" layoutX="38.0" layoutY="115.0" />
-         <Button fx:id="adminBtn11" alignment="TOP_LEFT" layoutX="38.0" layoutY="76.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="39.0" prefWidth="149.0" style="-fx-background-color: transparent;" text="Email" textFill="WHITE">
+         <Pane layoutX="66.0" prefHeight="69.0" prefWidth="107.0">
+            <children>
+               <Label prefHeight="82.0" prefWidth="107.0" text="Login" textFill="#5b5b5b">
+                  <font>
+                     <Font name="Tahoma Bold" size="36.0" />
+                  </font>
+               </Label>
+               <Label layoutX="-6.0" layoutY="2.0" prefHeight="82.0" prefWidth="115.0" text="Login" textFill="WHITE">
+                  <font>
+                     <Font name="Tahoma Bold" size="36.0" />
+                  </font>
+               </Label>
+            </children>
+         </Pane>
+         <TextField fx:id="inputEmail" layoutY="112.0" prefHeight="38.0" prefWidth="220.0" promptText="Email" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
-               <Font name="Tahoma Bold" size="20.0" />
+               <Font name="Tahoma Bold" size="19.0" />
             </font>
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-         </Button>
-         <Button fx:id="adminBtn113" alignment="BASELINE_LEFT" layoutX="38.0" layoutY="147.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="39.0" prefWidth="149.0" style="-fx-background-color: transparent;" text="Password" textFill="WHITE">
+         </TextField>
+         <TextField fx:id="inputPassword" layoutY="197.0" prefHeight="39.0" prefWidth="220.0" promptText="Password" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
-               <Font name="Tahoma Bold" size="20.0" />
+               <Font name="Tahoma Bold" size="19.0" />
+            </font></TextField>
+         <Label layoutX="93.0" layoutY="279.0" style="-fx-border-radius: 30; -fx-border-color: #5b5b5b;" text="ログイン" textFill="#5b5b5b">
+            <font>
+               <Font name="Tahoma Bold" size="31.0" />
             </font>
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-         </Button>
-         <TextField fx:id="inputPassword" layoutX="38.0" layoutY="186.0" />
+         </Label>
+         <Label fx:id="loginBtn" layoutX="96.0" layoutY="281.0" onMouseClicked="#login" prefHeight="39.0" prefWidth="124.0" style="-fx-border-radius: 30; -fx-border-color: #b789f7;" text="ログイン" textFill="#b789f7">
+            <font>
+               <Font name="Tahoma Bold" size="30.0" />
+            </font>
+         </Label>
       </children>
    </Pane>
-   <Label layoutX="829.0" layoutY="239.0" prefHeight="82.0" prefWidth="213.0" text="Login" textFill="#5b5b5b">
-      <font>
-         <Font name="Tahoma Bold" size="36.0" />
-      </font>
-   </Label>
-   <Label layoutX="831.0" layoutY="243.0" prefHeight="82.0" prefWidth="213.0" text="Login" textFill="WHITE">
-      <font>
-         <Font name="Tahoma Bold" size="36.0" />
-      </font>
-   </Label>
 </AnchorPane>

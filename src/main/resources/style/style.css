@@ -59,6 +59,10 @@
     -fx-text-fill: white;
 }
 
+.text-login{
+    -fx-prompt-text-fill: #8a8a8a;
+}
+
 .text-area .content {
     -fx-background-color: #121619;
 }
