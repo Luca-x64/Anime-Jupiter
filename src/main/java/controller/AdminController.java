@@ -1,6 +1,7 @@
 package controller;
 
 import engine.Engine;
+import interfaces.SetDataEdit;
 import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -34,7 +35,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class AdminController extends Engine implements StreamController, Initializable {
     @FXML
@@ -273,9 +273,8 @@ public class AdminController extends Engine implements StreamController, Initial
             fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiEditAnime)));
             Parent root = fxmlLoader.load();
             
-            StreamController sc = fxmlLoader.getController();
-            sc.setStream(os, is);
-            //sc.setData();
+            SetDataEdit sde = fxmlLoader.getController();
+            sde.setData(selectedAnime,os, is);
             
             editAnimeStage = new Stage();
             editAnimeStage.getIcons().add(new Image(iconPath));

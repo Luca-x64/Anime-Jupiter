@@ -72,9 +72,8 @@ public class ServerThread implements Runnable {
                     break;
                 }
                 case 6: { // update anime (only admin)
-                    Integer toUpdateId = (Integer) receive();
                     Anime updated = (Anime) receive();
-                    updateAnime(toUpdateId,updated);
+                    updateAnime(updated);
                     break;
                 }
                 case 7: { // register user
@@ -104,21 +103,20 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void updateAnime(Integer toUpdateId, Anime updated) {
+    private void updateAnime(Anime updated) {
         if(isAdmin){
-            String query = "UPDATE anime SET title = ?, author = ?, publisher = ?, plot = ?, link = ?, imagePath = ?, episodes = ?, year = ? WHERE id = ?";
+            String query = "UPDATE anime SET title= ?, author= ?, publisher= ? , plot= ? , link= ? , imagePath= ? , episodes= "+ updated.getEpisodes() +" , year="+updated.getYear()+" WHERE id= "+updated.getID();
             try {
-                PreparedStatement pst = DB.getConn().prepareStatement(query);pst.setString(1, updated.getTitle());
+                PreparedStatement pst = DB.getConn().prepareStatement(query);
+                pst.setString(1, updated.getTitle());
                 pst.setString(2, updated.getAuthor());
                 pst.setString(3, updated.getPublisher());
                 pst.setString(4, updated.getPlot());
                 pst.setString(5, updated.getLink());
                 pst.setString(6, updated.getImagePath());
-                pst.setInt(7, updated.getEpisodes());
-                pst.setInt(8, updated.getYear());
-                pst.setInt(9, updated.getID());
-                Boolean response = pst.executeUpdate()==1;
-                send(response);
+                int e = pst.executeUpdate();
+                System.out.println(e);
+                send(e>0);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

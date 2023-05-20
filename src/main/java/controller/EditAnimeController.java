@@ -1,6 +1,7 @@
 package controller;
 
 import engine.Engine;
+import interfaces.SetDataEdit;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
@@ -15,11 +16,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class EditAnimeController extends Engine {
+public class EditAnimeController extends Engine implements SetDataEdit {
 
     @FXML
     private TextField authorBox, publisherBox, episodeBox, linkBox, titleBox, plotBox, yearBox;
@@ -113,8 +116,23 @@ public class EditAnimeController extends Engine {
         //if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
         //else { ac.editClose(); }
     }
+    
+    /**
+     * Close Escape
+     *
+     * @param KeyEvent keyEvent keyboard press
+     * @return void
+     */
+    public void closeEscape(javafx.scene.input.KeyEvent keyEvent){
+        if(keyEvent.getCode() == KeyCode.ESCAPE) {
+            Node source = (Node) keyEvent.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+        }
+    }
 
-
+    
+    
     /**
      * Set Data
      *
@@ -122,7 +140,9 @@ public class EditAnimeController extends Engine {
      * @param Anime a anime
      * @return void
      */
-    public void setData(Anime a) {
+    @Override
+    public void setData(Anime a, ObjectOutputStream os, ObjectInputStream is) {
+        super.setStream(os, is);
         this.animeSelected = a;
 
         titleBox.setText(a.getTitle());
@@ -144,17 +164,4 @@ public class EditAnimeController extends Engine {
         }
     }
 
-    /**
-     * Close Escape
-     *
-     * @param KeyEvent keyEvent keyboard press
-     * @return void
-     */
-    public void closeEscape(javafx.scene.input.KeyEvent keyEvent){
-        if(keyEvent.getCode() == KeyCode.ESCAPE) {
-            Node source = (Node) keyEvent.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
-        }
-    }
 }
