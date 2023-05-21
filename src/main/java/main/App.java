@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Objects;
 
 
@@ -28,6 +29,8 @@ public class App extends Application implements Data {
         launch(args);
     }
 
+    private Socket socket;
+
     /**
      * Loading and showing the Start Window
      * 
@@ -36,9 +39,13 @@ public class App extends Application implements Data {
     @Override
     public void start(Stage stage) {
 
-        Socket socket;
         try {
-            socket = new Socket(InetAddress.getLocalHost(), Config.PORT);
+            int port = Config.getPort();
+            System.out.println(port);
+            socket = new Socket(InetAddress.getLocalHost(), port);
+        } catch (Exception e) {
+            e.printStackTrace();
+        try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
             Parent root = fxmlLoader.load();
@@ -51,11 +58,12 @@ public class App extends Application implements Data {
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException e1) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
+}
 }
