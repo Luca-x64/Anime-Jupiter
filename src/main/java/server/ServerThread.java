@@ -10,9 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import config.Config;
 import database.Database;
 import jbcrypt.BCrypt;
 import model.Anime;
@@ -26,6 +24,7 @@ public class ServerThread implements Runnable {
     private ObjectInputStream is;
     private User user;
     private boolean isAdmin;
+    private boolean verified = false;
 
     public ServerThread(Socket s, Database db) throws IOException {
         this.DB = db;
@@ -36,7 +35,9 @@ public class ServerThread implements Runnable {
 
     @Override
     public void run() {
-        account();
+        while(!verified){
+            account();
+        }
         while (!socket.isClosed()) {
             functions();
         }
@@ -76,14 +77,8 @@ public class ServerThread implements Runnable {
                     updateAnime(updated);
                     break;
                 }
-                case 7: { // register user
-                    account();
-                    // User user = (User) receive();
-                    // boolean response = true; // TODO
-                    // send(response);
-                    // Integer toUpdateId = (Integer) receive();
-                    // Anime updated = (Anime) receive();
-                    // updateAnime(toUpdateId,updated);
+                case 7: { //?
+                    
                     break;
                 }
                 case 22: { // CHECK maybe not needed
@@ -213,7 +208,6 @@ public class ServerThread implements Runnable {
     private void login() {
         String queryLogin = "SELECT * FROM users WHERE email=?";
         ResultSet rs = null;
-        Boolean verified = false;
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)) {
             pst.setString(1, user.getEmail());
             rs = pst.executeQuery();
@@ -242,7 +236,8 @@ public class ServerThread implements Runnable {
             pst.setString(2, user.getEmail());
             pst.setString(3, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             int response = pst.executeUpdate();
-            if (response == 1) {
+            verified = response==1;
+            if (verified) {
                 send(true);
             } else {
                 send(false);

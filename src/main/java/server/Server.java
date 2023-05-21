@@ -35,9 +35,8 @@ public class Server {
         System.out.println("[SERVER ONLINE]");
 
         try  {
-            serverSocket = new ServerSocket(Config.PORT);
+            serverSocket = Config.getServerSocket();
             serverSocket.setSoTimeout(120000); // 2 minuts timeout
-
             while (!serverSocket.isClosed()) {
                 counter++;
                 Socket socket = serverSocket.accept();
