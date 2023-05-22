@@ -15,7 +15,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Objects;
 
-
 import config.Config;
 
 public class App extends Application implements Data {
@@ -38,26 +37,34 @@ public class App extends Application implements Data {
      */
     @Override
     public void start(Stage stage) {
-
-        try {
-            int port = Config.getPort();
-            System.out.println(port);
-            socket = new Socket(InetAddress.getLocalHost(), port);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int cnt = 0;
+        while (cnt < 3 && socket == null) {
+            try {
+                int port = Config.getPort();
+                socket = new Socket(InetAddress.getLocalHost(), port);
+            } catch (Exception e) {
+                cnt++;
+                try {
+                    Thread.sleep(3);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
         }
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
             Parent root = fxmlLoader.load();
-           
+
             interfaces.StreamController controller = fxmlLoader.getController();
-            controller.setStream(new ObjectOutputStream(socket.getOutputStream()) ,new ObjectInputStream(socket.getInputStream()));
+            controller.setStream(new ObjectOutputStream(socket.getOutputStream()),
+                    new ObjectInputStream(socket.getInputStream()));
 
             stage.setTitle(projectName);
             stage.getIcons().add(new Image(iconPath));
             stage.setScene(new Scene(root));
-            stage.setResizable(false);
+            stage.setResizable(true); // edited by luca on 22 may 21:00
             stage.show();
         } catch (IOException e1) {
             // TODO Auto-generated catch block

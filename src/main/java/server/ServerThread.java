@@ -43,6 +43,8 @@ public class ServerThread implements Runnable {
         }
     }
 
+    
+
     private void functions() {
         try {
             int receive = (Integer) receive();
@@ -77,9 +79,13 @@ public class ServerThread implements Runnable {
                     updateAnime(updated);
                     break;
                 }
-                case 7: { //?
-                    
-                    break;
+                case 7: { // logout
+                    verified=false;
+                    user=null;
+                    while(!verified){
+                        account();
+                    }
+                break;
                 }
                 case 22: { // CHECK maybe not needed
                     send(isAdmin);
@@ -109,9 +115,7 @@ public class ServerThread implements Runnable {
                 pst.setString(4, updated.getPlot());
                 pst.setString(5, updated.getLink());
                 pst.setString(6, updated.getImagePath());
-                int e = pst.executeUpdate();
-                System.out.println(e);
-                send(e>0);
+                send(pst.executeUpdate()>0);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -239,6 +243,7 @@ public class ServerThread implements Runnable {
             verified = response==1;
             if (verified) {
                 send(true);
+                login();
             } else {
                 send(false);
             }

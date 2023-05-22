@@ -111,9 +111,7 @@ public class LoginController implements interfaces.StreamController, Initializab
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
             Parent root = fxmlLoader.load();
     
-            AdminController ac = fxmlLoader.getController(); //TODO CHECK these 2 lines
-            ac.setAc(ac);
-    
+            AdminController ac = fxmlLoader.getController();
             ac.setStream(os,is); 
             ac.begin();
     

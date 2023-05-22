@@ -5,14 +5,11 @@
     - make switch for login and register
     - gestione messaggio di uscita addAnime
     - windows size on Linux is bugged, on windows seems ok
+    - sistemare gli alert (a scorrimento) di add anime e edit anime
+    - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
 
 # back:
-    - finish updating AdminController
-    - check update AddAnimeController
-    - update EditAnimeController
-    - gestione Server(register/login)
-
-    - after register process OK (What to do???)
+    - CHECK (not working) register (serverThread , autoLogin ) 
     
 
 # database:

@@ -30,6 +30,7 @@ import javafx.util.Duration;
 import main.Listener;
 import model.Anime;
 
+import java.awt.Window;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -128,10 +129,13 @@ public class AdminController extends Engine implements StreamController, Initial
      */
     @FXML
     void backToLogin() throws IOException {
+        logout();
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
         
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
+        FXMLLoader fxmlLoader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
+        Parent root = fxmlLoader.load();
+        setLowerStream(fxmlLoader.getController());
         Scene scene = ttlAnime.getScene();
         root.translateYProperty().set(scene.getHeight());
         anchorPane.getChildren().add(root);
@@ -221,7 +225,7 @@ public class AdminController extends Engine implements StreamController, Initial
             addAnimeStage.setScene(new Scene(root));
             addAnimeStage.setAlwaysOnTop(true);
             addAnimeStage.initModality(Modality.APPLICATION_MODAL);
-            addAnimeStage.setOnCloseRequest(windowEvent -> addClose()); // TODO aggiungere reload all anime
+            addAnimeStage.setOnHiding(windowEvent -> addClose()); // TODO aggiungere reload all anime
             addAnimeStage.setResizable(false);
             addAnimeStage.show();
 
@@ -282,7 +286,8 @@ public class AdminController extends Engine implements StreamController, Initial
             editAnimeStage.setScene(new Scene(root));
             editAnimeStage.setAlwaysOnTop(true);
             editAnimeStage.initModality(Modality.APPLICATION_MODAL);
-            editAnimeStage.setOnCloseRequest(windowEvent -> editClose());
+            
+            editAnimeStage.setOnHiding(windowEvent -> editClose());
             editAnimeStage.setResizable(false);
             editAnimeStage.show();
 
@@ -372,9 +377,9 @@ public class AdminController extends Engine implements StreamController, Initial
         editAnimeActive=false;
         editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotEdited));
-        // receiveAllAnime();
-        // reload(getAnimeList());
+        scrollingText(red,msgDanger(animeNotEdited)); // TODO dinamico con il server
+        receiveAllAnime();
+        reload(getAnimeList());
     }
 
     /**
@@ -386,9 +391,9 @@ public class AdminController extends Engine implements StreamController, Initial
         addAnimeActive=false;
         addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotAdded));
-        // receiveAllAnime();
-        // reload(getAnimeList());
+        scrollingText(red,msgDanger(animeNotAdded));  // TODO dinamico con il server
+        receiveAllAnime();
+        reload(getAnimeList());
     }
 
     /**

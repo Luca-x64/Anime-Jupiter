@@ -74,6 +74,7 @@ public class Engine implements StreamController, Data {
 
     protected void editAnime(int id,String ttl,String aut,String pub,int epi,int y, String pl,String imgPath, String link){
         Anime editedAnime = new Anime(ttl, aut, pub, epi, y, pl, imgPath, link);
+        editedAnime.setID(id);
         send(6);
         send(editedAnime);
         boolean response = (Boolean) receive();
@@ -83,6 +84,10 @@ public class Engine implements StreamController, Data {
         }else{
             System.out.println("Can't edit anime");
         }
+    }
+
+    protected void setLowerStream(StreamController sc){
+        sc.setStream(os, is);
     }
 
     protected void deleteAnime(int id) {
@@ -161,6 +166,10 @@ public class Engine implements StreamController, Data {
      */
     public boolean checkDuplicatesAdd(List<Anime> al, String ttl) {
         return al.stream().noneMatch(e -> stringFormat(e.getTitle()).equals(stringFormat(ttl)));
+    }
+
+    protected void logout(){
+        send(7);
     }
 
     /**
