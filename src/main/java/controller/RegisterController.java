@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-
 public class RegisterController implements interfaces.StreamController, Initializable, Data {
 
     @FXML
@@ -47,7 +46,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
      * 
      * @param URL            url
      * @param ResourceBundle resourceBundle
-     * @return               void
+     * @return void
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,24 +63,36 @@ public class RegisterController implements interfaces.StreamController, Initiali
             send(user);
 
             Boolean response = (Boolean) receive();
-            if(response){ // TODO
+            if (response) { // TODO
+                send(new User(user.getEmail(), user.getPassword()));
+                boolean isAdmin = (Boolean) receive();
+                if (isAdmin) {
+                    adminSide();
+                } else {
+                    userSide();
+                }
 
-            }
+           
         } else {
-            registerBtn.setDisable(false);
+            System.out.println("Cant create your account!");
         }
+    }else
 
-        //gotoLogin();
+    {
+        registerBtn.setDisable(false);
+    }
+
+    // gotoLogin();
 
     }
 
-    //TODO controllare, non funziona
-    private void gotoLogin() { 
+    // TODO controllare, non funziona
+    private void gotoLogin() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
             Parent root = fxmlLoader.load();
             interfaces.StreamController controller = fxmlLoader.getController();
-            controller.setStream(os,is);
+            controller.setStream(os, is);
             Scene loginScene = registerBtn.getScene();
             root.translateYProperty().set(loginScene.getHeight());
             anchorPane.getChildren().add(root);
@@ -128,6 +139,77 @@ public class RegisterController implements interfaces.StreamController, Initiali
         }
         return received;
     }
+    /**
+     * Admin side
+     * 
+     * @throws IOException
+     * @return void
+     */
+    public void adminSide() {
+        try {
+            registerBtn.setDisable(true);
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
+            Parent root = fxmlLoader.load();
+    
+            AdminController ac = fxmlLoader.getController();
+            ac.setStream(os,is); 
+            ac.begin();
+    
+    
+            Scene adminScene = registerBtn.getScene();
+            root.translateYProperty().set(adminScene.getHeight());
+            anchorPane.getChildren().add(root);
+    
+            // Transition
+    
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+            timeline.play();
+        } catch (Exception e) {
+            System.err.println("cant load admin panel");
+            System.exit(4);
+        }
+      
+    }
+
+    /**
+     * User Side
+     *
+     * @throws IOException
+     * @return void
+     */
+    public void userSide() {
+        try {
+            registerBtn.setDisable(true);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
+            Parent root = fxmlLoader.load();
+    
+            UserController uc = fxmlLoader.getController();
+            uc.setStream(os,is);
+            uc.begin();
+                
+            Scene userScene = registerBtn.getScene();
+            root.translateYProperty().set(userScene.getHeight());
+            anchorPane.getChildren().add(root);
+    
+            // Transition
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+            timeline.play();
+        } catch (Exception e) {
+            System.err.println("cant load admin panel");
+            System.exit(5);
+        }
+      
+    }
+
 
     // /**
     // * Admin side
@@ -202,8 +284,8 @@ public class RegisterController implements interfaces.StreamController, Initiali
 
     @Override
     public void setStream(ObjectOutputStream os, ObjectInputStream is) {
-        this.os=os;
-        this.is=is;
+        this.os = os;
+        this.is = is;
     }
 
 }

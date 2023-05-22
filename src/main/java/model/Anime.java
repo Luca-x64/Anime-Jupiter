@@ -32,7 +32,7 @@ public class Anime implements Serializable, Data {
         this.imagePath = imgPath;
         this.link = url;
     }
-
+    
     /** 
      * ToString Overwritten
      *

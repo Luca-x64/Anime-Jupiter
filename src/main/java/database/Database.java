@@ -25,7 +25,8 @@ public class Database {
         try {
             conn = DriverManager.getConnection(Config.URL_CONNECTION, Config.USERNAME, Config.PW);
         } catch (SQLException e) {
-            System.err.println("Connection with DataBase Closed!");
+            System.err.println("Cant estabilish connection with DataBase!");
+            System.exit(3);
         }
 
     }

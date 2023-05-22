@@ -19,7 +19,7 @@ public class Server {
     private final String outputFile = "Server.txt";
 
     private PrintStream psServerConsole;
-    private List<Socket> connectedSockets = new ArrayList<>();
+    //private List<Socket> connectedSockets = new ArrayList<>();
     private final Database DB = new Database();
     private ServerSocket serverSocket = null;
 
@@ -40,7 +40,7 @@ public class Server {
             while (!serverSocket.isClosed()) {
                 counter++;
                 Socket socket = serverSocket.accept();
-                connectedSockets.add(socket);
+            // connectedSockets.add(socket);
                 System.out.println("Socket connected!");
 
                 Thread th = new Thread(new ServerThread(socket, DB));
@@ -68,13 +68,12 @@ public class Server {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-        for (Socket socket : connectedSockets) {
-            try {
-                socket.close();
-            } catch (IOException e) {
-               System.err.println(e.getMessage());
-            }
-        }
+        // for (Socket socket : connectedSockets) {
+        //     try {
+        //         socket.close();
+        //     } catch (IOException e) {
+        //     }
+        // }
     }
 
     public static void main(String[] args) {

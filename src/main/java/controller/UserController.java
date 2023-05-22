@@ -1,6 +1,7 @@
 package controller;
 
 import engine.Engine;
+import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -205,10 +206,13 @@ public class UserController extends Engine implements Initializable {
      */
     @FXML
     void backToLogin() throws IOException {
+        logout();
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
 
-        Parent root = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
+        FXMLLoader fxmlLoader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
+        Parent root = fxmlLoader.load();
+        setLowerStream(fxmlLoader.getController());
         Scene scene = ttlAnime.getScene();
         root.translateYProperty().set(scene.getHeight());
         anchorPane.getChildren().add(root);
