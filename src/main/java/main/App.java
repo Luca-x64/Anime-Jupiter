@@ -45,6 +45,7 @@ public class App extends Application implements Data {
             socket = new Socket(InetAddress.getLocalHost(), port);
         } catch (Exception e) {
             e.printStackTrace();
+        }
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
@@ -60,10 +61,9 @@ public class App extends Application implements Data {
             stage.show();
         } catch (IOException e1) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e1.printStackTrace();
         }
 
     }
 
-}
 }
