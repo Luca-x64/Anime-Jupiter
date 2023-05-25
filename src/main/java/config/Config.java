@@ -1,24 +1,11 @@
 package config;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.ServerSocket;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import javax.sound.sampled.Port;
-
-import org.apache.logging.log4j.util.Chars;
-
-import server.Server;
 
 /**
  * CONF
@@ -35,7 +22,7 @@ public class Config {
     public static String PW = "";
 
     
-    private static final String portPath = "src\\main\\resources\\port\\port.txt";
+    private static final String portPath = "src/main/resources/port/port.txt";
     private static final int DEFAULT_PORT = 20006;
 
     public static ServerSocket getServerSocket() {
