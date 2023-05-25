@@ -37,6 +37,8 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.*;
 
+import org.apache.logging.log4j.util.Strings;
+
 public class AdminController extends Engine implements StreamController, Initializable {
     @FXML
     private ImageView animeImg, animeDelete, animeEdit;
@@ -377,7 +379,11 @@ public class AdminController extends Engine implements StreamController, Initial
         editAnimeActive=false;
         editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotEdited)); // TODO dinamico con il server
+        scrollingText(red,msgDanger(animeNotEdited)); // TODO spostare in set on close request
+        List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
+        setLongMessagge((Boolean) receivedResponse.get(0));
+        scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+        
         receiveAllAnime();
         reload(getAnimeList());
     }
@@ -391,7 +397,13 @@ public class AdminController extends Engine implements StreamController, Initial
         addAnimeActive=false;
         addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotAdded));  // TODO dinamico con il server
+
+        scrollingText(red,msgDanger(animeNotAdded));  // TODO da spostare con nel .setOnCloseRequest()  
+        
+        List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
+        setLongMessagge((Boolean) receivedResponse.get(0));
+        scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+
         receiveAllAnime();
         reload(getAnimeList());
     }

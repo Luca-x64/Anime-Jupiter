@@ -90,28 +90,25 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                         editAnime(animeSelected.getID(),ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr, imgPath, link);
                         
                     }catch (NumberFormatException ne){
-                        //TODO
-                        //ac.setLongMessagge(true);
-                        //ac.scrollingText(red,msgDanger(yearEpisodeNumber));
+                        setExitMessagge(true,red,msgDanger(yearEpisodeNumber));
                     }catch (Exception ignored){
                         System.err.println(ignored);
                     }
                 }else{
-                   //TODO
-                    // ac.scrollingText(yellow,msgWarning (animeAlreadyPresent));
+                   
+                    setExitMessagge(false,yellow,msgWarning (animeAlreadyPresent));
                 }
             }
 
         }else{
-           //TODO
-           // ac.scrollingText(red,msgDanger(blankField));
+           setExitMessagge(false,red,msgDanger(blankField));
         }
 
         Node source = (Node) mouseEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
 
-        //TODO
+        //TODO forse
         //setEditAnimeActive(false);
         //if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
         //else { ac.editClose(); }

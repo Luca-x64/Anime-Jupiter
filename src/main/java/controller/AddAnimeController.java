@@ -105,7 +105,7 @@ public class AddAnimeController extends Engine implements Initializable {
         } else {
             exit = 3;
         }
-
+        String msg = "";
            // TODO spostare tutta la gestione del messaggio di uscita, da inserire nel server (come mediatore di messaggi)
         switch (exit) { 
             case 0 -> {
@@ -114,26 +114,21 @@ public class AddAnimeController extends Engine implements Initializable {
                 stage.close();
 
                 //ac.setAddAnimeActive(false);
-                //ac.scrollingText(green, msgSuccess(animeAdded));
+                setExitMessagge(false,green,msgSuccess(animeAdded));
             }
             case 1 -> {
-                // ac.setLongMessagge(true);
-                // ac.scrollingText(red, msgDanger(yearEpisodesAreNumbers));
-                // ac.setAddAnimeActive(false);
+                setExitMessagge(true,red, msgDanger(yearEpisodesAreNumbers));
+               // ac.setAddAnimeActive(false);
             }
             case 2 -> {
-                // ac.setLongMessagge(true);
-                // ac.scrollingText(red, msgDanger(blankField));
+                setExitMessagge(true,red, msgDanger(blankField));
             }
             case 3 -> {
-                // ac.scrollingText(yellow, msgWarning(animeAlreadyPresent));
+                setExitMessagge(false,yellow, msgWarning(animeAlreadyPresent));
 
-                // questo non serve, fare l'alert
-                // Node source = (Node) mouseEvent.getSource();
-                // Stage stage = (Stage) source.getScene().getWindow();
-                // stage.close();
+            
 
-                // TODO spostare
+                // TODO spostare (non so se già fatto !?!?)
                 // ac.reload(ac.getAnimeList());
                 // ac.setAddAnimeActive(false);
             }
