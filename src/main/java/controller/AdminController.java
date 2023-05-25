@@ -379,10 +379,12 @@ public class AdminController extends Engine implements StreamController, Initial
         editAnimeActive=false;
         editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotEdited)); // TODO spostare in set on close request
+        //scrollingText(red,msgDanger(animeNotEdited)); // TODO spostare in set on close request
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
-        setLongMessagge((Boolean) receivedResponse.get(0));
-        scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+        if(receivedResponse!=null){
+            setLongMessagge((Boolean) receivedResponse.get(0));
+            scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+        }
         
         receiveAllAnime();
         reload(getAnimeList());
@@ -398,11 +400,13 @@ public class AdminController extends Engine implements StreamController, Initial
         addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
 
-        scrollingText(red,msgDanger(animeNotAdded));  // TODO da spostare con nel .setOnCloseRequest()  
+        //scrollingText(red,msgDanger(animeNotAdded));  // TODO da spostare con nel .setOnCloseRequest()  
         
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
-        setLongMessagge((Boolean) receivedResponse.get(0));
-        scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+        if(receivedResponse!=null){
+            setLongMessagge((Boolean) receivedResponse.get(0));
+            scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+        }
 
         receiveAllAnime();
         reload(getAnimeList());
