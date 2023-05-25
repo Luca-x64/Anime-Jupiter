@@ -1,6 +1,7 @@
 package engine;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import main.Data;
 import model.Anime;
 import model.User;
@@ -116,6 +117,21 @@ public class Engine implements StreamController, Data {
         return displayedAnimeList;
     }
 
+
+    public void setExitMessagge (boolean longMessagge,Color color,String msg){
+        List<Object> output = new ArrayList<>();
+        output.add(longMessagge);
+        output.add(color);
+        output.add(msg);
+        send(8);
+        send(output);
+    }
+
+    public List<Object> getExitMessagge(){
+        send(9);
+        List<Object> output = (ArrayList<Object>) receive();
+        return output;
+    }
     /**
      * Sort Title
      * 
