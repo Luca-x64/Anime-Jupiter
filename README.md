@@ -10,7 +10,8 @@
 
 # back:
     - CHECK (not working) register (serverThread , autoLogin ) 
-    - alert add e edit, cambiare Color class (not serializable), con stringa
+    - CHECK edit anime alert msg work correctly
+    - TODO/CHECK add anime alert
 
 # database:
     

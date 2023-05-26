@@ -12,6 +12,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Anime;
 import javax.imageio.ImageIO;
+
+import org.apache.commons.compress.harmony.unpack200.bytecode.SourceFileAttribute;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,13 +71,16 @@ public class EditAnimeController extends Engine implements SetDataEdit {
         
         if (ttl.length() > 0 && aut.length() > 0 && edi.length() > 0 && epi.length() > 0 && y.length() > 0 && tr.length() > 0 && link.length() > 0) {
             if(stringFormat(ttl).equals(stringFormat(animeSelected.getTitle())) && stringFormat(aut).equals(stringFormat(animeSelected.getAuthor())) && stringFormat(edi).equals(stringFormat(animeSelected.getPublisher())) && stringFormat(epi).equals(stringFormat(String.valueOf(animeSelected.getEpisodes()))) && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear()))) && stringFormat(tr).equals(stringFormat(animeSelected.getPlot())) && stringFormat(link).equals(stringFormat(animeSelected.getLink())) && stringFormat(imgPath).equals(stringFormat(animeSelected.getImagePath()))){
+                
+                setExitMessagge(false, yellow, "Fields are equal");
             } else {
                
-                // controllo nome anime duplicato, MAYBE spostare da qui
+                // controllo nome anime duplicato, MAYBE spostare da qui //TODO  non funziona, va a modificare il DB
+                receiveAllAnime();
                 List<Anime> alCopy = new ArrayList<>(getAnimeList());
+                
                 alCopy.remove(animeSelected);
-
-                if(alCopy.stream().noneMatch(e->stringFormat(e.getTitle()).equals(stringFormat(ttl)))){
+                if(alCopy.stream().noneMatch(e->stringFormat(e.getTitle()).equalsIgnoreCase(stringFormat(ttl)))){
                     if(!imgPath.equalsIgnoreCase(animeSelected.getImagePath())){
                         BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
                         String fileName = selectedFile.getName().trim().replace(space, empty);
@@ -84,6 +90,8 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                         File newFile =  new File(imgPath);
                         format = format.replace(dot,empty);
                         ImageIO.write(bi, format,newFile);
+                    }else{
+                        System.out.println("immagine uguale");
                     }
 
                     try{
@@ -93,6 +101,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                         setExitMessagge(true,red,msgDanger(yearEpisodeNumber));
                     }catch (Exception ignored){
                         System.err.println(ignored);
+                        setExitMessagge(false, red, animeNotEdited);
                     }
                 }else{
                    
