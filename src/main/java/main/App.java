@@ -38,20 +38,22 @@ public class App extends Application implements Data {
     @Override
     public void start(Stage stage) {
         int cnt = 0;
+        boolean connected = false;
         while (cnt < 3 && socket == null) {
             try {
                 int port = Config.getPort();
                 socket = new Socket(InetAddress.getLocalHost(), port);
+                connected=true;
             } catch (Exception e) {
                 cnt++;
                 try {
-                    Thread.sleep(3);
+                    Thread.sleep(3000);
+                    
                 } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
                 }
             }
         }
+        System.out.println("fuori");
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));

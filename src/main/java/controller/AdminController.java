@@ -227,7 +227,8 @@ public class AdminController extends Engine implements StreamController, Initial
             addAnimeStage.setScene(new Scene(root));
             addAnimeStage.setAlwaysOnTop(true);
             addAnimeStage.initModality(Modality.APPLICATION_MODAL);
-            addAnimeStage.setOnHiding(windowEvent -> addClose()); // TODO aggiungere reload all anime
+            addAnimeStage.setOnHiding(windowEvent -> addExit());
+            addAnimeStage.setOnCloseRequest(windowEvent -> addClose());
             addAnimeStage.setResizable(false);
             addAnimeStage.show();
 
@@ -273,7 +274,7 @@ public class AdminController extends Engine implements StreamController, Initial
      * @return void
      */
     @FXML
-    void editAnime() throws IOException {  // TODO CHECK LATER
+    void editAnime() throws IOException { 
         if(!editAnimeActive){
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiEditAnime)));
@@ -288,8 +289,8 @@ public class AdminController extends Engine implements StreamController, Initial
             editAnimeStage.setScene(new Scene(root));
             editAnimeStage.setAlwaysOnTop(true);
             editAnimeStage.initModality(Modality.APPLICATION_MODAL);
-            
-            editAnimeStage.setOnHiding(windowEvent -> editClose());
+            editAnimeStage.setOnCloseRequest(windowEvent->editClose());
+            editAnimeStage.setOnHiding(windowEvent -> editExit());
             editAnimeStage.setResizable(false);
             editAnimeStage.show();
 
@@ -297,6 +298,7 @@ public class AdminController extends Engine implements StreamController, Initial
             scrollingText(yellow, msgWarning(animeModification));
         }
     }
+
 
     /**
      * Reload grid panel (anime)
@@ -307,7 +309,7 @@ public class AdminController extends Engine implements StreamController, Initial
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
 
-        if (al.size() > 0) { //todo dinamico della posizione
+        if (al.size() > 0) { //TODO dinamico della posizione
             setChosenAnime(al.get(0));
             this.selectedAnime = al.get(0);
         } else {
@@ -370,16 +372,11 @@ public class AdminController extends Engine implements StreamController, Initial
         if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
     }
 
-    /**
-     * Edit close
-     *
-     * @return void
-     */
-    public void editClose(){
+    private void editExit() {
         editAnimeActive=false;
         editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        //scrollingText(red,msgDanger(animeNotEdited)); // TODO spostare in set on close request
+        
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
         if(receivedResponse!=null){
             setLongMessagge((Boolean) receivedResponse.get(0));
@@ -391,17 +388,24 @@ public class AdminController extends Engine implements StreamController, Initial
     }
 
     /**
-     * Add Close
+     * Edit close
      *
      * @return void
      */
-    public void addClose(){
+    public void editClose(){
+        editAnimeActive=false;
+        editAnimeStage.setAlwaysOnTop(false);
+        testoScroll.getChildren().clear();
+        scrollingText(red,msgDanger(animeNotEdited));
+    }
+
+
+    private void addExit() {
         addAnimeActive=false;
         addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
 
-        //scrollingText(red,msgDanger(animeNotAdded));  // TODO da spostare con nel .setOnCloseRequest()  
-        
+ 
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
         if(receivedResponse!=null){
             setLongMessagge((Boolean) receivedResponse.get(0));
@@ -410,6 +414,18 @@ public class AdminController extends Engine implements StreamController, Initial
 
         receiveAllAnime();
         reload(getAnimeList());
+    }
+
+    /**
+     * Add Close
+     *
+     * @return void
+     */
+    public void addClose(){
+        addAnimeActive=false;
+        addAnimeStage.setAlwaysOnTop(false); 
+        testoScroll.getChildren().clear();
+        scrollingText(red,msgDanger(animeNotAdded)); 
     }
 
     /**

@@ -106,7 +106,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                         editAnime(animeSelected.getID(), ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr,
                                 imgPath, link);
 
-                        // TODO spostare in exit = 0
+                       
 
                     } catch (NumberFormatException ne) {
                         exit = 2;

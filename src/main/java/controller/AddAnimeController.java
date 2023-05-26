@@ -126,12 +126,6 @@ public class AddAnimeController extends Engine implements Initializable {
             }
             case 3 -> {
                 setExitMessagge(false,yellow, msgWarning(animeAlreadyPresent));
-
-            
-
-                // TODO spostare (non so se già fatto !?!?)
-                // ac.reload(ac.getAnimeList());
-                // ac.setAddAnimeActive(false);
             }
         }
     }
