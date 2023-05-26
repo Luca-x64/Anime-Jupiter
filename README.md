@@ -2,8 +2,6 @@
 
 ## todolist:
 # front:
-    - make switch for login and register
-    - windows size on Linux is bugged, on windows seems ok
     - ri aggiungere  (in AdminController) .setOnCloseRequest di editAnime e di addAnime (con il messaggio rosso di errore)
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
     CHECK scroll messagge addAnime e editAnime working !?
