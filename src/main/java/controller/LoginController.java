@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import interfaces.StreamController;
+
 
 
 public class LoginController implements interfaces.StreamController, Initializable, Data {
@@ -47,6 +49,30 @@ public class LoginController implements interfaces.StreamController, Initializab
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
+
+    @FXML
+    void changeToRegister(MouseEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/gui/register.fxml"))));
+            Parent root = fxmlLoader.load();
+            StreamController sc = (fxmlLoader.getController());
+            sc.setStream(os, is);
+            Scene scene = loginBtn.getScene();
+            root.translateYProperty().set(scene.getHeight());
+            anchorPane.getChildren().add(root);
+    
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
+            timeline.play();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+       
+    }
+
 
     public void login(MouseEvent event) {
         loginBtn.setDisable(true);
