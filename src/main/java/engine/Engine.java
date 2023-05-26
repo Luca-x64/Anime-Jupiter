@@ -66,11 +66,11 @@ public class Engine implements StreamController, Data {
         send(anime);
         boolean response = (Boolean) receive();
         if (response) {
-            System.out.println("Anime added!");
+            System.out.println("Anime added!"); // DEBUG
             setExitMessagge(false,green,msgSuccess(animeAdded));
             receiveAllAnime();
         } else {
-            System.out.println("Can't add Anime!");
+            System.out.println("Can't add Anime!"); // DEBUG
             setExitMessagge(false,green,msgSuccess(animeNotAdded));
         }
     }
@@ -82,11 +82,11 @@ public class Engine implements StreamController, Data {
         send(editedAnime);
         boolean response = (Boolean) receive();
         if(response){
-            System.out.println("Anime Edited!");
+            System.out.println("Anime Edited!"); // DEBUG
             setExitMessagge(false,green,msgSuccess(animeEdited));
             receiveAllAnime();
         }else{
-            System.out.println("Can't edit anime");
+            System.out.println("Can't edit anime"); //DEBUG
             setExitMessagge(false,red,msgSuccess(animeNotEdited));
         }
     }

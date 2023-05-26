@@ -47,7 +47,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
 
         FileChooser fc = new FileChooser();
         fc.setTitle(fcTitle);
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(description, extPng,extJpg));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(description, extPng, extJpg));
         fc.setInitialDirectory(new File(imgAbsFolder));
         selectedFile = fc.showOpenDialog(stage);
 
@@ -56,94 +56,127 @@ public class EditAnimeController extends Engine implements SetDataEdit {
             imgPath = imgAbsFolder + fileName;
 
             imgview.setImage(new Image(selectedFile.getPath()));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     /**
-     * Confirm Image 
+     * Confirm Image
      *
      * @param MouseEvent mouseEvent click
      * @exception IOException
      * @return void
      */
     public void confirm(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
-        String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), edi = publisherBox.getText().trim(), epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(), link = linkBox.getText().trim();
-        
-        if (ttl.length() > 0 && aut.length() > 0 && edi.length() > 0 && epi.length() > 0 && y.length() > 0 && tr.length() > 0 && link.length() > 0) {
-            if(stringFormat(ttl).equals(stringFormat(animeSelected.getTitle())) && stringFormat(aut).equals(stringFormat(animeSelected.getAuthor())) && stringFormat(edi).equals(stringFormat(animeSelected.getPublisher())) && stringFormat(epi).equals(stringFormat(String.valueOf(animeSelected.getEpisodes()))) && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear()))) && stringFormat(tr).equals(stringFormat(animeSelected.getPlot())) && stringFormat(link).equals(stringFormat(animeSelected.getLink())) && stringFormat(imgPath).equals(stringFormat(animeSelected.getImagePath()))){
-                
-                setExitMessagge(false, yellow, "Fields are equal");
+        int exit = 0;
+        String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), edi = publisherBox.getText().trim(),
+                epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(),
+                link = linkBox.getText().trim();
+
+        if (ttl.length() > 0 && aut.length() > 0 && edi.length() > 0 && epi.length() > 0 && y.length() > 0
+                && tr.length() > 0 && link.length() > 0) {
+            if (stringFormat(ttl).equals(stringFormat(animeSelected.getTitle()))
+                    && stringFormat(aut).equals(stringFormat(animeSelected.getAuthor()))
+                    && stringFormat(edi).equals(stringFormat(animeSelected.getPublisher()))
+                    && stringFormat(epi).equals(stringFormat(String.valueOf(animeSelected.getEpisodes())))
+                    && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear())))
+                    && stringFormat(tr).equals(stringFormat(animeSelected.getPlot()))
+                    && stringFormat(link).equals(stringFormat(animeSelected.getLink()))
+                    && stringFormat(imgPath).equals(stringFormat(animeSelected.getImagePath()))) {
+                exit = 1;
             } else {
-               
-                // controllo nome anime duplicato, MAYBE spostare da qui //TODO  non funziona, va a modificare il DB
+
                 receiveAllAnime();
                 List<Anime> alCopy = new ArrayList<>(getAnimeList());
-                
+
                 alCopy.remove(animeSelected);
-                if(alCopy.stream().noneMatch(e->stringFormat(e.getTitle()).equalsIgnoreCase(stringFormat(ttl)))){
-                    if(!imgPath.equalsIgnoreCase(animeSelected.getImagePath())){
+                if (alCopy.stream().noneMatch(e -> stringFormat(e.getTitle()).equalsIgnoreCase(stringFormat(ttl)))) {
+                    if (!imgPath.equalsIgnoreCase(animeSelected.getImagePath())) {
                         BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
                         String fileName = selectedFile.getName().trim().replace(space, empty);
                         String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
-                        fileName = ttl.toLowerCase(Locale.ROOT).replace(space,dash) + format;
-                        imgPath=imgAbsFolder+fileName;
-                        File newFile =  new File(imgPath);
-                        format = format.replace(dot,empty);
-                        ImageIO.write(bi, format,newFile);
-                    }else{
-                        System.out.println("immagine uguale");
+                        fileName = ttl.toLowerCase(Locale.ROOT).replace(space, dash) + format;
+                        imgPath = imgAbsFolder + fileName;
+                        File newFile = new File(imgPath);
+                        format = format.replace(dot, empty);
+                        ImageIO.write(bi, format, newFile);
                     }
 
-                    try{
-                        editAnime(animeSelected.getID(),ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr, imgPath, link);
-                        
-                    }catch (NumberFormatException ne){
-                        setExitMessagge(true,red,msgDanger(yearEpisodeNumber));
-                    }catch (Exception ignored){
-                        System.err.println(ignored);
-                        setExitMessagge(false, red, animeNotEdited);
+                    try {
+                        editAnime(animeSelected.getID(), ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr,
+                                imgPath, link);
+
+                        // TODO spostare in exit = 0
+
+                    } catch (NumberFormatException ne) {
+                        exit = 2;
+                    } catch (Exception ignored) {
+                        // System.err.println(ignored);
+                        exit = 3;
                     }
-                }else{
-                   
-                    setExitMessagge(false,yellow,msgWarning (animeAlreadyPresent));
+                } else {
+                    exit = 4;
                 }
             }
 
-        }else{
-           setExitMessagge(false,red,msgDanger(blankField));
+        } else {
+            exit = 5;
+        }
+        switch (exit) {
+            case 0: {
+                Node source = (Node) mouseEvent.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
+                setExitMessagge(false, green, msgSuccess(animeAdded)); // CHECK
+                break;
+            }
+            case 1: {
+                setExitMessagge(false, yellow, msgWarning("Fields are equal"));
+                break;
+            }
+            case 2: {
+                setExitMessagge(true, red, msgDanger(yearEpisodeNumber));
+                break;
+            }
+            case 3: {
+                setExitMessagge(false, red, msgDanger(animeNotEdited));
+                break;
+            }
+            case 4: {
+                setExitMessagge(false, yellow, msgWarning(animeAlreadyPresent));
+                break;
+            }
+            case 5: {
+                setExitMessagge(false, red, msgDanger(blankField));
+                break;
+            }
         }
 
-        Node source = (Node) mouseEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-
-        //TODO forse
-        //setEditAnimeActive(false);
-        //if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
-        //else { ac.editClose(); }
+        // TODO forse
+        // setEditAnimeActive(false);
+        // if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
+        // else { ac.editClose(); }
     }
-    
+
     /**
      * Close Escape
      *
      * @param KeyEvent keyEvent keyboard press
      * @return void
      */
-    public void closeEscape(javafx.scene.input.KeyEvent keyEvent){
-        if(keyEvent.getCode() == KeyCode.ESCAPE) {
+    public void closeEscape(javafx.scene.input.KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
             Node source = (Node) keyEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
         }
     }
 
-    
-    
     /**
      * Set Data
      *
      * @param AdminController ac admin controller
-     * @param Anime a anime
+     * @param Anime           a anime
      * @return void
      */
     @Override

@@ -73,6 +73,8 @@ public class AddAnimeController extends Engine implements Initializable {
         String ttl = titleBox.getText().trim(), aut = authorBox.getText().trim(), pub = publisherBox.getText().trim(),
                 epi = episodeBox.getText().trim(), y = yearBox.getText().trim(), tr = plotBox.getText().trim(),
                 link = linkBox.getText().trim();
+        
+        receiveAllAnime();
         if (checkDuplicatesAdd(getAnimeList(), ttl)) {
             if (ttl.length() > 0 && aut.length() > 0 && pub.length() > 0 && epi.length() > 0 && y.length() > 0
                     && tr.length() > 0 && link.length() > 0) {
@@ -105,9 +107,8 @@ public class AddAnimeController extends Engine implements Initializable {
         } else {
             exit = 3;
         }
-        String msg = "";
-           // TODO spostare tutta la gestione del messaggio di uscita, da inserire nel server (come mediatore di messaggi)
-        switch (exit) { 
+
+        switch (exit) { //TODO nel AdminController while (stage is open) receive exitmessagge();
             case 0 -> {
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
