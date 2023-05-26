@@ -67,9 +67,11 @@ public class Engine implements StreamController, Data {
         boolean response = (Boolean) receive();
         if (response) {
             System.out.println("Anime added!");
+            setExitMessagge(false,green,msgSuccess(animeAdded));
             receiveAllAnime();
         } else {
             System.out.println("Can't add Anime!");
+            setExitMessagge(false,green,msgSuccess(animeNotAdded));
         }
     }
 
@@ -81,9 +83,11 @@ public class Engine implements StreamController, Data {
         boolean response = (Boolean) receive();
         if(response){
             System.out.println("Anime Edited!");
+            setExitMessagge(false,green,msgSuccess(animeEdited));
             receiveAllAnime();
         }else{
             System.out.println("Can't edit anime");
+            setExitMessagge(false,red,msgSuccess(animeNotEdited));
         }
     }
 
@@ -121,7 +125,9 @@ public class Engine implements StreamController, Data {
     public void setExitMessagge (boolean longMessagge,Color color,String msg){
         List<Object> output = new ArrayList<>();
         output.add(longMessagge);
-        output.add(color);
+        output.add(color.getRed());
+        output.add(color.getGreen());
+        output.add(color.getBlue());
         output.add(msg);
         send(8);
         send(output);

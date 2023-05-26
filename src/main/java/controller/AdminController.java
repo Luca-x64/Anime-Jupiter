@@ -383,7 +383,7 @@ public class AdminController extends Engine implements StreamController, Initial
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
         if(receivedResponse!=null){
             setLongMessagge((Boolean) receivedResponse.get(0));
-            scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+            scrollingText(new Color((Double) receivedResponse.get(1),(Double) receivedResponse.get(2),(Double) receivedResponse.get(3),1), (String) receivedResponse.get(4));  
         }
         
         receiveAllAnime();
@@ -405,7 +405,7 @@ public class AdminController extends Engine implements StreamController, Initial
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
         if(receivedResponse!=null){
             setLongMessagge((Boolean) receivedResponse.get(0));
-            scrollingText((Color) receivedResponse.get(1), (String) receivedResponse.get(2)); 
+            scrollingText(new Color((Double) receivedResponse.get(1),(Double) receivedResponse.get(2),(Double) receivedResponse.get(3),1), (String) receivedResponse.get(4)); 
         }
 
         receiveAllAnime();
