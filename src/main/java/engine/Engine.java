@@ -71,7 +71,7 @@ public class Engine implements StreamController, Data {
             receiveAllAnime();
         } else {
             System.out.println("Can't add Anime!"); // DEBUG
-            setExitMessagge(false,green,msgSuccess(animeNotAdded));
+            setExitMessagge(false,red,msgWarning(animeNotAdded));
         }
     }
 
@@ -87,7 +87,7 @@ public class Engine implements StreamController, Data {
             receiveAllAnime();
         }else{
             System.out.println("Can't edit anime"); //DEBUG
-            setExitMessagge(false,red,msgSuccess(animeNotEdited));
+            setExitMessagge(false,red,msgWarning(animeNotEdited));
         }
     }
 

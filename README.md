@@ -2,14 +2,12 @@
 
 ## todolist:
 # front:
-    - ri aggiungere  (in AdminController) .setOnCloseRequest di editAnime e di addAnime (con il messaggio rosso di errore)
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
     CHECK scroll messagge addAnime e editAnime working !?
 
 # back:
     - CHECK (not working) register (serverThread , autoLogin ) 
-    - CHECK edit anime alert msg work correctly
-    - TODO/CHECK add anime alert
+
 
 # database:
     

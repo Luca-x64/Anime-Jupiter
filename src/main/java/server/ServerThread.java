@@ -36,15 +36,13 @@ public class ServerThread implements Runnable {
 
     @Override
     public void run() {
-        while(!verified){
+        while (!verified) {
             account();
         }
         while (!socket.isClosed()) {
             functions();
         }
     }
-
-    
 
     private void functions() {
         try {
@@ -81,29 +79,24 @@ public class ServerThread implements Runnable {
                     break;
                 }
                 case 7: { // logout
-                    verified=false;
-                    user=null;
-                    while(!verified){
+                    verified = false;
+                    user = null;
+                    while (!verified) {
                         account();
                     }
-                break;
+                    break;
                 }
                 case 8: { // setExitMessage
                     exitMsg = (ArrayList<Object>) receive();
-                break;
+                    break;
                 }
                 case 9: { // getExitMessage
                     send(exitMsg);
-                    
-                break;
-                }
-                case 22: { // CHECK maybe not needed
-                    send(isAdmin);
                     break;
                 }
                 default: {
+                    // null
                 }
-
             }
         } catch (NullPointerException ne) {
             try {
@@ -115,8 +108,9 @@ public class ServerThread implements Runnable {
     }
 
     private void updateAnime(Anime updated) {
-        if(isAdmin){
-            String query = "UPDATE anime SET title= ?, author= ?, publisher= ? , plot= ? , link= ? , imagePath= ? , episodes= "+ updated.getEpisodes() +" , year="+updated.getYear()+" WHERE id= "+updated.getID();
+        if (isAdmin) {
+            String query = "UPDATE anime SET title= ?, author= ?, publisher= ? , plot= ? , link= ? , imagePath= ? , episodes= "
+                    + updated.getEpisodes() + " , year=" + updated.getYear() + " WHERE id= " + updated.getID();
             try {
                 PreparedStatement pst = DB.getConn().prepareStatement(query);
                 pst.setString(1, updated.getTitle());
@@ -125,13 +119,13 @@ public class ServerThread implements Runnable {
                 pst.setString(4, updated.getPlot());
                 pst.setString(5, updated.getLink());
                 pst.setString(6, updated.getImagePath());
-                send(pst.executeUpdate()>0);
+                send(pst.executeUpdate() > 0);
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
-        }else{
+
+        } else {
             send(isAdmin);
         }
     }
@@ -169,7 +163,7 @@ public class ServerThread implements Runnable {
     }
 
     private void insertAnime(Anime a) {
-        if(isAdmin){
+        if (isAdmin) {
             String query = "INSERT INTO anime (title,author,publisher,plot,link,imagePath,episodes,year) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement pst;
             try {
@@ -187,10 +181,10 @@ public class ServerThread implements Runnable {
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             }
-        }else{
+        } else {
             send(isAdmin);
         }
-        
+
     }
 
     private void selectAnime(String query) { // TODO CHECK correttezza runtime
@@ -212,10 +206,14 @@ public class ServerThread implements Runnable {
 
     private void account() {
         user = (User) receive();
-        if (user.getUsername() == null) {
-            login();
+        if (user != null) {
+            if (user.getUsername() == null) {
+                login();
+            } else {
+                register();
+            }
         } else {
-            register();
+            System.exit(6);
         }
     }
 
@@ -225,7 +223,7 @@ public class ServerThread implements Runnable {
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)) {
             pst.setString(1, user.getEmail());
             rs = pst.executeQuery();
-            boolean checkEmail = rs.next(); //CHECK
+            boolean checkEmail = rs.next(); // CHECK
             send(checkEmail);
             if (checkEmail) {
                 String hashedPassword = rs.getString("password");
@@ -250,7 +248,7 @@ public class ServerThread implements Runnable {
             pst.setString(2, user.getEmail());
             pst.setString(3, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             int response = pst.executeUpdate();
-            verified = response==1;
+            verified = response == 1;
             if (verified) {
                 send(true);
                 login();
