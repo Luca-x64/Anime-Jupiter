@@ -89,7 +89,8 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                 receiveAllAnime();
                 List<Anime> alCopy = new ArrayList<>(getAnimeList());
 
-                alCopy.remove(animeSelected);
+                alCopy.removeIf(e->e.getID() == animeSelected.getID());
+                
                 if (alCopy.stream().noneMatch(e -> stringFormat(e.getTitle()).equalsIgnoreCase(stringFormat(ttl)))) {
                     if (!imgPath.equalsIgnoreCase(animeSelected.getImagePath())) {
                         BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
@@ -127,7 +128,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
-                setExitMessagge(false, green, msgSuccess(animeAdded)); // CHECK
+                setExitMessagge(false, green, msgSuccess(animeEdited)); // CHECK
                 break;
             }
             case 1: {
@@ -150,12 +151,13 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                 setExitMessagge(false, red, msgDanger(blankField));
                 break;
             }
+            default:{ // CHECK if needed
+                System.out.println("case exit default edit");
+                            }
         }
 
-        // TODO forse
+        // CHECK forse
         // setEditAnimeActive(false);
-        // if(result) { ac.scrollingText(green,msgSuccess(animeEdited)); }
-        // else { ac.editClose(); }
     }
 
     /**

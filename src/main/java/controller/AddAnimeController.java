@@ -108,18 +108,15 @@ public class AddAnimeController extends Engine implements Initializable {
             exit = 3;
         }
 
-        switch (exit) { //TODO nel AdminController while (stage is open) receive exitmessagge();
+        switch (exit) {
             case 0 -> {
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
-
-                //ac.setAddAnimeActive(false);
                 setExitMessagge(false,green,msgSuccess(animeAdded));
             }
             case 1 -> {
                 setExitMessagge(true,red, msgDanger(yearEpisodesAreNumbers));
-               // ac.setAddAnimeActive(false);
             }
             case 2 -> {
                 setExitMessagge(true,red, msgDanger(blankField));

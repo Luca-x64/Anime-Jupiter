@@ -91,6 +91,11 @@ public class Engine implements StreamController, Data {
         }
     }
 
+
+    protected void editOpened(){
+       
+    }
+
     protected void setLowerStream(StreamController sc){
         sc.setStream(os, is);
     }
@@ -122,7 +127,7 @@ public class Engine implements StreamController, Data {
     }
 
 
-    public void setExitMessagge (boolean longMessagge,Color color,String msg){
+    protected void setExitMessagge (boolean longMessagge,Color color,String msg){
         List<Object> output = new ArrayList<>();
         output.add(longMessagge);
         output.add(color.getRed());
@@ -133,7 +138,7 @@ public class Engine implements StreamController, Data {
         send(output);
     }
 
-    public List<Object> getExitMessagge(){
+    protected List<Object> getExitMessagge(){
         send(9);
         List<Object> output = (ArrayList<Object>) receive();
         return output;

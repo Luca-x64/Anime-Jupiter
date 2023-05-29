@@ -12,7 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Objects;
 
 import config.Config;
@@ -43,34 +42,39 @@ public class App extends Application implements Data {
             try {
                 int port = Config.getPort();
                 socket = new Socket(InetAddress.getLocalHost(), port);
-                connected=true;
+                connected = true;
             } catch (Exception e) {
                 cnt++;
                 try {
                     Thread.sleep(3000);
-                    
+
                 } catch (InterruptedException e1) {
                 }
             }
         }
-        System.out.println("fuori");
-        try {
+        if (connected) {
+            try {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
-            Parent root = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader(
+                        Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
+                Parent root = fxmlLoader.load();
 
-            interfaces.StreamController controller = fxmlLoader.getController();
-            controller.setStream(new ObjectOutputStream(socket.getOutputStream()),
-                    new ObjectInputStream(socket.getInputStream()));
+                interfaces.StreamController controller = fxmlLoader.getController();
+                controller.setStream(new ObjectOutputStream(socket.getOutputStream()),
+                        new ObjectInputStream(socket.getInputStream()));
 
-            stage.setTitle(projectName);
-            stage.getIcons().add(new Image(iconPath));
-            stage.setScene(new Scene(root));
-            stage.setResizable(true); // edited by luca on 22 may 21:00
-            stage.show();
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+                stage.setTitle(projectName);
+                stage.getIcons().add(new Image(iconPath));
+                stage.setScene(new Scene(root));
+                stage.setResizable(true); // edited by luca on 22 may 21:00
+                stage.show();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        } else {
+            System.out.println("Not connected!");
+            System.exit(7);
         }
 
     }

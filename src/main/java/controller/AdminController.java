@@ -30,7 +30,6 @@ import javafx.util.Duration;
 import main.Listener;
 import model.Anime;
 
-import java.awt.Window;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -38,12 +37,13 @@ import java.net.URL;
 import java.util.*;
 
 import org.apache.logging.log4j.util.Strings;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.SstDocument;
 
 public class AdminController extends Engine implements StreamController, Initializable {
     @FXML
     private ImageView animeImg, animeDelete, animeEdit;
     @FXML
-    private Label animeTitle, ttlAnime,ttlJupiter;
+    private Label animeTitle, ttlAnime, ttlJupiter;
     @FXML
     private TextArea animeData;
     @FXML
@@ -65,28 +65,32 @@ public class AdminController extends Engine implements StreamController, Initial
     protected TranslateTransition tt;
     protected Timer timer;
     protected TimerTask timerTask;
-    private int cnt=0,cnt2=0;
+    private int cnt = 0, cnt2 = 0;
     private boolean addAnimeActive = false;
     private boolean editAnimeActive = false;
     private boolean LongMessagge = false;
 
-    EventHandler<MouseEvent> editHandler = mouseEvent -> { try { editAnime(); } catch (IOException ignored) {System.out.println(ignored);} };
+    EventHandler<MouseEvent> editHandler = mouseEvent -> {
+        try {
+            editAnime();
+        } catch (IOException ignored) {
+            System.out.println(ignored);
+        }
+    };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
     private ObjectOutputStream os;
     private ObjectInputStream is;
-  
 
-    
     /**
      * Initialize
      * 
-     * @param URL url
+     * @param URL            url
      * @param ResourceBundle resourceBundle
      * @return void
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //reload(getAnimeList()); UPDATING PROCESS CHECK
+        // reload(getAnimeList()); UPDATING PROCESS CHECK
     }
 
     /**
@@ -94,34 +98,34 @@ public class AdminController extends Engine implements StreamController, Initial
      * 
      * @return void
      */
-     @FXML
-     void sort(){
-         inputBox.setText(empty);
-         switch (cnt) {
-             case 0 -> {
-                 reload(sortTitle(true));
-                 sortButton.setText(orderAlpha);
-             }
-             case 1 -> {
-                 reload(sortTitle(false));
-                 sortButton.setText(reversedAlpha);
-             }
-             case 2 -> {
-                 reload(sortYear(false));
-                 sortButton.setText(orderYear);
-             }
-             case 3 -> {
-                 reload(sortYear(true));
-                 sortButton.setText(reversedYear);
-             }
-             default -> {
-                 reload(getAnimeList());
-                 sortButton.setText(sort);
-                 cnt = -1;
-             }
-         }
-         cnt++;
-     }
+    @FXML
+    void sort() {
+        inputBox.setText(empty);
+        switch (cnt) {
+            case 0 -> {
+                reload(sortTitle(true));
+                sortButton.setText(orderAlpha);
+            }
+            case 1 -> {
+                reload(sortTitle(false));
+                sortButton.setText(reversedAlpha);
+            }
+            case 2 -> {
+                reload(sortYear(false));
+                sortButton.setText(orderYear);
+            }
+            case 3 -> {
+                reload(sortYear(true));
+                sortButton.setText(reversedYear);
+            }
+            default -> {
+                reload(getAnimeList());
+                sortButton.setText(sort);
+                cnt = -1;
+            }
+        }
+        cnt++;
+    }
 
     /**
      * Back to login
@@ -134,7 +138,7 @@ public class AdminController extends Engine implements StreamController, Initial
         logout();
         ttlJupiter.setOnMouseClicked(null);
         ttlAnime.setOnMouseClicked(null);
-        
+
         FXMLLoader fxmlLoader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/gui/login.fxml"))));
         Parent root = fxmlLoader.load();
         setLowerStream(fxmlLoader.getController());
@@ -166,7 +170,7 @@ public class AdminController extends Engine implements StreamController, Initial
                 reload(resultQuery);
             } else {
                 reload(new ArrayList<>());
-                scrollingText(red,msgDanger(noAnime));
+                scrollingText(red, msgDanger(noAnime));
             }
         } else {
             reload(getAnimeList());
@@ -174,8 +178,7 @@ public class AdminController extends Engine implements StreamController, Initial
         }
     }
 
-    
-    /** 
+    /**
      * Set Chosen Anime
      *
      * @param Anime chosen anime
@@ -187,7 +190,7 @@ public class AdminController extends Engine implements StreamController, Initial
             animeTitle.setText(empty);
             animeData.setText(empty);
             animeImg.setImage(new Image(imgDefaultRelPath));
-            chosenAnime.setStyle(chosenAnimeFX); //sposta da qui
+            chosenAnime.setStyle(chosenAnimeFX); // sposta da qui
             animeDelete.setOnMouseClicked(null);
             animeEdit.setOnMouseClicked(null);
         } else {
@@ -205,7 +208,6 @@ public class AdminController extends Engine implements StreamController, Initial
         }
     }
 
-
     /**
      * Add anime
      * 
@@ -214,7 +216,7 @@ public class AdminController extends Engine implements StreamController, Initial
      */
     @FXML
     void addAnimeclick() throws IOException { // TODO CHECK LATER
-        if(!addAnimeActive){
+        if (!addAnimeActive) {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAddAnime)));
             Parent root = fxmlLoader.load();
 
@@ -234,11 +236,34 @@ public class AdminController extends Engine implements StreamController, Initial
 
             addAnimeActive = true;
             scrollingText(yellow, msgWarning(addingAnime));
+
+            Thread th = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    while (addAnimeActive) {
+                        try {
+                            List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
+                            if (receivedResponse != null) {
+                                Platform.runLater(() -> {
+
+                                    setLongMessagge((Boolean) receivedResponse.get(0));
+                                    scrollingText(new Color((Double) receivedResponse.get(1),
+                                            (Double) receivedResponse.get(2), (Double) receivedResponse.get(3), 1),
+                                            (String) receivedResponse.get(4));
+                                });
+                            }
+                        } catch (Exception ignored) {
+                        }
+                    }
+                }
+            });
+            th.start();
         }
     }
 
     /**
-     * Delete Anime 
+     * Delete Anime
      * 
      * @return void
      */
@@ -247,58 +272,83 @@ public class AdminController extends Engine implements StreamController, Initial
         int pos = getAnimeList().indexOf(selectedAnime);
         deleteAnime(selectedAnime.getID());
 
-
         grid.getChildren().clear();
         reload(getAnimeList());
 
-
-        if (getAnimeList().size() == 1) { //CHECK forse spostare this.selectedeAnime = XXX ; inside the function setChosenAnime
+        if (getAnimeList().size() == 1) { // CHECK forse spostare this.selectedeAnime = XXX ; inside the function
+                                          // setChosenAnime
             this.selectedAnime = getAnimeList().get(0);
             setChosenAnime(getAnimeList().get(0));
-        } else if(getAnimeList().size() >1){ //CHECK anche qui
-            pos = pos-1 == -1 ? 0 : pos-1;
+        } else if (getAnimeList().size() > 1) { // CHECK anche qui
+            pos = pos - 1 == -1 ? 0 : pos - 1;
             this.selectedAnime = getAnimeList().get(pos);
             setChosenAnime(getAnimeList().get(pos));
-        }
-        else {                              //CHECK anche qui
+        } else { // CHECK anche qui
             this.selectedAnime = null;
             setChosenAnime(null);
         }
         scrollingText(red, msgDanger(animeDeleted));
     }
 
-     /**
+    /**
      * Edit Anime
      * 
      * @throws IOException
      * @return void
      */
     @FXML
-    void editAnime() throws IOException { 
-        if(!editAnimeActive){
+    void editAnime() throws IOException {
+        if (!editAnimeActive) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(guiEditAnime)));
             Parent root = fxmlLoader.load();
-            
+
             SetDataEdit sde = fxmlLoader.getController();
-            sde.setData(selectedAnime,os, is);
-            
+            sde.setData(selectedAnime, os, is);
+
             editAnimeStage = new Stage();
             editAnimeStage.getIcons().add(new Image(iconPath));
             editAnimeStage.setTitle(editingAnime);
             editAnimeStage.setScene(new Scene(root));
             editAnimeStage.setAlwaysOnTop(true);
             editAnimeStage.initModality(Modality.APPLICATION_MODAL);
-            editAnimeStage.setOnCloseRequest(windowEvent->editClose());
+            editAnimeStage.setOnCloseRequest(windowEvent -> editClose());
             editAnimeStage.setOnHiding(windowEvent -> editExit());
             editAnimeStage.setResizable(false);
             editAnimeStage.show();
 
             editAnimeActive = true;
             scrollingText(yellow, msgWarning(animeModification));
+            Thread th = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    while (editAnimeActive) {
+                        try {
+                            List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
+                            if (receivedResponse != null) {
+                                Platform.runLater(() -> {
+                                    setLongMessagge((Boolean) receivedResponse.get(0));
+                                    scrollingText(new Color((Double) receivedResponse.get(1),
+                                            (Double) receivedResponse.get(2), (Double) receivedResponse.get(3), 1),
+                                            (String) receivedResponse.get(4));
+                                });
+
+                            } else {
+                                System.out.println("aspetta");
+                                Thread.sleep(1700);
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    }
+                }
+
+            });
+            th.start();
         }
     }
-
 
     /**
      * Reload grid panel (anime)
@@ -309,7 +359,7 @@ public class AdminController extends Engine implements StreamController, Initial
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
 
-        if (al.size() > 0) { //TODO dinamico della posizione
+        if (al.size() > 0) { // TODO dinamico della posizione
             setChosenAnime(al.get(0));
             this.selectedAnime = al.get(0);
         } else {
@@ -330,20 +380,21 @@ public class AdminController extends Engine implements StreamController, Initial
                     row++;
                 }
                 grid.add(anchorPane, column++, row);
-                //set grid width
+                // set grid width
                 grid.setMinWidth(Region.USE_COMPUTED_SIZE);
                 grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 grid.setMaxWidth(Region.USE_PREF_SIZE);
-                //set grid height
+                // set grid height
                 grid.setMinHeight(Region.USE_COMPUTED_SIZE);
                 grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
                 grid.setMaxHeight(Region.USE_PREF_SIZE);
                 GridPane.setMargin(anchorPane, new Insets(8));
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
-    /** 
+    /**
      * Open CrunchyRoll link
      * 
      * @return void
@@ -352,7 +403,7 @@ public class AdminController extends Engine implements StreamController, Initial
         openLink(crunchyRollLink);
     }
 
-    /** 
+    /**
      * Open Link Anime
      *
      * @return void
@@ -369,20 +420,22 @@ public class AdminController extends Engine implements StreamController, Initial
      * @return void
      */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
+        if (keyEvent.getCode() == KeyCode.ENTER)
+            searchPress();
     }
 
     private void editExit() {
-        editAnimeActive=false;
+        editAnimeActive = false;
         editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        
+
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
-        if(receivedResponse!=null){
+        if (receivedResponse != null) {
             setLongMessagge((Boolean) receivedResponse.get(0));
-            scrollingText(new Color((Double) receivedResponse.get(1),(Double) receivedResponse.get(2),(Double) receivedResponse.get(3),1), (String) receivedResponse.get(4));  
+            scrollingText(new Color((Double) receivedResponse.get(1), (Double) receivedResponse.get(2),
+                    (Double) receivedResponse.get(3), 1), (String) receivedResponse.get(4));
         }
-        
+
         receiveAllAnime();
         reload(getAnimeList());
     }
@@ -392,24 +445,23 @@ public class AdminController extends Engine implements StreamController, Initial
      *
      * @return void
      */
-    public void editClose(){
-        editAnimeActive=false;
+    public void editClose() {
+        editAnimeActive = false;
         editAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotEdited));
+        scrollingText(red, msgDanger(animeNotEdited));
     }
 
-
     private void addExit() {
-        addAnimeActive=false;
+        addAnimeActive = false;
         addAnimeStage.setAlwaysOnTop(false); // aggiunto
         testoScroll.getChildren().clear();
 
- 
         List<Object> receivedResponse = (ArrayList<Object>) getExitMessagge();
-        if(receivedResponse!=null){
+        if (receivedResponse != null) {
             setLongMessagge((Boolean) receivedResponse.get(0));
-            scrollingText(new Color((Double) receivedResponse.get(1),(Double) receivedResponse.get(2),(Double) receivedResponse.get(3),1), (String) receivedResponse.get(4)); 
+            scrollingText(new Color((Double) receivedResponse.get(1), (Double) receivedResponse.get(2),
+                    (Double) receivedResponse.get(3), 1), (String) receivedResponse.get(4));
         }
 
         receiveAllAnime();
@@ -421,18 +473,18 @@ public class AdminController extends Engine implements StreamController, Initial
      *
      * @return void
      */
-    public void addClose(){
-        addAnimeActive=false;
-        addAnimeStage.setAlwaysOnTop(false); 
+    public void addClose() {
+        addAnimeActive = false;
+        addAnimeStage.setAlwaysOnTop(false);
         testoScroll.getChildren().clear();
-        scrollingText(red,msgDanger(animeNotAdded)); 
+        scrollingText(red, msgDanger(animeNotAdded));
     }
 
     /**
      * Set Admin Controller
      *
      * @param AdminController ac Admin Constroller
-     * @return void 
+     * @return void
      */
     public void setAc(AdminController ac) {
         this.ac = ac;
@@ -441,7 +493,7 @@ public class AdminController extends Engine implements StreamController, Initial
     /**
      * Set Add Anime Active
      *
-     * @param boolean addAnimeActive 
+     * @param boolean addAnimeActive
      * @return void
      */
     public void setAddAnimeActive(boolean addAnimeActive) {
@@ -474,7 +526,9 @@ public class AdminController extends Engine implements StreamController, Initial
      * @return void
      */
     public void scrollingText(Color color, String text) {
-        if(cnt2!=0){ resetScroll(); }
+        if (cnt2 != 0) {
+            resetScroll();
+        }
         Text scrollingText = new Text(text);
         testoScroll.getChildren().add(scrollingText);
         testoScroll.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
@@ -485,17 +539,17 @@ public class AdminController extends Engine implements StreamController, Initial
         scrollingText.setLayoutY(0);
         scrollingText.setWrappingWidth(0);
 
-        int time = text.length()/4*1000+1000;
+        int time = text.length() / 4 * 1000 + 1000;
         tt = new TranslateTransition(Duration.millis(time), scrollingText);
-        if(LongMessagge){
+        if (LongMessagge) {
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 410);
-            tt.setToX(scrollingText.getWrappingWidth()+30);
-        } else{
+            tt.setToX(scrollingText.getWrappingWidth() + 30);
+        } else {
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 350);
-            tt.setToX(scrollingText.getWrappingWidth()+50);
+            tt.setToX(scrollingText.getWrappingWidth() + 50);
         }
 
-        LongMessagge=false;
+        LongMessagge = false;
         tt.setCycleCount(1);
         tt.setAutoReverse(false);
         tt.play();
@@ -509,13 +563,15 @@ public class AdminController extends Engine implements StreamController, Initial
      *
      * @return void
      */
-    private void resetScroll(){
-        try{
-        testoScroll.getChildren().clear();
-        tt.stop();
-        timer.purge();
-        timer.cancel();
-    }catch (Exception ignored){}}
+    private void resetScroll() {
+        try {
+            testoScroll.getChildren().clear();
+            tt.stop();
+            timer.purge();
+            timer.cancel();
+        } catch (Exception ignored) {
+        }
+    }
 
     /**
      * Run Later
@@ -543,10 +599,8 @@ public class AdminController extends Engine implements StreamController, Initial
     @Override
     public void setStream(ObjectOutputStream os, ObjectInputStream is) {
         this.os = os;
-        this.is=is;
+        this.is = is;
         super.setStream(os, is);
     }
 
-
-    
 }
