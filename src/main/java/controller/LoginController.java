@@ -80,7 +80,6 @@ public class LoginController implements interfaces.StreamController, Initializab
         User user = new User(inputEmail.getText(),inputPassword.getText());
         send(user);
 
-        // TODO continuare sotto
 
         Boolean emailVerify = (Boolean) receive();
 

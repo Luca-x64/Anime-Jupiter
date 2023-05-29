@@ -25,7 +25,7 @@ public class ServerThread implements Runnable {
     private User user;
     private boolean isAdmin;
     private boolean verified = false;
-    private ArrayList<Object> exitMsg;
+    private ArrayList<Object> exitMsg = null;
 
     public ServerThread(Socket s, Database db) throws IOException {
         this.DB = db;
@@ -92,6 +92,7 @@ public class ServerThread implements Runnable {
                 }
                 case 9: { // getExitMessage
                     send(exitMsg);
+                    exitMsg=null;
                     break;
                 }
                 default: {

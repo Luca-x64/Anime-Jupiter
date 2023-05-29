@@ -3,7 +3,10 @@
 ## todolist:
 # front:
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
-    CHECK scroll messagge addAnime e editAnime working !?
+    CHECK correttezza funzionamento dei messaggi alert di add e edit anime
+    - posizione dei pannelli add e edit anime, 
+    - dimensione dei pannelli admin/user/login/register
+    - caratteri giapponesi su linux
 
 # back:
     - CHECK (not working) register (serverThread , autoLogin ) 
