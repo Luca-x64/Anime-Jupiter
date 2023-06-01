@@ -87,36 +87,38 @@ public class EditAnimeController extends Engine implements SetDataEdit {
             } else {
 
                 receiveAllAnime();
+
                 List<Anime> alCopy = new ArrayList<>(getAnimeList());
+                if (alCopy != null) {
+                    alCopy.removeIf(e -> e.getID() == animeSelected.getID());
 
-                alCopy.removeIf(e->e.getID() == animeSelected.getID());
-                
-                if (alCopy.stream().noneMatch(e -> stringFormat(e.getTitle()).equalsIgnoreCase(stringFormat(ttl)))) {
-                    if (!imgPath.equalsIgnoreCase(animeSelected.getImagePath())) {
-                        BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
-                        String fileName = selectedFile.getName().trim().replace(space, empty);
-                        String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
-                        fileName = ttl.toLowerCase(Locale.ROOT).replace(space, dash) + format;
-                        imgPath = imgAbsFolder + fileName;
-                        File newFile = new File(imgPath);
-                        format = format.replace(dot, empty);
-                        ImageIO.write(bi, format, newFile);
+                    if (alCopy.stream()
+                            .noneMatch(e -> stringFormat(e.getTitle()).equalsIgnoreCase(stringFormat(ttl)))) {
+                        if (!imgPath.equalsIgnoreCase(animeSelected.getImagePath())) {
+                            BufferedImage bi = ImageIO.read(selectedFile.toURI().toURL());
+                            String fileName = selectedFile.getName().trim().replace(space, empty);
+                            String format = fileName.substring(fileName.lastIndexOf(dot)).trim();
+                            fileName = ttl.toLowerCase(Locale.ROOT).replace(space, dash) + format;
+                            imgPath = imgAbsFolder + fileName;
+                            File newFile = new File(imgPath);
+                            format = format.replace(dot, empty);
+                            ImageIO.write(bi, format, newFile);
+                        }
+
+                        try {
+                            editAnime(animeSelected.getID(), ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y),
+                                    tr,
+                                    imgPath, link);
+
+                        } catch (NumberFormatException ne) {
+                            exit = 2;
+                        } catch (Exception ignored) {
+                            // System.err.println(ignored);
+                            exit = 3;
+                        }
+                    } else {
+                        exit = 4;
                     }
-
-                    try {
-                        editAnime(animeSelected.getID(), ttl, aut, edi, Integer.valueOf(epi), Integer.valueOf(y), tr,
-                                imgPath, link);
-
-                       
-
-                    } catch (NumberFormatException ne) {
-                        exit = 2;
-                    } catch (Exception ignored) {
-                        // System.err.println(ignored);
-                        exit = 3;
-                    }
-                } else {
-                    exit = 4;
                 }
             }
 
@@ -151,9 +153,9 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                 setExitMessagge(false, red, msgDanger(blankField));
                 break;
             }
-            default:{ // CHECK if needed
+            default: { // CHECK if needed
                 System.out.println("case exit default edit");
-                            }
+            }
         }
 
         // CHECK forse

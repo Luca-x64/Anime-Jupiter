@@ -9,8 +9,9 @@
     - caratteri giapponesi su linux
 
 # back:
-    - CHECK (not working) register (serverThread , autoLogin ) 
-
+    - CHECK (not working) register (serverThread , autoLogin )
+    - TODO close client, create a server exception (stampa null in console, exit = 6) 
+    - CHECK server close 
 
 # database:
     

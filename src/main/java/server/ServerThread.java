@@ -262,7 +262,7 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void send(Object o) {
+    private synchronized void send(Object o) {
         try {
             os.writeObject(o);
             os.flush();
@@ -272,7 +272,7 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private Object receive() {
+    private synchronized Object receive() {
         Object received = null;
         try {
             received = is.readObject();
