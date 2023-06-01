@@ -104,7 +104,7 @@ public class LoginController implements interfaces.StreamController, Initializab
 
     }
 
-    private void send(Object o) {
+    private synchronized void send(Object o) {
         try {
             os.writeObject(o);
             os.flush();
@@ -114,7 +114,7 @@ public class LoginController implements interfaces.StreamController, Initializab
         }
     }
 
-    private Object receive() {
+    private synchronized Object receive() {
         Object received = null;
         try {
             received = is.readObject();

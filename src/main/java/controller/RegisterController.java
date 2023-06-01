@@ -143,7 +143,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
 
     }
 
-    private void send(Object o) {
+    private synchronized void send(Object o) {
         try {
             os.writeObject(o);
             os.flush();
@@ -153,7 +153,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
         }
     }
 
-    private Object receive() {
+    private synchronized Object receive() {
         Object received = null;
         try {
             received = is.readObject();

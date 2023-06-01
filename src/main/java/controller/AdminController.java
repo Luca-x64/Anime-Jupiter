@@ -358,7 +358,7 @@ public class AdminController extends Engine implements StreamController, Initial
      */
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
-
+        if(al != null){
         if (al.size() > 0) { // TODO dinamico della posizione
             setChosenAnime(al.get(0));
             this.selectedAnime = al.get(0);
@@ -392,6 +392,10 @@ public class AdminController extends Engine implements StreamController, Initial
             }
         } catch (Exception ignored) {
         }
+            
+    }else{
+        System.out.println("liste vuota admin 397");
+    }
     }
 
     /**

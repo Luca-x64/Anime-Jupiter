@@ -33,7 +33,6 @@ public class Database {
 
     public void closeConnection()  {
         try {
-            st.close();
             conn.close();
         } catch (SQLException e) {
             System.out.println("Error in closing connection!");

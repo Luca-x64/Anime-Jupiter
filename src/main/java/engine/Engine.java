@@ -288,7 +288,7 @@ public class Engine implements StreamController, Data {
         return new Image(fIStream);
     }
 
-    private void send(Object o) {
+    private synchronized void send(Object o) {
         try {
             os.writeObject(o);
             os.flush();
@@ -298,7 +298,7 @@ public class Engine implements StreamController, Data {
         }
     }
 
-    private Object receive() {
+    private synchronized Object receive() {
         Object received = null;
         try {
             received = is.readObject();
