@@ -33,9 +33,10 @@ public class UserController extends Engine implements Initializable {
     @FXML
     private VBox chosenAnime;
     @FXML
-    private ImageView animeImg;
+    private ImageView animeImg, heart;
+
     @FXML
-    private Label animeTitle, ttlAnime,ttlJupiter;
+    private Label animeTitle, ttlAnime, ttlJupiter;
     @FXML
     private TextArea animeData;
     @FXML
@@ -52,17 +53,18 @@ public class UserController extends Engine implements Initializable {
     private TranslateTransition tt;
     private Timer timer;
     private boolean longMessagge = false;
-    private int cnt=0, cnt2=0;
+    private int cnt = 0, cnt2 = 0;
+
     /**
      * Initialize
      * 
-     * @param URL url
+     * @param URL            url
      * @param ResourceBundle resourceBundle
      * @return void
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       // reload(getAnimeList()); UPDATING PROCESS CHECK
+        // reload(getAnimeList()); UPDATING PROCESS CHECK
     }
 
     /**
@@ -71,7 +73,7 @@ public class UserController extends Engine implements Initializable {
      * @return void
      */
     @FXML
-    void sort(){
+    void sort() {
         inputBox.setText(empty);
         switch (cnt) {
             case 0 -> {
@@ -107,7 +109,7 @@ public class UserController extends Engine implements Initializable {
     @FXML
     void searchPress() {
         resetScroll();
-        
+
         String input = stringFormat(inputBox.getText());
         if (input.length() > 0) {
             List<Anime> resultQuery = query(input);
@@ -115,7 +117,7 @@ public class UserController extends Engine implements Initializable {
                 reload(resultQuery);
             } else {
                 reload(new ArrayList<>());
-                scrollingText(red,msgDanger(noAnime));
+                scrollingText(red, msgDanger(noAnime));
             }
         } else {
             reload(getAnimeList());
@@ -123,16 +125,16 @@ public class UserController extends Engine implements Initializable {
         }
     }
 
-    /** 
+    /**
      * Scrolling text
      *
-     * @param Color text color
+     * @param Color  text color
      * @param String text content
      * @return void
      */
     public void scrollingText(Color color, String text) {
 
-        if(cnt2!=0){
+        if (cnt2 != 0) {
             resetScroll();
         }
 
@@ -147,15 +149,15 @@ public class UserController extends Engine implements Initializable {
         scrollingText.setLayoutY(0);
         scrollingText.setWrappingWidth(0);
 
-        int time = text.length()/4*1000+1000;
+        int time = text.length() / 4 * 1000 + 1000;
         tt = new TranslateTransition(Duration.millis(time), scrollingText);
 
-        if(longMessagge){
+        if (longMessagge) {
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 410);
-            tt.setToX(scrollingText.getWrappingWidth()+30);
-        } else{
+            tt.setToX(scrollingText.getWrappingWidth() + 30);
+        } else {
             tt.setFromX(0 - scrollingText.getWrappingWidth() - 350);
-            tt.setToX(scrollingText.getWrappingWidth()+50);
+            tt.setToX(scrollingText.getWrappingWidth() + 50);
         }
 
         longMessagge = false;
@@ -166,27 +168,28 @@ public class UserController extends Engine implements Initializable {
         runLater(time);
     }
 
-    /** 
+    /**
      * Reset Scrolling text
      *
      * @return void
      */
-    private void resetScroll(){
-        try{
+    private void resetScroll() {
+        try {
             testoScroll.getChildren().clear();
             tt.stop();
             timer.purge();
             timer.cancel();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
-    /** 
+    /**
      * Run later with time
      *
      * @param int duration time
      * @return void
      */
-    public void runLater(int time){
+    public void runLater(int time) {
         timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -194,11 +197,11 @@ public class UserController extends Engine implements Initializable {
                 Platform.runLater(() -> testoScroll.getChildren().clear());
             }
         };
-        time*=2;
-        timer.schedule(timerTask,time,time);
+        time *= 2;
+        timer.schedule(timerTask, time, time);
     }
 
-    /** 
+    /**
      * Back to login window
      *
      * @throws IOException Exception
@@ -226,7 +229,7 @@ public class UserController extends Engine implements Initializable {
         timeline.play();
     }
 
-    /** 
+    /**
      * Set Chosen Anime
      *
      * @param Anime chosen anime
@@ -252,7 +255,8 @@ public class UserController extends Engine implements Initializable {
         }
     }
 
-    /** Reload Grid panel (anime)
+    /**
+     * Reload Grid panel (anime)
      *
      * @param List<Anime> anime list
      * @return void
@@ -260,7 +264,7 @@ public class UserController extends Engine implements Initializable {
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
 
-        if (al.size() > 0) { //todo dinamico della posizione ??
+        if (al.size() > 0) { // todo dinamico della posizione ??
             setChosenAnime(al.get(0));
             this.selectedAnime = al.get(0);
         } else {
@@ -294,10 +298,11 @@ public class UserController extends Engine implements Initializable {
                 grid.setMaxHeight(Region.USE_PREF_SIZE);
                 GridPane.setMargin(anchorPane, new Insets(8));
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
-    /** 
+    /**
      * Open CrunchyRoll link
      * 
      * @return void
@@ -306,24 +311,47 @@ public class UserController extends Engine implements Initializable {
         openLink(crunchyRollLink);
     }
 
-    /** 
+    // @FXML
+    public void addFavourite() {
+        
+        
+        boolean r = updateFavourite(selectedAnime.getID());
+        System.out.println("status update favourite: "+ r);
+        if (r) {
+            String percorsoImmagine = "/project/empty_heart.png";
+            System.out.println("update favourite status");
+            
+            // TODO @J7044
+        // Carica l'immagine dal percorso specificato
+
+        //percorsoImmagine = selectedAnime.favourite()?"/project/empty_heart.png":"/project/empty_heart.png";
+//
+        //Image nuovaImmagine = new Image(getClass().getResourceAsStream(percorsoImmagine));
+        //heart.setImage(nuovaImmagine);
+    }
+
+    }
+
+    /**
      * Open Link Anime
      *
      * @return void
      */
     @FXML
     void linkAnime() {
-        System.out.println("link: " + selectedAnime.getLink()); //DEBUG
+        System.out.println("link: " + selectedAnime.getLink()); // DEBUG
         openLink(selectedAnime.getLink());
     }
 
-    /** Enter press
+    /**
+     * Enter press
      *
      * @param KeyEvent keyEvent keyboard press
      * @return void
      */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) searchPress();
+        if (keyEvent.getCode() == KeyCode.ENTER)
+            searchPress();
     }
 
     public void begin() {

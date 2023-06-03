@@ -8,8 +8,11 @@ import java.net.Socket;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import database.Database;
 import jbcrypt.BCrypt;
@@ -26,6 +29,7 @@ public class ServerThread implements Runnable {
     private boolean isAdmin;
     private boolean verified = false;
     private ArrayList<Object> exitMsg = null;
+    private int user_id;
 
     public ServerThread(Socket s, Database db) throws IOException {
         this.DB = db;
@@ -92,8 +96,12 @@ public class ServerThread implements Runnable {
                 }
                 case 9: { // getExitMessage
                     send(exitMsg);
-                    exitMsg=null;
+                    exitMsg = null;
                     break;
+                }
+                case 10: { // favourite
+                    favourite();
+
                 }
                 default: {
                     // null
@@ -106,6 +114,49 @@ public class ServerThread implements Runnable {
                 System.err.println(e.getMessage());
             }
         }
+    }
+
+    private void favourite() {
+        boolean result = false;
+        int anime_id = (Integer) receive();
+
+        String selectQuery = "SELECT COUNT(*) FROM favourite WHERE user_id=? AND anime_id=?";
+        String deleteQuery = "DELETE FROM favourite WHERE user_id=? AND anime_id=?";
+        String insertQuery = "INSERT INTO favourite (user_id,anime_id) VALUES (?, ?)";
+
+        try {
+
+            // Verifica se esiste una riga con anime_id=1 e user_id=1
+            PreparedStatement selectStatement = DB.getConn().prepareStatement(selectQuery);
+            selectStatement.setInt(1, user_id);
+            selectStatement.setInt(2, anime_id);
+
+            ResultSet resultSet = selectStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+
+            if (count > 0) {
+                // Se esiste una riga, elimina la riga
+                PreparedStatement deleteStatement = DB.getConn().prepareStatement(deleteQuery);
+                deleteStatement.setInt(1, user_id);
+                deleteStatement.setInt(2, anime_id);
+                deleteStatement.executeUpdate();
+            } else {
+                // Se non esiste una riga, inserisci una nuova riga
+                PreparedStatement insertStatement = DB.getConn().prepareStatement(insertQuery);
+                insertStatement.setInt(1, user_id);
+                insertStatement.setInt(2, anime_id);
+                insertStatement.executeUpdate();
+            }
+
+            result = true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            // TODO remove sout, exception ignored
+        }
+
+        send(result);
+
     }
 
     private void updateAnime(Anime updated) {
@@ -232,6 +283,7 @@ public class ServerThread implements Runnable {
                 send(verified);
                 if (verified) {
                     isAdmin = rs.getBoolean("isAdmin");
+                    user_id = rs.getInt("id");
                     send(isAdmin);
                 }
             }
@@ -244,22 +296,35 @@ public class ServerThread implements Runnable {
 
     private void register() {
         String queryRegister = "INSERT INTO users (nome,email,password) VALUES (?,?,?)";
+        int response = 0;
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryRegister)) {
             pst.setString(1, user.getUsername());
             pst.setString(2, user.getEmail());
             pst.setString(3, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-            int response = pst.executeUpdate();
-            verified = response == 1;
-            if (verified) {
-                send(true);
-                login();
-            } else {
-                send(false);
+            response = pst.executeUpdate();
+            try {
+                verified = response == 1;
+                send(verified);
+                if (verified) {
+                    String queryGetId = "SELECT id FROM users WHERE email=" + user.getEmail();
+                    ResultSet rs;
+                    rs = DB.getConn().createStatement().executeQuery(queryGetId);
+    
+                    rs.next();
+                    user_id = rs.getInt("id");
+    
+                }
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            send(false);
+            send("Email already registered!");
         }
+
+        
+
     }
 
     private synchronized void send(Object o) {

@@ -9,6 +9,7 @@ public class Anime implements Serializable, Data {
     private final String title, author, publisher, plot,link,imagePath;
     private final Integer episodes,year;
     private int ID;
+    private boolean favourite = false;
 
     /** 
      * Anime Constructor
@@ -134,5 +135,10 @@ public class Anime implements Serializable, Data {
 
     public void setID(int iD) {
         ID = iD;
+    }
+
+    public boolean favourite() {
+        favourite = !favourite;
+        return favourite;
     }
 }

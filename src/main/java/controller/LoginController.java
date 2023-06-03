@@ -26,8 +26,6 @@ import java.util.ResourceBundle;
 
 import interfaces.StreamController;
 
-
-
 public class LoginController implements interfaces.StreamController, Initializable, Data {
 
     @FXML
@@ -48,19 +46,21 @@ public class LoginController implements interfaces.StreamController, Initializab
      * @return void
      */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
     @FXML
     void changeToRegister(MouseEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader((Objects.requireNonNull(getClass().getResource("/gui/register.fxml"))));
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    (Objects.requireNonNull(getClass().getResource("/gui/register.fxml"))));
             Parent root = fxmlLoader.load();
             StreamController sc = (fxmlLoader.getController());
             sc.setStream(os, is);
             Scene scene = loginBtn.getScene();
             root.translateYProperty().set(scene.getHeight());
             anchorPane.getChildren().add(root);
-    
+
             Timeline timeline = new Timeline();
             KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
             KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
@@ -70,36 +70,42 @@ public class LoginController implements interfaces.StreamController, Initializab
         } catch (Exception e) {
             // TODO: handle exception
         }
-       
+
     }
 
-
     public void login(MouseEvent event) {
-        loginBtn.setDisable(true);
+        String mail = inputEmail.getText().strip();
+        String pw = inputPassword.getText().strip();
 
-        User user = new User(inputEmail.getText(),inputPassword.getText());
-        send(user);
+        if (mail.equalsIgnoreCase("")) {
+            System.out.println("Mail can't be blank!");
+        } else if (pw.equalsIgnoreCase("")) {
+            System.out.println("Password can't be blank!");
+        } else {
 
+            loginBtn.setDisable(true);
+            User user = new User(mail, pw);
+            send(user);
 
-        Boolean emailVerify = (Boolean) receive();
-
-        if (emailVerify) {
-            Boolean isLogged = (Boolean) receive();
-            if (isLogged) {
-                boolean isAdmin = (Boolean) receive();
-                if (isAdmin) {
-                    adminSide();
+            Boolean emailVerify = (Boolean) receive();
+            if (emailVerify) {
+                Boolean isLogged = (Boolean) receive();
+                if (isLogged) {
+                    boolean isAdmin = (Boolean) receive();
+                    if (isAdmin) {
+                        adminSide();
+                    } else {
+                        userSide();
+                    }
                 } else {
-                    userSide();
+                    System.out.println("Wrong password!");
+                    loginBtn.setDisable(false);
                 }
+
             } else {
-                System.out.println("Wrong password!");
+                System.out.println("Wrong email!");
                 loginBtn.setDisable(false);
             }
-
-        } else {
-            System.out.println("Wrong email!");
-            loginBtn.setDisable(false);
         }
 
     }
@@ -135,18 +141,17 @@ public class LoginController implements interfaces.StreamController, Initializab
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
             Parent root = fxmlLoader.load();
-    
+
             AdminController ac = fxmlLoader.getController();
-            ac.setStream(os,is); 
+            ac.setStream(os, is);
             ac.begin();
-    
-    
+
             Scene adminScene = loginBtn.getScene();
             root.translateYProperty().set(adminScene.getHeight());
             anchorPane.getChildren().add(root);
-    
+
             // Transition
-    
+
             Timeline timeline = new Timeline();
             KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
             KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
@@ -156,7 +161,7 @@ public class LoginController implements interfaces.StreamController, Initializab
         } catch (Exception e) {
             // TODO: handle exception
         }
-      
+
     }
 
     /**
@@ -171,15 +176,15 @@ public class LoginController implements interfaces.StreamController, Initializab
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
             Parent root = fxmlLoader.load();
-    
+
             UserController uc = fxmlLoader.getController();
-            uc.setStream(os,is);
+            uc.setStream(os, is);
             uc.begin();
-                
+
             Scene userScene = loginBtn.getScene();
             root.translateYProperty().set(userScene.getHeight());
             anchorPane.getChildren().add(root);
-    
+
             // Transition
             Timeline timeline = new Timeline();
             KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
@@ -190,13 +195,13 @@ public class LoginController implements interfaces.StreamController, Initializab
         } catch (Exception e) {
             // TODO: handle exception
         }
-      
+
     }
 
     @Override
     public void setStream(ObjectOutputStream os, ObjectInputStream is) {
-        this.os=os;
-        this.is=is;
+        this.os = os;
+        this.is = is;
     }
-   
+
 }

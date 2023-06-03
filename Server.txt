@@ -1,4 +1,2 @@
 [SERVER ONLINE]
-[ClientHandler-1] STARTED 
-[ClientHandler-2] STARTED 
-Database connection closed!Server socket closed!
+Database connection closed!Server socket closed!RTED 

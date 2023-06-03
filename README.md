@@ -7,12 +7,10 @@
     - posizione dei pannelli add e edit anime, 
     - dimensione dei pannelli admin/user/login/register
     - caratteri giapponesi su linux
-
+    - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
+    - TODO fixare cambio immagine favourite anime (user coontroller)
 # back:
-    - CHECK (not working) register (serverThread , autoLogin )
-    - TODO close client, create a server exception (stampa null in console, exit = 6) 
-    - CHECK server close 
-
+    - TODO CHECK gestione errori
 # database:
     
 

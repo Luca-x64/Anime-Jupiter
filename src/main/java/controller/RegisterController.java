@@ -64,7 +64,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
             Scene scene = registerBtn.getScene();
             root.translateYProperty().set(scene.getHeight());
             anchorPane.getChildren().add(root);
-    
+
             Timeline timeline = new Timeline();
             KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
             KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
@@ -79,66 +79,38 @@ public class RegisterController implements interfaces.StreamController, Initiali
     @FXML
     void register(MouseEvent event) {
 
-        registerBtn.setDisable(true);
+        String username = inputName.getText().strip();
+        String mail = inputEmail.getText().strip();
+        String pw = inputPassword.getText().strip();
+        String checkpw = inputCheckPassword.getText().strip();
 
-        Boolean checkPassword = inputPassword.getText().equals(inputCheckPassword.getText());
-        if (checkPassword) {
-            User user = new User(inputName.getText(), inputEmail.getText(), inputPassword.getText());
-            send(user);
-
-            Boolean response = (Boolean) receive();
-            if (response) { // TODO
-                send(new User(user.getEmail(), user.getPassword()));
-                boolean isAdmin = (Boolean) receive();
-                if (isAdmin) {
-                    adminSide();
-                } else {
-                    userSide();
-                }
-
-           
+        if (username.equalsIgnoreCase("")) {
+            System.out.println("Username can't be blank!");
+        } else if (mail.equalsIgnoreCase("")) {
+            System.out.println("Mail can't be blank!");
+        } else if (pw.equalsIgnoreCase("")) {
+            System.out.println("Password can't be blank!");
+        } else if (checkpw.equalsIgnoreCase("")) {
+            System.out.println("Check Password can't be blank!");
         } else {
-            System.out.println("Cant create your account!");
-        }
-    }else
 
-    {
-        registerBtn.setDisable(false);
-    }
+            registerBtn.setDisable(true);
 
-    // gotoLogin();
+            Boolean checkPassword = pw.equals(checkpw);
+            if (checkPassword) {
+                User user = new User(username, mail, pw);
+                send(user);
 
-    }
-
-    // TODO controllare, non funziona
-    private void gotoLogin() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/gui/login.fxml")));
-            Parent root = fxmlLoader.load();
-            interfaces.StreamController controller = fxmlLoader.getController();
-            controller.setStream(os, is);
-            Scene loginScene = registerBtn.getScene();
-            root.translateYProperty().set(loginScene.getHeight());
-            anchorPane.getChildren().add(root);
-
-            // CHECK (idk)
-            // stage.setTitle(projectName);
-            // stage.getIcons().add(new Image(iconPath));
-            // stage.setScene(new Scene(root));
-            // stage.setResizable(false);
-            // stage.show();
-
-            // Transition
-
-            Timeline timeline = new Timeline();
-            KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
-            KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-            timeline.getKeyFrames().add(kf);
-            timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
-            timeline.play();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                Boolean response = (Boolean) receive();
+                if (response) {
+                    userSide();
+                } else {
+                    System.out.println((String) receive());
+                    registerBtn.setDisable(false);
+                }
+            } else{
+                registerBtn.setDisable(false);
+            }
         }
 
     }
@@ -163,6 +135,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
         }
         return received;
     }
+
     /**
      * Admin side
      * 
@@ -174,18 +147,17 @@ public class RegisterController implements interfaces.StreamController, Initiali
             registerBtn.setDisable(true);
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiAdmin)));
             Parent root = fxmlLoader.load();
-    
+
             AdminController ac = fxmlLoader.getController();
-            ac.setStream(os,is); 
+            ac.setStream(os, is);
             ac.begin();
-    
-    
+
             Scene adminScene = registerBtn.getScene();
             root.translateYProperty().set(adminScene.getHeight());
             anchorPane.getChildren().add(root);
-    
+
             // Transition
-    
+
             Timeline timeline = new Timeline();
             KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
             KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
@@ -196,7 +168,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
             System.err.println("cant load admin panel");
             System.exit(4);
         }
-      
+
     }
 
     /**
@@ -211,15 +183,15 @@ public class RegisterController implements interfaces.StreamController, Initiali
 
             FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(guiUser)));
             Parent root = fxmlLoader.load();
-    
+
             UserController uc = fxmlLoader.getController();
-            uc.setStream(os,is);
+            uc.setStream(os, is);
             uc.begin();
-                
+
             Scene userScene = registerBtn.getScene();
             root.translateYProperty().set(userScene.getHeight());
             anchorPane.getChildren().add(root);
-    
+
             // Transition
             Timeline timeline = new Timeline();
             KeyValue kv = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
@@ -231,9 +203,8 @@ public class RegisterController implements interfaces.StreamController, Initiali
             System.err.println("cant load admin panel");
             System.exit(5);
         }
-      
-    }
 
+    }
 
     // /**
     // * Admin side
