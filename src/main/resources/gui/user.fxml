@@ -79,6 +79,14 @@
                                 <Font name="Tahoma" size="25.0" />
                             </font>
                         </Label>
+                  <ImageView fx:id="heart" fitHeight="84.0" fitWidth="84.0" nodeOrientation="INHERIT" onMouseClicked="#addFavourite">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <image>
+                        <Image url="@../img/project/full_heart.png" />
+                     </image>
+                  </ImageView>
                     </HBox>
                     <ImageView fx:id="animeImg" fitHeight="170.0" fitWidth="323.0" onMouseClicked="#linkAnime" pickOnBounds="true" preserveRatio="true">
                         <VBox.margin>

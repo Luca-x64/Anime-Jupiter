@@ -11,6 +11,8 @@ import java.io.*;
 import java.net.URI;
 import java.util.*;
 
+import com.mysql.cj.xdevapi.PreparableStatement;
+
 import interfaces.StreamController;
 
 public class Engine implements StreamController, Data {
@@ -286,6 +288,14 @@ public class Engine implements StreamController, Data {
         File file = new File(path);
         FileInputStream fIStream = new FileInputStream(file);
         return new Image(fIStream);
+    }
+
+    protected boolean updateFavourite(int anime_id){
+        boolean success = false;
+        send(10);
+        send(anime_id);
+        success=(Boolean) receive();
+        return success;
     }
 
     private synchronized void send(Object o) {
