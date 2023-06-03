@@ -1,4 +1,5 @@
 # Anime Jupiter
+developing second release
 
 # TODO-List:
 ## Front-End:
@@ -11,11 +12,11 @@
     - TODO fixare cambio immagine favourite anime (user coontroller)
 ## Back-End:
     - TODO CHECK gestione errori
-## database:
+## DataBase:
     
 
 
-# bug:
+# Bug:
     - OpenLink (Engine) non funziona su linux
     - Caratteri giapponesi su linux non vengono mostrati (trovare dipendenza corretta)
     - Dimensioni finestre da sistemare su linux
@@ -27,7 +28,7 @@
          `manuel,manuel@gmail.com,manuel`
 
 
-For run the program: 
+#For run the program: 
 ```
 mvn javafx:run@server / mvn clean javafx:run@server
 mvn javafx:run@client / mvn clean javafx:run@client 
