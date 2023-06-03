@@ -1,23 +1,24 @@
 # Anime Jupiter
 
-## todolist:
-# front:
+# TODO-List:
+## Front-End:
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
-    CHECK correttezza funzionamento dei messaggi alert di add e edit anime
+    - CHECK correttezza funzionamento dei messaggi alert di add e edit anime
     - posizione dei pannelli add e edit anime, 
     - dimensione dei pannelli admin/user/login/register
     - caratteri giapponesi su linux
     - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
     - TODO fixare cambio immagine favourite anime (user coontroller)
-# back:
+## Back-End:
     - TODO CHECK gestione errori
-# database:
+## database:
     
 
 
 # bug:
-    
     - OpenLink (Engine) non funziona su linux
+    - Caratteri giapponesi su linux non vengono mostrati (trovare dipendenza corretta)
+    - Dimensioni finestre da sistemare su linux
 
 
 # Users: [name,email,pw]
@@ -33,5 +34,5 @@ mvn javafx:run@client / mvn clean javafx:run@client
 ```
 
 # Credits:
-- BCrypt: https://www.mindrot.org/projects/jBCrypt/
+- BCrypt: https://www.mindrot.org/projects/jBCrypt/  `(Blowfish password hashing algorithm)`
 
