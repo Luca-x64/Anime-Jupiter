@@ -1,2 +1,0 @@
-[SERVER ONLINE]
-Database connection closed!Server socket closed!RTED 
