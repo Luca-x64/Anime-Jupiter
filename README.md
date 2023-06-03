@@ -10,8 +10,10 @@ developing second release
     - caratteri giapponesi su linux
     - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
     - TODO fixare cambio immagine favourite anime (user coontroller)
+    - TODO add button filter favourite anime
 ## Back-End:
     - TODO CHECK gestione errori
+    - TODO button filter favourite
 ## DataBase:
     
 
