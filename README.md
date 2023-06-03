@@ -17,23 +17,13 @@
 
 # bug:
     
-    - OpenLink (Engine) non funziona => crash 
+    - OpenLink (Engine) non funziona su linux
 
 
 # Users: [name,email,pw]
 - Admin: `admin, admin@gmail.com,admin`
 - others: `luca,luca@gmail.com,luca`,
          `manuel,manuel@gmail.com,manuel`
-
-
-== How to kill the process with the xx port used:
-- Windows: 
-`netstat -ano | findstr 20006 `
-`taskkill /PID <PID> /F`
-- Linux: (non serve perchè è un sistema fatto bene)
-
-== Sql tips:
-ALTER TABLE tablename AUTO_INCREMENT = `<N>`
 
 
 For run the program: 
