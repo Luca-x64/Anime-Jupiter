@@ -1,0 +1,34 @@
+crea una query sql per inserire nella tabella "anime" i dati di 100 anime, genera i dati degli anime seguendo questo schema:
+title: titolo	
+author: autore	
+publisher: chi lo ha pubblicato
+plot: descrizione
+link	: link del trailer di youtube
+imagePath: lascia per tutti null
+episodes: numero degli episodi
+year: anno di uscita
+
+
+INSERT INTO anime (title, author, publisher, plot, link, imagePath, episodes, year)
+VALUES
+    ('Attack on Titan', 'Hajime Isayama', 'Kodansha', 'In a world where humanity is on the brink of extinction...', 'https://www.youtube.com/watch?v=1Mz4pG6YOAM', NULL, 75, 2013),
+    ('One Piece', 'Eiichiro Oda', 'Shueisha', 'Monkey D. Luffy sets out on a journey to become the King of the Pirates...', 'https://www.youtube.com/watch?v=Xy8J4T5UahQ', NULL, 1000, 1999),
+    ('Demon Slayer: Kimetsu no Yaiba', 'Koyoharu Gotouge', 'Shueisha', 'Tanjiro Kamado embarks on a quest to avenge his family and find a cure for his sister...', 'https://www.youtube.com/watch?v=pmanD_sF0A0', NULL, 26, 2019),
+    ('Naruto', 'Masashi Kishimoto', 'Shueisha', 'Naruto Uzumaki, a young ninja with a sealed demon within him, dreams of becoming the Hokage...', 'https://www.youtube.com/watch?v=8Paf7tXGzD8', NULL, 220, 2002),
+    ('My Hero Academia', 'Kohei Horikoshi', 'Shueisha', 'Izuku Midoriya, a young boy without superpowers in a world where they are the norm, strives to become a hero...', 'https://www.youtube.com/watch?v=sJf9MvuFwb0', NULL, 117, 2016),
+    ('Fullmetal Alchemist: Brotherhood', 'Hiromu Arakawa', 'Square Enix', 'Two brothers, Edward and Alphonse Elric, search for the Philosopher\'s Stone to restore their bodies after a failed alchemical experiment...', 'https://www.youtube.com/watch?v=5-sfG8BV8wU', NULL, 64, 2009),
+    ('Hunter x Hunter', 'Yoshihiro Togashi', 'Shueisha', 'Gon Freecss sets out on a journey to become a Hunter and find his absentee father...', 'https://www.youtube.com/watch?v=ORxQqmtHv-8', NULL, 148, 2011),
+    ('Death Note', 'Tsugumi Ohba', 'Shueisha', 'Light Yagami discovers a supernatural notebook that allows him to kill anyone by writing their name in it...', 'https://www.youtube.com/watch?v=OinZnL9-42A', NULL, 37, 2006),
+    ('Sword Art Online', 'Reki Kawahara', 'ASCII Media Works', 'In the virtual reality MMORPG "Sword Art Online", players become trapped and must clear the game to escape...', 'https://www.youtube.com/watch?v=MMmB9B0rOj0', NULL, 96, 2012),
+    ('Tokyo Ghoul', 'Sui Ishida', 'Shueisha', 'Ken Kaneki, a college student, becomes a half-ghoul after a violent encounter and must navigate the dangerous world of ghouls and humans...', 'https://www.youtube.com/watch?v=DK0jZ8r0wFs', NULL, 48, 2014),
+    ('Dragon Ball Z', 'Akira Toriyama', 'Shueisha', 'Goku and his friends defend the Earth from powerful enemies using their martial arts skills and the power of the Dragon Balls...', 'https://www.youtube.com/watch?v=060_8NL2bzM', NULL, 291, 1989),
+    ('Fairy Tail', 'Hiro Mashima', 'Kodansha', 'Lucy Heartfilia joins the Fairy Tail guild and embarks on magical adventures with Natsu Dragneel and his friends...', 'https://www.youtube.com/watch?v=j7tTaNqBGHo', NULL, 328, 2009),
+    ('One Punch Man', 'ONE', 'Shueisha', 'Saitama, a superhero who can defeat any opponent with a single punch, seeks to find a worthy opponent...', 'https://www.youtube.com/watch?v=2JAElThbKrI', NULL, 24, 2015),
+    ('Bleach', 'Tite Kubo', 'Shueisha', 'Ichigo Kurosaki becomes a Soul Reaper and protects the living world from malevolent spirits and Hollows...', 'https://www.youtube.com/watch?v=9JZQe6vhJG4', NULL, 366, 2004),
+    ('Black Clover', 'Yuki Tabata', 'Shueisha', 'Asta, a young boy without magical abilities, aims to become the Wizard King in a world where magic is everything...', 'https://www.youtube.com/watch?v=-y5gs5X6vp8', NULL, 170, 2017),
+    ('JoJo\'s Bizarre Adventure', 'Hirohiko Araki', 'Shueisha', 'The Joestar family battles against supernatural threats across different generations...', 'https://www.youtube.com/watch?v=8CEzhQ0WyVQ', NULL, 152, 2012),
+    ('Dragon Ball Super', 'Akira Toriyama', 'Shueisha', 'Goku and his friends face new powerful enemies in a series of epic battles...', 'https://www.youtube.com/watch?v=Ugwp8zUkT1k', NULL, 131, 2015),
+    ('Attack on Titan: The Final Season', 'Hajime Isayama', 'Kodansha', 'The last battle between humanity and the Titans unfolds as the truth behind their existence is revealed...', 'https://www.youtube.com/watch?v=TpXnqD3_vWw', NULL, 16, 2020),
+    ('Haikyu!!', 'Haruichi Furudate', 'Shueisha', 'Shoyo Hinata, a short-statured volleyball enthusiast, aims to become a great player despite his height...', 'https://www.youtube.com/watch?v=0P9w6WtDXl4', NULL, 85, 2014),
+    ('Naruto Shippuden', 'Masashi Kishimoto', 'Shueisha', 'The story continues as Naruto Uzumaki and his friends face more powerful enemies in their quest for peace...', 'https://www.youtube.com/watch?v=JNLhb3zXxkA', NULL, 500, 2007),
+    
