@@ -311,6 +311,11 @@ public class UserController extends Engine implements Initializable {
         openLink(crunchyRollLink);
     }
 
+    protected void getFavourite(){
+        List<Anime> favouriteAnime = getSuperFavourite();
+        reload(favouriteAnime);
+    }
+
     // @FXML
     public void addFavourite() {
         
