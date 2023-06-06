@@ -35,6 +35,8 @@ public class RegisterController implements interfaces.StreamController, Initiali
     @FXML
     private Label registerBtn;
     @FXML
+    private Label loginDisable;
+    @FXML
     private TextField inputName, inputEmail, inputPassword, inputCheckPassword;
     @FXML
     private AnchorPane anchorPane;
@@ -71,6 +73,8 @@ public class RegisterController implements interfaces.StreamController, Initiali
             timeline.getKeyFrames().add(kf);
             timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
             timeline.play();
+             //make not show more time the animation
+             loginDisable.setDisable(true);
         } catch (Exception e) {
             // TODO: handle exception
         }

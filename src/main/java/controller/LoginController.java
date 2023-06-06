@@ -30,6 +30,9 @@ public class LoginController implements interfaces.StreamController, Initializab
 
     @FXML
     private Label loginBtn;
+
+    @FXML
+    private Label registerDisable;
     @FXML
     private TextField inputEmail, inputPassword;
     @FXML
@@ -67,6 +70,9 @@ public class LoginController implements interfaces.StreamController, Initializab
             timeline.getKeyFrames().add(kf);
             timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
             timeline.play();
+            //make not show more time the animation
+            registerDisable.setDisable(true);
+        
         } catch (Exception e) {
             // TODO: handle exception
         }
