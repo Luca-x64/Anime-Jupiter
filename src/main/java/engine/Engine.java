@@ -2,6 +2,7 @@ package engine;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import main.App;
 import main.Data;
 import model.Anime;
 import model.User;
@@ -10,6 +11,9 @@ import java.awt.Desktop;
 import java.io.*;
 import java.net.URI;
 import java.util.*;
+import javafx.application.Application;
+import javafx.application.HostServices;
+import javafx.application.Platform;
 
 import com.mysql.cj.xdevapi.PreparableStatement;
 
@@ -69,36 +73,36 @@ public class Engine implements StreamController, Data {
         boolean response = (Boolean) receive();
         if (response) {
             System.out.println("Anime added!"); // DEBUG
-            setExitMessagge(false,green,msgSuccess(animeAdded));
+            setExitMessagge(false, green, msgSuccess(animeAdded));
             receiveAllAnime();
         } else {
             System.out.println("Can't add Anime!"); // DEBUG
-            setExitMessagge(false,red,msgWarning(animeNotAdded));
+            setExitMessagge(false, red, msgWarning(animeNotAdded));
         }
     }
 
-    protected void editAnime(int id,String ttl,String aut,String pub,int epi,int y, String pl,String imgPath, String link){
+    protected void editAnime(int id, String ttl, String aut, String pub, int epi, int y, String pl, String imgPath,
+            String link) {
         Anime editedAnime = new Anime(ttl, aut, pub, epi, y, pl, imgPath, link);
         editedAnime.setID(id);
         send(6);
         send(editedAnime);
         boolean response = (Boolean) receive();
-        if(response){
+        if (response) {
             System.out.println("Anime Edited!"); // DEBUG
-            setExitMessagge(false,green,msgSuccess(animeEdited));
+            setExitMessagge(false, green, msgSuccess(animeEdited));
             receiveAllAnime();
-        }else{
-            System.out.println("Can't edit anime"); //DEBUG
-            setExitMessagge(false,red,msgWarning(animeNotEdited));
+        } else {
+            System.out.println("Can't edit anime"); // DEBUG
+            setExitMessagge(false, red, msgWarning(animeNotEdited));
         }
     }
 
+    protected void editOpened() {
 
-    protected void editOpened(){
-       
     }
 
-    protected void setLowerStream(StreamController sc){
+    protected void setLowerStream(StreamController sc) {
         sc.setStream(os, is);
     }
 
@@ -128,8 +132,7 @@ public class Engine implements StreamController, Data {
         return displayedAnimeList;
     }
 
-
-    protected void setExitMessagge (boolean longMessagge,Color color,String msg){
+    protected void setExitMessagge(boolean longMessagge, Color color, String msg) {
         List<Object> output = new ArrayList<>();
         output.add(longMessagge);
         output.add(color.getRed());
@@ -140,11 +143,12 @@ public class Engine implements StreamController, Data {
         send(output);
     }
 
-    protected List<Object> getExitMessagge(){
+    protected List<Object> getExitMessagge() {
         send(9);
         List<Object> output = (ArrayList<Object>) receive();
         return output;
     }
+
     /**
      * Sort Title
      * 
@@ -197,7 +201,7 @@ public class Engine implements StreamController, Data {
         return al.stream().noneMatch(e -> stringFormat(e.getTitle()).equals(stringFormat(ttl)));
     }
 
-    protected void logout(){
+    protected void logout() {
         send(7);
     }
 
@@ -238,20 +242,35 @@ public class Engine implements StreamController, Data {
      * @return void
      */
     public void openLink(String url) {
+        Platform.runLater(() -> {
+            // Ottieni l'oggetto HostServices dalla piattaforma JavaFX
+            HostServices hostServices = App.getHostServicesInstance();
 
-        try {
-            Desktop desktop = java.awt.Desktop.getDesktop();
-            URI uri = new URI(url);
+            // Apri l'URL specificato nel browser predefinito
+            hostServices.showDocument(url);
 
-            if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
-                desktop.browse(uri);
-            } else {
-                System.out.println("Desktop browsing is not supported on this platform.");
-                // Handle the case when desktop browsing is not supported
-            }
-        } catch (Exception e) {
-            System.out.println(errorLink + url);
-        }
+        });
+        // try {
+        // // Specifica l'URL che desideri aprire
+        // System.out.println(1);
+        // // Verifica se Desktop è supportato sulla piattaforma corrente
+        // if (Desktop.isDesktopSupported()) {
+        // Desktop desktop = Desktop.getDesktop();
+        // System.out.println(2);
+        // // Verifica se l'azione di apertura del link è supportata
+        // if (desktop.isSupported(Desktop.Action.BROWSE)) {
+        // // Apre l'URL specificato nel browser predefinito
+        // System.out.println(3);
+        // desktop.browse(new URI(url));
+        // } else {
+        // System.out.println("Desktop browsing is not supported on this platform.");
+        // }
+        // } else {
+        // System.out.println("Desktop non è supportato sulla piattaforma corrente.");
+        // }
+        // } catch (Exception e) {
+        // System.out.println(errorLink + url);
+        // }
 
     }
 
@@ -290,11 +309,11 @@ public class Engine implements StreamController, Data {
         return new Image(fIStream);
     }
 
-    protected boolean updateFavourite(int anime_id){
+    protected boolean updateFavourite(int anime_id) {
         boolean success = false;
         send(10);
         send(anime_id);
-        success=(Boolean) receive();
+        success = (Boolean) receive();
         return success;
     }
 

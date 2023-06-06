@@ -19,7 +19,6 @@ developing second release
 
 
 # Bug:
-    - OpenLink (Engine) non funziona su linux
     - Caratteri giapponesi su linux non vengono mostrati (trovare dipendenza corretta)
     - Dimensioni finestre da sistemare su linux
 

@@ -1,6 +1,7 @@
 package main;
 
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ public class App extends Application implements Data {
     }
 
     private Socket socket;
+    private static HostServices hostServices;
 
     /**
      * Loading and showing the Start Window
@@ -36,6 +38,7 @@ public class App extends Application implements Data {
      */
     @Override
     public void start(Stage stage) {
+        hostServices = getHostServices();
         int cnt = 0;
         boolean connected = false;
         while (cnt < 3 && socket == null) {
@@ -79,4 +82,7 @@ public class App extends Application implements Data {
 
     }
 
+    public static HostServices getHostServicesInstance() {
+        return hostServices;
+    }
 }
