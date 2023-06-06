@@ -201,6 +201,14 @@ public class Engine implements StreamController, Data {
         return al.stream().noneMatch(e -> stringFormat(e.getTitle()).equals(stringFormat(ttl)));
     }
 
+
+    protected List<Anime> getSuperFavourite(){
+        send(2);
+        List<Anime> animeList = (ArrayList<Anime>) receive();
+        return animeList;
+    }
+
+
     protected void logout() {
         send(7);
     }

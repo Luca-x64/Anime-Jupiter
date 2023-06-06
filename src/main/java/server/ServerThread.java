@@ -57,7 +57,6 @@ public class ServerThread implements Runnable {
                     break;
                 }
                 case 2: {
-                    int user_id = (Integer) receive();
                     selectAnime("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where id=\""
                             + user_id + "\"");
                     break;
