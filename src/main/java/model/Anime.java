@@ -6,8 +6,8 @@ import main.Data;
 
 public class Anime implements Serializable, Data {
 
-    private final String title, author, publisher, plot,link,imagePath;
-    private final Integer episodes,year;
+    private String title, author, publisher, plot,link,imagePath;
+    private Integer episodes,year;
     private int ID;
     private boolean favourite = false;
 
@@ -139,6 +139,9 @@ public class Anime implements Serializable, Data {
 
     public boolean favourite() {
         favourite = !favourite;
+        return favourite;
+    }
+    public boolean getFavourite(){
         return favourite;
     }
 }
