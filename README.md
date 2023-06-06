@@ -6,8 +6,7 @@ developing second release
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
     - CHECK correttezza funzionamento dei messaggi alert di add e edit anime
     - posizione dei pannelli add e edit anime, 
-    - dimensione dei pannelli admin/user/login/register
-    - caratteri giapponesi su linux
+    - TODO dimensione dei pannelli admin/user/login/register
     - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
     - TODO fixare cambio immagine favourite anime (user coontroller)
     - TODO add button filter favourite anime
@@ -19,7 +18,6 @@ developing second release
 
 
 # Bug:
-    - Dimensioni finestre da sistemare su linux
 
 
 # Users: [name,email,pw]
