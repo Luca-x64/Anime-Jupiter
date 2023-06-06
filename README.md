@@ -10,6 +10,7 @@ developing second release
     - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
     - TODO fixare cambio immagine favourite anime (user coontroller)
     - TODO add button filter favourite anime
+    - TODO in user controller, per l'anime selezionato, visualizzare dinamicamente lo stato del preferito ( Object Anime.getFavourite() )
     
 ## Back-End:
     - TODO CHECK gestione errori
