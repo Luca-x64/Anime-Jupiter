@@ -19,7 +19,6 @@ developing second release
 
 
 # Bug:
-    - Caratteri giapponesi su linux non vengono mostrati (trovare dipendenza corretta)
     - Dimensioni finestre da sistemare su linux
 
 
@@ -30,6 +29,9 @@ developing second release
 
 
 # For run the program: 
+
+Required Japanese character: `noto-fonts-cjk` on endevour OS (Arch)
+
 ```
 mvn javafx:run@server / mvn clean javafx:run@server
 mvn javafx:run@client / mvn clean javafx:run@client 
