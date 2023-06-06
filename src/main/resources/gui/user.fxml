@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
     <BorderPane layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <left>
             <VBox depthTest="ENABLE" prefHeight="200.0" prefWidth="435.0" style="-fx-background-color: #212529;" styleClass="right-bar" BorderPane.alignment="CENTER">
@@ -126,18 +126,18 @@
                         <Insets left="20.0" />
                     </VBox.margin>
                     <HBox fx:id="testoScroll" alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="619.0" />
-                    <Pane prefHeight="106.0" prefWidth="238.0" style="-fx-background-color: #2a2e2f;" HBox.hgrow="NEVER">
+                    <Pane prefHeight="106.0" prefWidth="547.0" style="-fx-background-color: #2a2e2f;" HBox.hgrow="NEVER">
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
-                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="134.0" layoutY="12.0" nodeOrientation="INHERIT" onMouseClicked="#crunchyRollLink">
+                        <ImageView fitHeight="84.0" fitWidth="84.0" layoutX="277.0" layoutY="12.0" nodeOrientation="INHERIT" onMouseClicked="#crunchyRollLink">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                             <Image url="@../img/project/logo.png" />
                         </ImageView>
-                        <Button layoutY="30.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
-                        <Button fx:id="sortButton" layoutX="4.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
+                        <Button layoutX="148.0" layoutY="27.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
+                        <Button fx:id="sortButton" layoutX="152.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="22.0" />
                             </font>
@@ -145,6 +145,15 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
+                  <Button layoutX="22.0" layoutY="26.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="favourite radius" />
+                  <Button fx:id="sortButton1" layoutX="26.0" layoutY="29.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="109.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" textFill="WHITE">
+                     <font>
+                        <Font name="Tahoma" size="22.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
                     </Pane>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="652.0" prefWidth="865.0" VBox.vgrow="ALWAYS">

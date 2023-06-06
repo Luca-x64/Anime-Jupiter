@@ -83,7 +83,7 @@
                      <Font name="Tahoma Bold" size="29.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" layoutX="-4.0" layoutY="6.0" onMouseClicked="#changeToRegister" prefHeight="62.0" prefWidth="163.0" text="Register" textFill="WHITE">
+               <Label fx:id="registerDisable" alignment="CENTER" layoutX="-4.0" layoutY="6.0" onMouseClicked="#changeToRegister" prefHeight="62.0" prefWidth="163.0" text="Register" textFill="WHITE">
                   <font>
                      <Font size="29.0" />
                   </font>

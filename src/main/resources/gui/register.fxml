@@ -94,7 +94,7 @@
                      <Font name="Tahoma Bold" size="30.0" />
                   </font>
                </Label>
-               <Label layoutX="-4.0" layoutY="2.0" onMouseClicked="#backToLogin" prefHeight="82.0" prefWidth="115.0" text="Login" textFill="WHITE">
+               <Label fx:id="loginDisable" layoutX="-4.0" layoutY="2.0" onMouseClicked="#backToLogin" prefHeight="82.0" prefWidth="115.0" text="Login" textFill="WHITE">
                   <font>
                      <Font name="Tahoma Bold" size="30.0" />
                   </font>
