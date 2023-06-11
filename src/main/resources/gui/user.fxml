@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserController">
     <BorderPane layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <left>
             <VBox depthTest="ENABLE" prefHeight="200.0" prefWidth="435.0" style="-fx-background-color: #212529;" styleClass="right-bar" BorderPane.alignment="CENTER">
@@ -74,17 +74,17 @@
                         <VBox.margin>
                             <Insets top="30.0" />
                         </VBox.margin>
-                        <Label fx:id="animeTitle" alignment="CENTER" prefHeight="38.0" prefWidth="248.0" text="Titolo" textFill="WHITE">
+                        <Label fx:id="animeTitle" alignment="CENTER" prefHeight="38.0" prefWidth="303.0" text="Titolo" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="25.0" />
                             </font>
                         </Label>
-                  <ImageView fx:id="heart" fitHeight="84.0" fitWidth="84.0" nodeOrientation="INHERIT" onMouseClicked="#addFavourite">
+                  <ImageView fx:id="heart" fitHeight="52.0" fitWidth="52.0" nodeOrientation="INHERIT" onMouseClicked="#addFavourite">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
-                        <Image url="@../img/project/full_heart.png" />
+                        <Image url="@../img/project/empty_heart.png" />
                      </image>
                   </ImageView>
                     </HBox>
@@ -145,8 +145,8 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
-                  <Button layoutX="22.0" layoutY="26.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="favourite radius" />
-                  <Button fx:id="sortButton1" layoutX="26.0" layoutY="29.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="109.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" textFill="WHITE">
+                  <Button layoutX="43.0" layoutY="26.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="74.0" style="-fx-background-radius: 30;" text="favourite radius" />
+                  <Button fx:id="sortButton1" layoutX="48.0" layoutY="29.0" mnemonicParsing="false" onMouseClicked="#favouriteSort" prefHeight="42.0" prefWidth="64.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" textFill="WHITE">
                      <font>
                         <Font name="Tahoma" size="22.0" />
                      </font>
@@ -154,6 +154,14 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <ImageView fx:id="heart1" fitHeight="46.0" fitWidth="50.0" layoutX="55.0" layoutY="25.0" mouseTransparent="true" nodeOrientation="INHERIT" onMouseClicked="#addFavourite">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <image>
+                        <Image url="@../img/project/full_heart.png" />
+                     </image>
+                  </ImageView>
                     </Pane>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="652.0" prefWidth="865.0" VBox.vgrow="ALWAYS">

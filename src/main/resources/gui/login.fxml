@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1300.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<AnchorPane fx:id="anchorPane" prefHeight="800.0" prefWidth="1300.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <ImageView fitHeight="800.0" fitWidth="1441.0" layoutX="-141.0">
         <Image url="@../img/project/background.gif" />
     </ImageView>
@@ -83,9 +83,9 @@
                      <Font name="Tahoma Bold" size="29.0" />
                   </font>
                </Label>
-               <Label fx:id="registerDisable" alignment="CENTER" layoutX="-4.0" layoutY="6.0" onMouseClicked="#changeToRegister" prefHeight="62.0" prefWidth="163.0" text="Register" textFill="WHITE">
+               <Label fx:id="registerDisable" alignment="CENTER" layoutX="-3.0" layoutY="6.0" onMouseClicked="#changeToRegister" prefHeight="62.0" prefWidth="163.0" text="Register" textFill="WHITE">
                   <font>
-                     <Font size="29.0" />
+                     <Font name="Tahoma Bold" size="29.0" />
                   </font>
                </Label>
             </children>
