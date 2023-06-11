@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -100,6 +101,19 @@ public class UserController extends Engine implements Initializable {
         }
         cnt++;
     }
+
+    @FXML
+    void favouriteSort(MouseEvent event) {
+
+        List<Anime> f = getSuperFavourite();
+        if(f.size()>0){
+            reload(f);
+        } else {
+            scrollingText(red, msgDanger(noAnime));
+        }
+        
+    }
+
 
     /**
      * Search Button Click

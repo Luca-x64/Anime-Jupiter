@@ -58,8 +58,8 @@ public class ServerThread implements Runnable {
                     break;
                 }
                 case 2: {
-                    selectAnime("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where id=\""
-                            + user_id + "\"");
+                    System.out.println(user_id);
+                    selectAnime("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where user_id = '"+ user_id + "'");
                     break;
                 }
                 case 3: { // add anime (only admin)
