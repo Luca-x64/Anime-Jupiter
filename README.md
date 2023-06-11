@@ -5,14 +5,11 @@ developing second release
 ## Front-End:
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
     - CHECK correttezza funzionamento dei messaggi alert di add e edit anime
-    - posizione dei pannelli add e edit anime, 
-    - TODO dimensione dei pannelli admin/user/login/register
     - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
-    - TODO fixare cambio immagine favourite anime (user coontroller)
-    - TODO add button filter favourite anime
     - TODO in user controller, per l'anime selezionato, visualizzare dinamicamente lo stato del preferito ( Object Anime.getFavourite() )
     
 ## Back-End:
+    - CHECK query favourite colonna non trovata quando si filtra per i favoriti
     - TODO CHECK gestione errori
     - TODO button filter favourite
 ## DataBase:
