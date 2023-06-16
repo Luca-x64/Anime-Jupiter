@@ -6,12 +6,10 @@ developing second release
     - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
     - CHECK correttezza funzionamento dei messaggi alert di add e edit anime
     - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
-    - TODO in user controller, per l'anime selezionato, visualizzare dinamicamente lo stato del preferito ( Object Anime.getFavourite() )
-    
+    - TODO [USER] per l'anime selezionato, visualizzare dinamicamente lo stato del preferito userController.setChosenAnime [riga 264]
+    - TODO [USER] bottone per visualizzare gli anime preferiti, fare in modo che si capisca quando è attivo e quando no, tipo un interruttore ON/OFF
 ## Back-End:
-    - CHECK query favourite colonna non trovata quando si filtra per i favoriti
     - TODO CHECK gestione errori
-    - TODO button filter favourite
 ## DataBase:
     
 

@@ -333,12 +333,10 @@ public class AdminController extends Engine implements StreamController, Initial
                                             (Double) receivedResponse.get(2), (Double) receivedResponse.get(3), 1),
                                             (String) receivedResponse.get(4));
                                 });
-
                             } else {
                                 System.out.println("aspetta");
                                 Thread.sleep(1700);
                             }
-
                         } catch (Exception e) {
                             System.out.println(e);
                         }

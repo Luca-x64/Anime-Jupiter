@@ -53,7 +53,7 @@ public class UserController extends Engine implements Initializable {
     private Anime selectedAnime;
     private TranslateTransition tt;
     private Timer timer;
-    private boolean longMessagge = false;
+    private boolean longMessagge = false, showFavourite = false;
     private int cnt = 0, cnt2 = 0;
 
     /**
@@ -104,16 +104,19 @@ public class UserController extends Engine implements Initializable {
 
     @FXML
     void favouriteSort(MouseEvent event) {
-
-        List<Anime> f = getSuperFavourite();
-        if(f.size()>0){
-            reload(f);
+        if (!showFavourite) {
+            List<Anime> f = getSuperFavourite();
+            if (f.size() > 0) {
+                reload(f);
+            } else {
+                scrollingText(red, msgDanger(noAnime));
+            }
         } else {
-            scrollingText(red, msgDanger(noAnime));
+            reload(getAnimeList());
         }
-        
-    }
+        showFavourite = !showFavourite;
 
+    }
 
     /**
      * Search Button Click
@@ -260,6 +263,9 @@ public class UserController extends Engine implements Initializable {
             this.selectedAnime = anime;
             animeTitle.setText(anime.getTitle());
             animeData.setText(anime.toString());
+            if (anime.getFavourite()) {
+                // TODO set image favourite (cuore pieno)
+            }
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
             } catch (Exception ignored) {
@@ -325,29 +331,33 @@ public class UserController extends Engine implements Initializable {
         openLink(crunchyRollLink);
     }
 
-    protected void getFavourite(){
+    protected void getFavourite() {
         List<Anime> favouriteAnime = getSuperFavourite();
         reload(favouriteAnime);
     }
 
     // @FXML
     public void addFavourite() {
-        
-        
+
         boolean r = updateFavourite(selectedAnime.getID());
-        System.out.println("status update favourite: "+ r);
+        System.out.println("status update favourite: " + r);
         if (r) {
             String percorsoImmagine = "/project/empty_heart.png";
             System.out.println("update favourite status");
+            if (showFavourite && selectedAnime.getFavourite()) {
+                getFavourite();
+            }
             
             // TODO @J7044
-        // Carica l'immagine dal percorso specificato
+            // Carica l'immagine dal percorso specificato
 
-        //percorsoImmagine = selectedAnime.favourite()?"/project/empty_heart.png":"/project/empty_heart.png";
-//
-        //Image nuovaImmagine = new Image(getClass().getResourceAsStream(percorsoImmagine));
-        //heart.setImage(nuovaImmagine);
-    }
+            // percorsoImmagine =
+            // selectedAnime.favourite()?"/project/empty_heart.png":"/project/empty_heart.png";
+            //
+            // Image nuovaImmagine = new
+            // Image(getClass().getResourceAsStream(percorsoImmagine));
+            // heart.setImage(nuovaImmagine);
+        }
 
     }
 
