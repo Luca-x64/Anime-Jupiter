@@ -59,7 +59,7 @@ public class ServerThread implements Runnable {
                 }
                 case 2: {
                     System.out.println(user_id);
-                    selectAnime("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where user_id = '"+ user_id + "'");
+                    selectFavourite("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where user_id = '"+ user_id + "'");
                     break;
                 }
                 case 3: { // add anime (only admin)
@@ -113,6 +113,26 @@ public class ServerThread implements Runnable {
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
+        }
+    }
+
+    private void selectFavourite(String query) {
+        List<Anime> animeList = new ArrayList<>();
+        try {
+            ResultSet rs = DB.getConn().createStatement().executeQuery(query);
+            
+            while (rs.next()) {
+                
+                Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
+                        rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
+                        rs.getString("link"));
+                anime.setID(rs.getInt("id"));
+                anime.favourite();
+                animeList.add(anime);
+            }
+            send(animeList);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -243,12 +263,14 @@ public class ServerThread implements Runnable {
         List<Anime> animeList = new ArrayList<>();
         try {
             ResultSet rs = DB.getConn().createStatement().executeQuery(query);
+            
             while (rs.next()) {
+                
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
                         rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
                 anime.setID(rs.getInt("id"));
-                if(rs.getBoolean("favourite")){
+                if(rs.getString("favourite")=="true"){
                     anime.favourite();
                 }
                 animeList.add(anime);
