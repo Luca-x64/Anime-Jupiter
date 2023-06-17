@@ -1,11 +1,3 @@
-@font-face {
-    src: url("../font/Tahoma.ttf");
-}
-
-.label {
-    -fx-font-family: 'Tahoma';
-}
-
 .search-box {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 100;
