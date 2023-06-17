@@ -57,7 +57,8 @@ public class UserController extends Engine implements Initializable {
     private Timer timer;
     private boolean longMessagge = false, showFavourite = false;
     private int cnt = 0, cnt2 = 0;
-    String fullHeartPath = "/img/project/full_heart.png";
+    Image fullPath = new Image(getClass().getResource("/img/project/full_heart.png").toString());
+    Image empityPath = new Image(getClass().getResource("/img/project/empty_heart.png").toString());
 
     /**
      * Initialize
@@ -269,8 +270,9 @@ public class UserController extends Engine implements Initializable {
             animeData.setText(anime.toString());
             System.out.println(anime.getFavourite());
             if (anime.getFavourite()) {
-                Image test = new Image(getClass().getResource(fullHeartPath).toString());
-                heart.setImage(test);
+                heart.setImage(fullPath);
+            } else {
+                heart.setImage(empityPath);
             }
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
@@ -348,8 +350,7 @@ public class UserController extends Engine implements Initializable {
         boolean r = updateFavourite(selectedAnime.getID());
         System.out.println("status update favourite: " + r);
         if (r) {
-            Image test = new Image(getClass().getResource(fullHeartPath).toString());
-            heart.setImage(test);
+            heart.setImage(fullPath);
             System.out.println("update favourite status");
             if (showFavourite && selectedAnime.getFavourite()) {
                 getFavourite();
@@ -364,6 +365,8 @@ public class UserController extends Engine implements Initializable {
             // Image nuovaImmagine = new
             // Image(getClass().getResourceAsStream(fullHeartPath));
             // heart.setImage(nuovaImmagine);
+        } else {
+            heart.setImage(empityPath);
         }
 
     }
