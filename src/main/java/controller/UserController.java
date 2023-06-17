@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import org.apache.commons.math3.analysis.interpolation.HermiteInterpolator;
+
 public class UserController extends Engine implements Initializable {
     @FXML
     private VBox chosenAnime;
@@ -55,6 +57,7 @@ public class UserController extends Engine implements Initializable {
     private Timer timer;
     private boolean longMessagge = false, showFavourite = false;
     private int cnt = 0, cnt2 = 0;
+    String fullHeartPath = "/img/project/full_heart.png";
 
     /**
      * Initialize
@@ -261,10 +264,13 @@ public class UserController extends Engine implements Initializable {
             chosenAnime.setStyle(chosenAnimeFX);
         } else {
             this.selectedAnime = anime;
+
             animeTitle.setText(anime.getTitle());
             animeData.setText(anime.toString());
+            System.out.println(anime.getFavourite());
             if (anime.getFavourite()) {
-                // TODO set image favourite (cuore pieno)
+                Image test = new Image(getClass().getResource(fullHeartPath).toString());
+                heart.setImage(test);
             }
             try {
                 animeImg.setImage(loadImage(anime.getImagePath()));
@@ -342,20 +348,21 @@ public class UserController extends Engine implements Initializable {
         boolean r = updateFavourite(selectedAnime.getID());
         System.out.println("status update favourite: " + r);
         if (r) {
-            String percorsoImmagine = "/project/empty_heart.png";
+            Image test = new Image(getClass().getResource(fullHeartPath).toString());
+            heart.setImage(test);
             System.out.println("update favourite status");
             if (showFavourite && selectedAnime.getFavourite()) {
                 getFavourite();
             }
-            
+
             // TODO @J7044
             // Carica l'immagine dal percorso specificato
 
-            // percorsoImmagine =
+            // fullHeartPath =
             // selectedAnime.favourite()?"/project/empty_heart.png":"/project/empty_heart.png";
             //
             // Image nuovaImmagine = new
-            // Image(getClass().getResourceAsStream(percorsoImmagine));
+            // Image(getClass().getResourceAsStream(fullHeartPath));
             // heart.setImage(nuovaImmagine);
         }
 
@@ -386,6 +393,7 @@ public class UserController extends Engine implements Initializable {
     public void begin() {
         receiveAllAnime();
         reload(getAnimeList());
+
     }
 
 }
