@@ -59,6 +59,12 @@
                                         <exclude>module-info.class</exclude>
                                         <exclude>META-INF/</exclude>
                                     </excludes>
+                                    <includes>
+                                        <include>font/Tahoma.ttf</include>
+                                        <!--here
+                                        you can also insert your .fxml files or .css files for
+                                        example-->
+                                    </includes>
                                 </filter>
                             </filters>
                             <shadedArtifactAttached>true</shadedArtifactAttached>

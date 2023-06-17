@@ -1,65 +1,73 @@
-.search-box{
-    -fx-background-color:#FFFFFF;
+@font-face {
+    src: url("../font/Tahoma.ttf");
+}
+
+.label {
+    -fx-font-family: 'Tahoma';
+}
+
+.search-box {
+    -fx-background-color: #FFFFFF;
     -fx-background-radius: 100;
     -fx-text-fill: white;
 }
 
-.search-button{
+.search-button {
     -fx-background-radius: 30;
 }
 
-.right-bar{
+.right-bar {
     -fx-background-color: #D3D3D3;
 }
 
-.shadow{
-    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+.shadow {
+    -fx-effect: dropShadow(three-pass-box, rgba(0, 0, 0, 0.1), 10.0, 0.0, 0.0, 10.0);
 }
 
-.chosen-card{
+.chosen-card {
     -fx-background-color: #F16C31;
     -fx-background-radius: 30;
 }
 
-.comboBox{
-    -fx-background-color: rgba(255,255,255,0.3);
+.comboBox {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
     -fx-background-radius: 30;
 }
 
-.add-btn{
+.add-btn {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 100;
 }
 
-.anime-item{
-    -fx-background-color:  #212529;
-        -fx-background-radius: 30;
+.anime-item {
+    -fx-background-color: #212529;
+    -fx-background-radius: 30;
 }
 
-.scroll-pane > .viewport {
-   -fx-background-color: transparent;
+.scroll-pane>.viewport {
+    -fx-background-color: transparent;
 }
 
-.search-box{
-    -fx-background-color:#FFFFFF;
+.search-box {
+    -fx-background-color: #FFFFFF;
     -fx-background-radius: 100;
 }
 
-.trasparent{
-       -fx-background-color: transparent;
+.trasparent {
+    -fx-background-color: transparent;
 }
 
-.scroll-pane > .viewport {
-   -fx-background-color: transparent;
+.scroll-pane>.viewport {
+    -fx-background-color: transparent;
 }
 
-.text-area{
+.text-area {
     -fx-background-color: #121619;
     -fx-font-family: Tahoma;
     -fx-text-fill: white;
 }
 
-.text-login{
+.text-login {
     -fx-prompt-text-fill: #8a8a8a;
 }
 
@@ -72,24 +80,22 @@
     -fx-background-color: #212529;
 }
 
-.scroll-bar:vertical .thumb{
+.scroll-bar:vertical .thumb {
     -fx-background-color: black;
 }
 
 .scroll-bar:vertical *.increment-arrow,
-.scroll-bar:vertical *.decrement-arrow{
+.scroll-bar:vertical *.decrement-arrow {
     -fx-pref-width: 9;
     -fx-pref-height: 5;
 }
 
-.progress-bar > .bar {
+.progress-bar>.bar {
     -fx-accent: #b789f7;
-    -fx-background-color: linear-gradient(
-        from 0px .75em to .75em 0px,
-        repeat,
-        -fx-accent 0%,
-        -fx-accent 49%,
-        derive(-fx-accent, 30%) 50%,
-        derive(-fx-accent, 30%) 99%
-    );
+    -fx-background-color: linear-gradient(from 0px .75em to .75em 0px,
+            repeat,
+            -fx-accent 0%,
+            -fx-accent 49%,
+            derive(-fx-accent, 30%) 50%,
+            derive(-fx-accent, 30%) 99%);
 }
