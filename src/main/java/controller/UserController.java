@@ -55,8 +55,10 @@ public class UserController extends Engine implements Initializable {
     private Timer timer;
     private boolean longMessagge = false, showFavourite = false;
     private int cnt = 0, cnt2 = 0;
+    private List<Anime> displayedAnimeList;
     Image fullPath = new Image(getClass().getResource("/img/project/full_heart.png").toString());
     Image empityPath = new Image(getClass().getResource("/img/project/empty_heart.png").toString());
+    
 
     /**
      * Initialize
@@ -82,6 +84,7 @@ public class UserController extends Engine implements Initializable {
             case 0 -> {
                 reload(sortTitle(true));
                 sortButton.setText(orderAlpha);
+                displayedAnimeList=animeList; 
             }
             case 1 -> {
                 reload(sortTitle(false));
@@ -96,7 +99,7 @@ public class UserController extends Engine implements Initializable {
                 sortButton.setText(reversedYear);
             }
             default -> {
-                reload(getAnimeList());
+                reload(displayedAnimeList);
                 sortButton.setText(sort);
                 cnt = -1;
             }
@@ -353,7 +356,6 @@ public class UserController extends Engine implements Initializable {
             if (showFavourite && selectedAnime.getFavourite()) {
                 getFavourite();
             }
-
             // TODO @J7044
             // Carica l'immagine dal percorso specificato
 
@@ -392,6 +394,10 @@ public class UserController extends Engine implements Initializable {
 
     public void begin() {
         receiveAllAnime();
+        for (Anime anime : animeList) {
+            System.out.print(anime.getID() );
+            System.out.println(anime.getFavourite());
+        }
         reload(getAnimeList());
 
     }

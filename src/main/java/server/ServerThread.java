@@ -53,8 +53,7 @@ public class ServerThread implements Runnable {
             int receive = (Integer) receive();
             switch (receive) {
                 case 1: {
-                    selectAnime("SELECT anime.*,  CASE WHEN EXISTS (SELECT * FROM favourite WHERE favourite.anime_id = anime.id) THEN 'true' ELSE 'false' END AS favourite FROM anime;");
-
+                    selectAnime("SELECT anime.*,  CASE WHEN EXISTS (SELECT * FROM favourite WHERE favourite.anime_id = anime.id AND favourite.user_id ="+ user_id + " ) THEN 'true' ELSE 'false' END AS favourite FROM anime;");
                     break;
                 }
                 case 2: {
@@ -263,14 +262,17 @@ public class ServerThread implements Runnable {
             ResultSet rs = DB.getConn().createStatement().executeQuery(query);
             
             while (rs.next()) {
-                
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
                         rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
                 anime.setID(rs.getInt("id"));
-                if(rs.getString("favourite")=="true"){
+                System.out.println(rs.getString("favourite"));
+                if( Boolean.parseBoolean(rs.getString("favourite"))){
                     anime.favourite();
+                   System.out.println(anime.getFavourite()); // TODO
+
                 }
+                
                 animeList.add(anime);
             }
             send(animeList);
