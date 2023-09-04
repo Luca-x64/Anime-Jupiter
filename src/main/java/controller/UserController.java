@@ -349,10 +349,10 @@ public class UserController extends Engine implements Initializable {
     public void addFavourite() { // TODO CHECK
 
         boolean r = updateFavourite(selectedAnime.getID());
-        System.out.println("status update favourite: " + r);
         if (r) {
             heart.setImage(fullPath);
-            System.out.println("update favourite status");
+            receiveAllAnime();
+            reload(getAnimeList());
             if (showFavourite && selectedAnime.getFavourite()) {
                 getFavourite();
             }
@@ -394,12 +394,7 @@ public class UserController extends Engine implements Initializable {
 
     public void begin() {
         receiveAllAnime();
-        for (Anime anime : animeList) {
-            System.out.print(anime.getID() );
-            System.out.println(anime.getFavourite());
-        }
         reload(getAnimeList());
-
     }
 
 }
