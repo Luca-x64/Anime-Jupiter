@@ -109,7 +109,7 @@ public class RegisterController implements interfaces.StreamController, Initiali
                 if (response) {
                     userSide();
                 } else {
-                    System.out.println((String) receive());
+                    System.out.println((String) receive()); // CHECK
                     registerBtn.setDisable(false);
                 }
             } else{

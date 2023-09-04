@@ -35,7 +35,7 @@ public class Database {
         try {
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Error in closing connection!");
+            //System.out.println("Error in closing connection!");
             System.exit(2);
         }
     }

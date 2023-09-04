@@ -3,11 +3,9 @@ developing second release
 
 # TODO-List:
 ## Front-End:
-    - set all stages .onHiding (gestione dell'uscita del pannello (es: chiusura socket, etc...))
-    - CHECK correttezza funzionamento dei messaggi alert di add e edit anime
-    - CHECK colori e simboli dei messaggi di ALERT, rosso = errore, verde = successo, e giallo = avviso
     - TODO [USER] per l'anime selezionato, visualizzare dinamicamente lo stato del preferito userController.setChosenAnime [riga 264]
     - TODO [USER] bottone per visualizzare gli anime preferiti, fare in modo che si capisca quando è attivo e quando no, tipo un interruttore ON/OFF
+    
 ## Back-End:
     - TODO CHECK gestione errori
 ## DataBase:
@@ -22,10 +20,14 @@ developing second release
 - others: `luca,luca@gmail.com,luca`,
          `manuel,manuel@gmail.com,manuel`
 
+# Requirements:
+    - jdk-20 ( https://www.oracle.com/java/technologies/downloads/ ) 
+    - javafx-sdk-20.0.2 ( https://gluonhq.com/products/javafx/ )
+    - maven ( https://maven.apache.org/download.cgi?.)  => add to PATH C:\Program Files\apache-maven-3.9.4\bin
+    
+    Required Japanese character: `noto-fonts-cjk` on endevour OS (Arch)
 
 # For run the program: 
-
-Required Japanese character: `noto-fonts-cjk` on endevour OS (Arch)
 
 ```
 mvn javafx:run@server / mvn clean javafx:run@server

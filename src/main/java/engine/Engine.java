@@ -72,11 +72,11 @@ public class Engine implements StreamController, Data {
         send(anime);
         boolean response = (Boolean) receive();
         if (response) {
-            System.out.println("Anime added!"); // DEBUG
+            // System.out.println("Anime added!"); 
             setExitMessagge(false, green, msgSuccess(animeAdded));
             receiveAllAnime();
         } else {
-            System.out.println("Can't add Anime!"); // DEBUG
+            // System.out.println("Can't add Anime!"); 
             setExitMessagge(false, red, msgWarning(animeNotAdded));
         }
     }
@@ -89,11 +89,11 @@ public class Engine implements StreamController, Data {
         send(editedAnime);
         boolean response = (Boolean) receive();
         if (response) {
-            System.out.println("Anime Edited!"); // DEBUG
+            //System.out.println("Anime Edited!"); 
             setExitMessagge(false, green, msgSuccess(animeEdited));
             receiveAllAnime();
         } else {
-            System.out.println("Can't edit anime"); // DEBUG
+            //System.out.println("Can't edit anime");
             setExitMessagge(false, red, msgWarning(animeNotEdited));
         }
     }
@@ -111,10 +111,10 @@ public class Engine implements StreamController, Data {
         send(id);
         Boolean response = (Boolean) receive();
         if (response) {
-            System.out.println("Anime deleted!");
+            //System.out.println("Anime deleted!");
             receiveAllAnime();
         } else {
-            System.out.println("Can't delete Anime!");
+            //System.out.println("Can't delete Anime!");
         }
     }
 
@@ -201,13 +201,11 @@ public class Engine implements StreamController, Data {
         return al.stream().noneMatch(e -> stringFormat(e.getTitle()).equals(stringFormat(ttl)));
     }
 
-
-    protected List<Anime> getSuperFavourite(){
+    protected List<Anime> getSuperFavourite() {
         send(2);
         List<Anime> animeList = (ArrayList<Anime>) receive();
         return animeList;
     }
-
 
     protected void logout() {
         send(7);
@@ -282,28 +280,6 @@ public class Engine implements StreamController, Data {
 
     }
 
-    // Getter & Setter
-
-    /**
-     * Get Anime List
-     * 
-     * @return List<Anime>
-     */
-    public List<Anime> getAnimeList() {
-        displayedAnimeList = animeList;
-        return animeList;
-    }
-
-    /**
-     * Set Anime List
-     * 
-     * @param List<Anime> animeList anime list
-     * @return void [return description]
-     */
-    public void setAnimeList(List<Anime> animeList) {
-        this.animeList = animeList;
-    }
-
     /**
      * Load Image
      * 
@@ -344,6 +320,28 @@ public class Engine implements StreamController, Data {
             e.printStackTrace();
         }
         return received;
+    }
+
+    // Getter & Setter
+
+    /**
+     * Get Anime List
+     * 
+     * @return List<Anime>
+     */
+    public List<Anime> getAnimeList() {
+        displayedAnimeList = animeList;
+        return animeList;
+    }
+
+    /**
+     * Set Anime List
+     * 
+     * @param List<Anime> animeList anime list
+     * @return void [return description]
+     */
+    public void setAnimeList(List<Anime> animeList) {
+        this.animeList = animeList;
     }
 
     @Override

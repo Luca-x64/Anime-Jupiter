@@ -76,7 +76,7 @@ public class App extends Application implements Data {
                 e1.printStackTrace();
             }
         } else {
-            System.out.println("Not connected!");
+            System.err.println("Not connected!");
             System.exit(7);
         }
 

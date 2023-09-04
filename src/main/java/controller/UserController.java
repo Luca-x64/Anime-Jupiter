@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import org.apache.commons.math3.analysis.interpolation.HermiteInterpolator;
-
 public class UserController extends Engine implements Initializable {
     @FXML
     private VBox chosenAnime;
@@ -256,7 +254,7 @@ public class UserController extends Engine implements Initializable {
      * @param Anime chosen anime
      * @return void
      */
-    private void setChosenAnime(Anime anime) {
+    private void setChosenAnime(Anime anime) { //TODO CHECK
         if (anime == null) {
             this.selectedAnime = null;
             animeTitle.setText(empty);
@@ -345,7 +343,7 @@ public class UserController extends Engine implements Initializable {
     }
 
     // @FXML
-    public void addFavourite() {
+    public void addFavourite() { // TODO CHECK
 
         boolean r = updateFavourite(selectedAnime.getID());
         System.out.println("status update favourite: " + r);
@@ -378,7 +376,6 @@ public class UserController extends Engine implements Initializable {
      */
     @FXML
     void linkAnime() {
-        System.out.println("link: " + selectedAnime.getLink()); // DEBUG
         openLink(selectedAnime.getLink());
     }
 

@@ -57,7 +57,6 @@ public class AddAnimeController extends Engine implements Initializable {
             imgview.setImage(new Image(selectedFile.getPath()));
             addProgress();
         } catch (Exception ignored) {
-            System.out.println(ignored);
         }
     }
 
@@ -167,7 +166,7 @@ public class AddAnimeController extends Engine implements Initializable {
      * @return void
      */
     private void addProgress() {
-        progessBar.setProgress(progessBar.getProgress() + 0.125);
+        progessBar.setProgress((progessBar.getProgress() + 0.125)%1);
     }
 
     /**
@@ -176,7 +175,7 @@ public class AddAnimeController extends Engine implements Initializable {
      * @return void
      */
     private void removeProgress() {
-        progessBar.setProgress(progessBar.getProgress() - 0.125);
+        progessBar.setProgress((progessBar.getProgress() - 0.125)%1);
     }
 
     /**

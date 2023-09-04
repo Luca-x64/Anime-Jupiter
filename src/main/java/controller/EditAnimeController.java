@@ -13,8 +13,6 @@ import javafx.stage.Stage;
 import model.Anime;
 import javax.imageio.ImageIO;
 
-import org.apache.commons.compress.harmony.unpack200.bytecode.SourceFileAttribute;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -130,7 +128,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                 Node source = (Node) mouseEvent.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.close();
-                setExitMessagge(false, green, msgSuccess(animeEdited)); // CHECK
+                setExitMessagge(false, green, msgSuccess(animeEdited));
                 break;
             }
             case 1: {
