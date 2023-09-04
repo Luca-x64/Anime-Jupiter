@@ -74,7 +74,6 @@ public class AdminController extends Engine implements StreamController, Initial
         try {
             editAnime();
         } catch (IOException ignored) {
-            System.out.println(ignored);
         }
     };
     EventHandler<MouseEvent> deleteHandler = mouseEvent -> deleteAnime();
@@ -334,11 +333,10 @@ public class AdminController extends Engine implements StreamController, Initial
                                             (String) receivedResponse.get(4));
                                 });
                             } else {
-                                System.out.println("aspetta");
                                 Thread.sleep(1700);
                             }
                         } catch (Exception e) {
-                            System.out.println(e);
+                            // System.out.println(e);
                         }
                     }
                 }
@@ -356,44 +354,44 @@ public class AdminController extends Engine implements StreamController, Initial
      */
     public void reload(List<Anime> al) {
         grid.getChildren().clear();
-        if(al != null){
-        if (al.size() > 0) { // TODO dinamico della posizione
-            setChosenAnime(al.get(0));
-            this.selectedAnime = al.get(0);
-        } else {
-            setChosenAnime(null);
-        }
-
-        Listener listener = this::setChosenAnime;
-        int column = 3;
-        int row = 1;
-        try {
-            for (Anime a : al) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
-                AnchorPane anchorPane = fxmlLoader.load();
-                CardController cardController = fxmlLoader.getController();
-                cardController.setData(a, listener);
-                if (column == 3) {
-                    column = 0;
-                    row++;
-                }
-                grid.add(anchorPane, column++, row);
-                // set grid width
-                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                grid.setMaxWidth(Region.USE_PREF_SIZE);
-                // set grid height
-                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                grid.setMaxHeight(Region.USE_PREF_SIZE);
-                GridPane.setMargin(anchorPane, new Insets(8));
+        if (al != null) {
+            if (al.size() > 0) { // TODO dinamico della posizione
+                setChosenAnime(al.get(0));
+                this.selectedAnime = al.get(0);
+            } else {
+                setChosenAnime(null);
             }
-        } catch (Exception ignored) {
+
+            Listener listener = this::setChosenAnime;
+            int column = 3;
+            int row = 1;
+            try {
+                for (Anime a : al) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
+                    AnchorPane anchorPane = fxmlLoader.load();
+                    CardController cardController = fxmlLoader.getController();
+                    cardController.setData(a, listener);
+                    if (column == 3) {
+                        column = 0;
+                        row++;
+                    }
+                    grid.add(anchorPane, column++, row);
+                    // set grid width
+                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxWidth(Region.USE_PREF_SIZE);
+                    // set grid height
+                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxHeight(Region.USE_PREF_SIZE);
+                    GridPane.setMargin(anchorPane, new Insets(8));
+                }
+            } catch (Exception ignored) {
+            }
+
+        } else {
+            // System.out.println("liste vuota admin ");
         }
-            
-    }else{
-        System.out.println("liste vuota admin 397");
-    }
     }
 
     /**

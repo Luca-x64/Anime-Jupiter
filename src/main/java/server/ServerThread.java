@@ -58,7 +58,6 @@ public class ServerThread implements Runnable {
                     break;
                 }
                 case 2: {
-                    System.out.println(user_id);
                     selectFavourite("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where user_id = '"+ user_id + "'");
                     break;
                 }
@@ -171,8 +170,7 @@ public class ServerThread implements Runnable {
 
             result = true;
         } catch (SQLException e) {
-            System.out.println(e);
-            // TODO remove sout, exception ignored
+            //System.err.println(e);
         }
 
         send(result);
@@ -230,7 +228,7 @@ public class ServerThread implements Runnable {
             }
             send(animeList);
         } catch (SQLException e) {
-            System.out.println(e);
+            //System.out.println(e);
         }
     }
 
