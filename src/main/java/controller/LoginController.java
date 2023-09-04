@@ -75,6 +75,7 @@ public class LoginController implements interfaces.StreamController, Initializab
         
         } catch (Exception e) {
             // TODO: handle exception
+            System.out.println(e);
         }
 
     }
@@ -166,6 +167,7 @@ public class LoginController implements interfaces.StreamController, Initializab
             timeline.play();
         } catch (Exception e) {
             // TODO: handle exception
+            System.out.println(e);
         }
 
     }
@@ -200,6 +202,7 @@ public class LoginController implements interfaces.StreamController, Initializab
             timeline.play();
         } catch (Exception e) {
             // TODO: handle exception
+            System.out.println(e);
         }
 
     }
