@@ -3,9 +3,8 @@ developing second release
 
 # TODO-List:
 ## Front-End:
-    - TODO [USER] per l'anime selezionato, visualizzare dinamicamente lo stato del preferito userController.setChosenAnime [riga 264]
-    - TODO [USER] bottone per visualizzare gli anime preferiti, fare in modo che si capisca quando è attivo e quando no, tipo un interruttore ON/OFF
-    
+    - TODO [USER] sorting favourite
+    - TODO [USER] fix reload time for sorting
 ## Back-End:
     - TODO CHECK gestione errori
 ## DataBase:
