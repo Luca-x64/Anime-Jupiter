@@ -47,7 +47,7 @@ public class UserController extends Engine implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button sortButton;
+    private Button sortButton, preferUnserButton;
     @FXML
     private HBox testoScroll;
     private Anime selectedAnime;
@@ -79,12 +79,18 @@ public class UserController extends Engine implements Initializable {
      */
     @FXML
     void sort() {
+        List<Anime> f;
         inputBox.setText(empty);
+        if(showFavourite){          //TODO predisposizione sorting favourite
+            f = getSuperFavourite();
+        } else {
+            f = animeList;
+        }
         switch (cnt) {
             case 0 -> {
                 reload(sortTitle(true));
                 sortButton.setText(orderAlpha);
-                displayedAnimeList=animeList; 
+                displayedAnimeList=f; 
             }
             case 1 -> {
                 reload(sortTitle(false));
@@ -110,6 +116,7 @@ public class UserController extends Engine implements Initializable {
     @FXML
     void favouriteSort(MouseEvent event) {
         if (!showFavourite) {
+            preferUnserButton.setStyle("-fx-background-color: #b789f7; -fx-background-radius: 30;");
             List<Anime> f = getSuperFavourite();
             if (f.size() > 0) {
                 reload(f);
@@ -117,6 +124,7 @@ public class UserController extends Engine implements Initializable {
                 scrollingText(red, msgDanger(noAnime));
             }
         } else {
+            preferUnserButton.setStyle("-fx-background-radius: 30;");
             reload(getAnimeList());
         }
         showFavourite = !showFavourite;
@@ -328,6 +336,7 @@ public class UserController extends Engine implements Initializable {
                 GridPane.setMargin(anchorPane, new Insets(8));
             }
         } catch (Exception ignored) {
+            System.out.println("errore caricamento all anime");
         }
     }
 
@@ -352,7 +361,7 @@ public class UserController extends Engine implements Initializable {
         if (r) {
             heart.setImage(fullPath);
             receiveAllAnime();
-            reload(getAnimeList());
+            //reload(getAnimeList());
             if (showFavourite && selectedAnime.getFavourite()) {
                 getFavourite();
             }

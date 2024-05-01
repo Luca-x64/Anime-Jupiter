@@ -137,6 +137,7 @@
                             <Image url="@../img/project/logo.png" />
                         </ImageView>
                         <Button layoutX="148.0" layoutY="27.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
+                  <Button fx:id="preferUnserButton" layoutX="43.0" layoutY="26.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="74.0" style="-fx-background-radius: 30;" text="favourite radius" />
                         <Button fx:id="sortButton" layoutX="152.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="22.0" />
@@ -145,7 +146,6 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
-                  <Button layoutX="43.0" layoutY="26.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="74.0" style="-fx-background-radius: 30;" text="favourite radius" />
                   <Button fx:id="sortButton1" layoutX="48.0" layoutY="29.0" mnemonicParsing="false" onMouseClicked="#favouriteSort" prefHeight="42.0" prefWidth="64.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" textFill="WHITE">
                      <font>
                         <Font name="Tahoma" size="22.0" />
@@ -154,7 +154,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <ImageView fx:id="heart1" fitHeight="46.0" fitWidth="50.0" layoutX="55.0" layoutY="25.0" mouseTransparent="true" nodeOrientation="INHERIT" onMouseClicked="#addFavourite">
+                  <ImageView fx:id="heart1" fitHeight="46.0" fitWidth="50.0" layoutX="55.0" layoutY="25.0" mouseTransparent="true" nodeOrientation="INHERIT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
