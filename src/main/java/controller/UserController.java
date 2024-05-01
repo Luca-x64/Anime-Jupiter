@@ -4,6 +4,9 @@ import engine.Engine;
 import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import main.Listener;
 import model.Anime;
+import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,8 +58,7 @@ public class UserController extends Engine implements Initializable {
     private TranslateTransition tt;
     private Timer timer;
     private boolean longMessagge = false, showFavourite = false;
-    private int cnt = 0, cnt2 = 0;
-    private List<Anime> displayedAnimeList;
+    private int cnt2 = 0;
     Image fullPath = new Image(getClass().getResource("/img/project/full_heart.png").toString());
     Image empityPath = new Image(getClass().getResource("/img/project/empty_heart.png").toString());
     
@@ -77,8 +80,41 @@ public class UserController extends Engine implements Initializable {
      * 
      * @return void
      */
+    
+
+    public ObservableList<Node> compare( ObservableList<Node> collection) {
+        System.out.println(collection.size());
+        ObservableList<Node> temp = FXCollections.observableArrayList();
+        for (int i = collection.size() -1 ; i >= 0 ; i--) {           
+            temp.add(collection.get(i));
+        }
+        return temp;
+    }
+
     @FXML
     void sort() {
+        System.out.println("dentro");
+        ObservableList<Node> workingCollection = FXCollections.observableArrayList(grid.getChildren());
+        System.out.println(workingCollection.size());
+
+        workingCollection = compare(workingCollection);
+
+        grid.getChildren().clear();
+        int column = 3;
+        int row = 1;
+        System.out.println(workingCollection.size());
+        for (int i = 0; i < workingCollection.size(); i++) {
+
+            if (column == 3) {
+                column = 0;
+                row++;
+            }
+
+            grid.add(workingCollection.get(i), column++ ,row);
+        }
+      
+/*
+
         List<Anime> f;
         inputBox.setText(empty);
         if(showFavourite){          //TODO predisposizione sorting favourite
@@ -111,6 +147,8 @@ public class UserController extends Engine implements Initializable {
             }
         }
         cnt++;
+
+         */
     }
 
     @FXML
@@ -312,10 +350,11 @@ public class UserController extends Engine implements Initializable {
         int column = 3;
         int row = 1;
         try {
+            int cnt = 0;
             for (Anime a : al) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(guiCard));
                 AnchorPane anchorPane = fxmlLoader.load();
-
+                anchorPane.setId(""+cnt);
                 CardController cardController = fxmlLoader.getController();
                 cardController.setData(a, listener);
 
@@ -334,6 +373,7 @@ public class UserController extends Engine implements Initializable {
                 grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
                 grid.setMaxHeight(Region.USE_PREF_SIZE);
                 GridPane.setMargin(anchorPane, new Insets(8));
+                cnt++;
             }
         } catch (Exception ignored) {
             System.out.println("errore caricamento all anime");
