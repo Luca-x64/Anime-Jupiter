@@ -4,6 +4,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -70,9 +71,9 @@ public class LoginController implements interfaces.StreamController, Initializab
             timeline.getKeyFrames().add(kf);
             timeline.setOnFinished(t -> anchorPane.getChildren().remove(anchorPane));
             timeline.play();
-            //make not show more time the animation
+            // make not show more time the animation
             registerDisable.setDisable(true);
-        
+
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);
@@ -80,7 +81,7 @@ public class LoginController implements interfaces.StreamController, Initializab
 
     }
 
-    public void login(MouseEvent event) {
+    public void checkLogin(){
         String mail = inputEmail.getText().strip();
         String pw = inputPassword.getText().strip();
 
@@ -115,6 +116,16 @@ public class LoginController implements interfaces.StreamController, Initializab
             }
         }
 
+    }
+
+    public void login(MouseEvent event) {
+        checkLogin();
+    }
+
+    @FXML
+    public void onEnter(ActionEvent ae) {
+        System.out.println("test");
+        checkLogin();
     }
 
     private synchronized void send(Object o) {

@@ -87,7 +87,7 @@
                </Label>
             </children>
          </Pane>
-         <PasswordField fx:id="inputPassword" layoutY="204.0" prefHeight="41.0" prefWidth="291.0" promptText="Password" styleClass="text-login" stylesheets="@../style/style.css">
+         <PasswordField fx:id="inputPassword" layoutY="204.0" prefHeight="41.0" prefWidth="291.0" promptText="Password" onAction="#onEnter" styleClass="text-login" stylesheets="@../style/style.css">
             <font>
                <Font name="Tahoma Bold" size="19.0" />
             </font>
