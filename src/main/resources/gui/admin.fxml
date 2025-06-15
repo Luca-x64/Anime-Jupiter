@@ -150,7 +150,7 @@
                             </cursor>
                         </Button>
                         <Button layoutY="29.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="115.0" style="-fx-background-radius: 30;" text="ordina radius" />
-                        <Button fx:id="sortButton" layoutX="4.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#sort" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
+                        <Button fx:id="sortButton" layoutX="4.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#sortBtn" prefHeight="42.0" prefWidth="107.0" style="-fx-background-color: #121619;" styleClass="add-btn" stylesheets="@../style/style.css" text="Sort" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma" size="22.0" />
                             </font>
@@ -170,7 +170,7 @@
                             <String fx:value="scroll-bar" />
                             <String fx:value="scroll-text-area" />
                         </styleClass>
-                        <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0">
+                        <GridPane fx:id="gridPane" prefHeight="0.0" prefWidth="0.0">
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" />
                             </rowConstraints>

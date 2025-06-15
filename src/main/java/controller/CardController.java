@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import main.Data;
 import main.Listener;
@@ -18,6 +19,8 @@ public class CardController implements Data {
     private Label title;
     @FXML
     private ImageView img;
+    @FXML
+    private AnchorPane IdAnchorPane;
     private Anime anime;
     private Listener listener;
 
@@ -34,13 +37,14 @@ public class CardController implements Data {
     /**
      * Set Data
      * 
-     * @param Anime anime
+     * @param Anime    anime
      * @param Listener listener
      * @return void
      */
     public void setData(Anime anime, Listener listener) {
         this.anime = anime;
         this.listener = listener;
+        IdAnchorPane.setId(String.valueOf(anime.getID()));
         title.setText(anime.getTitle());
 
         try {
