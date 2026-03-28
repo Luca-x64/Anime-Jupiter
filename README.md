@@ -14,23 +14,24 @@ File in src/sql
          `manuel,manuel@gmail.com,manuel`
 
 # Requirements:
-    - JDK-21 ( https://www.oracle.com/java/technologies/downloads/ ) 
+    - jdk-20 ( https://www.oracle.com/java/technologies/downloads/ ) 
+    - javafx-sdk-20.0.2 ( https://gluonhq.com/products/javafx/ )
+    - maven ( https://maven.apache.org/download.cgi?.)  => add to PATH C:\Program Files\apache-maven-3.9.4\bin
     
-    Optional for Japanese characters: `noto-fonts-cjk` on endevour OS (Arch)
+    Required Japanese character: `noto-fonts-cjk` on endevour OS (Arch)
 
 # For run the program: 
 
 ```
-./gradlew runServer
-./gradlew runClient
-
+mvn javafx:run@server / mvn clean javafx:run@server
+mvn javafx:run@client / mvn clean javafx:run@client 
 ```
 
 # Credits:
 - BCrypt: https://www.mindrot.org/projects/jBCrypt/  `(Blowfish password hashing algorithm)`
 
 
-# TODO-List: //TODO check if still present
+# TODO-List:
 ## Front-End:
     - TODO [USER] sorting favourite
     - TODO [USER] fix reload time for sorting
