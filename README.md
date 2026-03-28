@@ -1,15 +1,9 @@
 # Anime Jupiter
 developing second release
 
-# TODO-List:
-## Front-End:
-    - TODO [USER] sorting favourite
-    - TODO [USER] fix reload time for sorting
-## Back-End:
-    - TODO CHECK gestione errori
 ## DataBase:
-    
-
+Specs: MySql > 8.0
+File in src/sql
 
 # Bug:
 
@@ -36,3 +30,10 @@ mvn javafx:run@client / mvn clean javafx:run@client
 # Credits:
 - BCrypt: https://www.mindrot.org/projects/jBCrypt/  `(Blowfish password hashing algorithm)`
 
+
+# TODO-List:
+## Front-End:
+    - TODO [USER] sorting favourite
+    - TODO [USER] fix reload time for sorting
+## Back-End:
+    - TODO CHECK gestione errori

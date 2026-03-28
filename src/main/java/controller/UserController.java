@@ -83,26 +83,25 @@ public class UserController extends Engine implements Initializable {
     
 
     public ObservableList<Node> compare( ObservableList<Node> collection) {
-        System.out.println(collection.size());
         ObservableList<Node> temp = FXCollections.observableArrayList();
         for (int i = collection.size() -1 ; i >= 0 ; i--) {           
             temp.add(collection.get(i));
+            System.out.println(collection.get(i));
         }
         return temp;
+       
     }
 
     @FXML
     void sort() {
         System.out.println("dentro");
         ObservableList<Node> workingCollection = FXCollections.observableArrayList(grid.getChildren());
-        System.out.println(workingCollection.size());
-
         workingCollection = compare(workingCollection);
 
         grid.getChildren().clear();
         int column = 3;
         int row = 1;
-        System.out.println(workingCollection.size());
+
         for (int i = 0; i < workingCollection.size(); i++) {
 
             if (column == 3) {
@@ -115,13 +114,6 @@ public class UserController extends Engine implements Initializable {
       
 /*
 
-        List<Anime> f;
-        inputBox.setText(empty);
-        if(showFavourite){          //TODO predisposizione sorting favourite
-            f = getSuperFavourite();
-        } else {
-            f = animeList;
-        }
         switch (cnt) {
             case 0 -> {
                 reload(sortTitle(true));

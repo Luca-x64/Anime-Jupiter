@@ -5,16 +5,20 @@ import interfaces.SetDataEdit;
 import interfaces.StreamController;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -36,10 +40,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.*;
 
-import org.apache.logging.log4j.util.Strings;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.SstDocument;
-
-public class AdminController extends Engine implements StreamController, Initializable {
+public class AdminController extends Engine implements Initializable {
     @FXML
     private ImageView animeImg, animeDelete, animeEdit;
     @FXML
@@ -51,7 +52,7 @@ public class AdminController extends Engine implements StreamController, Initial
     @FXML
     private TextField inputBox;
     @FXML
-    private GridPane grid;
+    private GridPane gridPane;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -65,7 +66,7 @@ public class AdminController extends Engine implements StreamController, Initial
     protected TranslateTransition tt;
     protected Timer timer;
     protected TimerTask timerTask;
-    private int cnt = 0, cnt2 = 0;
+    private int cnt, cnt2 = 0;
     private boolean addAnimeActive = false;
     private boolean editAnimeActive = false;
     private boolean LongMessagge = false;
@@ -97,33 +98,87 @@ public class AdminController extends Engine implements StreamController, Initial
      * 
      * @return void
      */
+
+    public ObservableList<Node> compare(ObservableList<Node> collection, String type, boolean b) {
+        ObservableList<Node> temp = FXCollections.observableArrayList();
+        Map<String, Node> nodeByAnimeId = new HashMap<>();
+
+        for (Node node : collection) {
+            if (node.getId() != null) {
+                nodeByAnimeId.put(node.getId(), node);
+            }
+        }
+
+        List<Anime> orderedAnime;
+        if ("alpha".equals(type)) {
+            orderedAnime = sortTitle(b);
+        } else if ("year".equals(type) || "reverseYear".equals(type)) {
+            orderedAnime = sortYear(b);
+        } else {
+            return FXCollections.observableArrayList(collection);
+        }
+
+        for (Anime anime : orderedAnime) {
+            Node node = nodeByAnimeId.get(String.valueOf(anime.getID()));
+            if (node != null) {
+                temp.add(node);
+            }
+        }
+
+        if (temp.size() != collection.size()) {
+            for (Node node : collection) {
+                if (!temp.contains(node)) {
+                    temp.add(node);
+                }
+            }
+        }
+
+        return temp;
+    }
+
     @FXML
-    void sort() {
-        inputBox.setText(empty);
+    void sortBtn() {
+        ObservableList<Node> workingCollection = FXCollections.observableArrayList(gridPane.getChildren());
+
         switch (cnt) {
             case 0 -> {
-                reload(sortTitle(true));
                 sortButton.setText(orderAlpha);
+                workingCollection = compare(workingCollection, "alpha", true);
             }
             case 1 -> {
-                reload(sortTitle(false));
                 sortButton.setText(reversedAlpha);
+                workingCollection = compare(workingCollection, "alpha", false);
             }
             case 2 -> {
-                reload(sortYear(false));
                 sortButton.setText(orderYear);
+                workingCollection = compare(workingCollection, "year", true);
             }
             case 3 -> {
-                reload(sortYear(true));
                 sortButton.setText(reversedYear);
+                workingCollection = compare(workingCollection, "reverseYear", false);
             }
             default -> {
-                reload(getAnimeList());
                 sortButton.setText(sort);
+                workingCollection = compare(workingCollection, "normal", false);
                 cnt = -1;
             }
         }
         cnt++;
+
+        gridPane.getChildren().clear();
+        int column = 3;
+        int row = 1;
+
+        for (int i = 0; i < workingCollection.size(); i++) {
+
+            if (column == 3) {
+                column = 0;
+                row++;
+            }
+
+            gridPane.add(workingCollection.get(i), column++, row);
+        }
+
     }
 
     /**
@@ -271,7 +326,7 @@ public class AdminController extends Engine implements StreamController, Initial
         int pos = getAnimeList().indexOf(selectedAnime);
         deleteAnime(selectedAnime.getID());
 
-        grid.getChildren().clear();
+        gridPane.getChildren().clear();
         reload(getAnimeList());
 
         if (getAnimeList().size() == 1) { // CHECK forse spostare this.selectedeAnime = XXX ; inside the function
@@ -347,13 +402,13 @@ public class AdminController extends Engine implements StreamController, Initial
     }
 
     /**
-     * Reload grid panel (anime)
+     * Reload gridPane panel (anime)
      * 
      * @param List<Anime> al anime list
      * @return void
      */
     public void reload(List<Anime> al) {
-        grid.getChildren().clear();
+        gridPane.getChildren().clear();
         if (al != null) {
             if (al.size() > 0) { // TODO dinamico della posizione
                 setChosenAnime(al.get(0));
@@ -375,15 +430,15 @@ public class AdminController extends Engine implements StreamController, Initial
                         column = 0;
                         row++;
                     }
-                    grid.add(anchorPane, column++, row);
-                    // set grid width
-                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                    grid.setMaxWidth(Region.USE_PREF_SIZE);
-                    // set grid height
-                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                    grid.setMaxHeight(Region.USE_PREF_SIZE);
+                    gridPane.add(anchorPane, column++, row);
+                    // set gridPane width
+                    gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    gridPane.setMaxWidth(Region.USE_PREF_SIZE);
+                    // set gridPane height
+                    gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    gridPane.setMaxHeight(Region.USE_PREF_SIZE);
                     GridPane.setMargin(anchorPane, new Insets(8));
                 }
             } catch (Exception ignored) {
