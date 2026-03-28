@@ -100,28 +100,39 @@ public class AdminController extends Engine implements Initializable {
      */
 
     public ObservableList<Node> compare(ObservableList<Node> collection, String type, boolean b) {
-        System.out.println(collection.size() + " sorting");
-        
-
-        List<Anime> sortTitle =  sortTitle(true);
-        List<Anime> sortYear =  sortYear(true);
- 
-    
-  
         ObservableList<Node> temp = FXCollections.observableArrayList();
-        for (int i = 0; i < collection.size(); i++) {
+        Map<String, Node> nodeByAnimeId = new HashMap<>();
 
-            if(type == "alpha"){
-                temp.add(collection.get(sortTitle(b).get(i).getID()-1));
+        for (Node node : collection) {
+            if (node.getId() != null) {
+                nodeByAnimeId.put(node.getId(), node);
             }
-            
-            System.out.println(sortTitle.get(i).getID());
-            System.out.println(collection.get(i).getId());
-            System.out.println(collection.get(sortTitle.get(i).getID()-1));
-
-            temp.add(collection.get(sortTitle.get(i).getID()-1));
-            
         }
+
+        List<Anime> orderedAnime;
+        if ("alpha".equals(type)) {
+            orderedAnime = sortTitle(b);
+        } else if ("year".equals(type) || "reverseYear".equals(type)) {
+            orderedAnime = sortYear(b);
+        } else {
+            return FXCollections.observableArrayList(collection);
+        }
+
+        for (Anime anime : orderedAnime) {
+            Node node = nodeByAnimeId.get(String.valueOf(anime.getID()));
+            if (node != null) {
+                temp.add(node);
+            }
+        }
+
+        if (temp.size() != collection.size()) {
+            for (Node node : collection) {
+                if (!temp.contains(node)) {
+                    temp.add(node);
+                }
+            }
+        }
+
         return temp;
     }
 
