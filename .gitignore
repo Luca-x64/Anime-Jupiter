@@ -2,3 +2,18 @@
 /dependency-reduced-pom.xml
 server.txt
 /server.txt
+
+# Gradle
+.gradle/
+build/
+
+# Maven (legacy)
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store

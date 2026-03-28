@@ -1,0 +1,47 @@
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+javafx {
+    version = '21' // va bene sia per JDK 21 che 23 e necessario sotto OSX Sonoma per evitare un baco
+    modules = ['javafx.controls', 'javafx.fxml' ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.openjfx:javafx-controls:23'
+
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+}
+
+group = 'org.openjfx'
+version = '1.0.0.0'
+
+java {
+    toolchain{
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+
+tasks.register('runClient', JavaExec) {
+    mainClass = 'main.App'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = [
+            '--module-path', classpath.asPath,
+            '--add-modules', 'javafx.controls,javafx.fxml'
+    ]
+}
+
+tasks.register('runServer', JavaExec) {
+    group = "application"
+    description = "Run server app"
+    mainClass = 'server.Server'
+    classpath = sourceSets.main.runtimeClasspath
+}
