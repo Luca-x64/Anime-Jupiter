@@ -138,7 +138,6 @@ public class AdminController extends Engine implements Initializable {
 
     @FXML
     void sortBtn() {
-        System.out.println("click btn");
         ObservableList<Node> workingCollection = FXCollections.observableArrayList(gridPane.getChildren());
 
         switch (cnt) {
@@ -157,7 +156,6 @@ public class AdminController extends Engine implements Initializable {
             case 3 -> {
                 sortButton.setText(reversedYear);
                 workingCollection = compare(workingCollection, "reverseYear", false);
-                break;
             }
             default -> {
                 sortButton.setText(sort);
