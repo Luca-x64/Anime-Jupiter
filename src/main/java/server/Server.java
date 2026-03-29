@@ -11,7 +11,6 @@ import database.Database;
 public class Server {
     private int counter = 0;
 
-
     //private List<Socket> connectedSockets = new ArrayList<>();
     private final Database DB = new Database(Config.URL_CONNECTION, Config.USERNAME, Config.PW);
     private ServerSocket serverSocket = null;
@@ -46,7 +45,7 @@ public class Server {
     }
 
     private void closeAll() {
-        DB.closeConnection();
+        DB.close();
         System.out.println("Database connection closed!");
         try {
             serverSocket.close();

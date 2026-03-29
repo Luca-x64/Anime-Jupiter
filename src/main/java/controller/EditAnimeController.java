@@ -11,6 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Anime;
+import org.jetbrains.annotations.NotNull;
+
 import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
@@ -182,7 +184,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
      * @return void
      */
     @Override
-    public void setData(Anime a, ObjectOutputStream os, ObjectInputStream is) {
+    public void setData(@NotNull Anime a, @NotNull ObjectOutputStream os, @NotNull ObjectInputStream is) {
         super.setStream(os, is);
         this.animeSelected = a;
 

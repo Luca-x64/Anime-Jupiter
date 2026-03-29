@@ -5,19 +5,15 @@ import javafx.scene.paint.Color;
 import main.App;
 import main.Data;
 import model.Anime;
-import model.User;
 
-import java.awt.Desktop;
 import java.io.*;
-import java.net.URI;
 import java.util.*;
-import javafx.application.Application;
+
 import javafx.application.HostServices;
 import javafx.application.Platform;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
-
 import interfaces.StreamController;
+import org.jetbrains.annotations.NotNull;
 
 public class Engine implements StreamController, Data {
     public List<Anime> animeList = new ArrayList<>();
@@ -341,7 +337,7 @@ public class Engine implements StreamController, Data {
     }
 
     @Override
-    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+    public void setStream(@NotNull ObjectOutputStream os, @NotNull ObjectInputStream is) {
         this.os = os;
         this.is = is;
     }

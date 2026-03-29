@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.util.Objects;
 
 import config.Config;
+import org.jetbrains.annotations.NotNull;
 
 public class App extends Application implements Data {
 
@@ -28,7 +29,7 @@ public class App extends Application implements Data {
         launch(args);
     }
 
-    private Socket socket;
+    private  Socket socket;
     private static HostServices hostServices;
 
     /**

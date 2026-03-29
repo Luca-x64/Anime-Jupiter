@@ -26,6 +26,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import interfaces.StreamController;
+import org.jetbrains.annotations.NotNull;
 
 public class LoginController implements interfaces.StreamController, Initializable, Data {
 
@@ -219,7 +220,7 @@ public class LoginController implements interfaces.StreamController, Initializab
     }
 
     @Override
-    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+    public void setStream(@NotNull ObjectOutputStream os, @NotNull ObjectInputStream is) {
         this.os = os;
         this.is = is;
     }

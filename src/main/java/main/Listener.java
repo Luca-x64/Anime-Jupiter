@@ -1,6 +1,7 @@
 package main;
 
 import model.Anime;
+import org.jetbrains.annotations.NotNull;
 
 public interface Listener {
 
@@ -9,6 +10,6 @@ public interface Listener {
      *
      * @return void
      */
-    void onClickListener(Anime anime);
+    void onClickListener(@NotNull Anime anime);
 
 }

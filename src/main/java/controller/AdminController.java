@@ -18,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -33,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.Listener;
 import model.Anime;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -652,7 +652,7 @@ public class AdminController extends Engine implements Initializable {
     }
 
     @Override
-    public void setStream(ObjectOutputStream os, ObjectInputStream is) {
+    public void setStream(@NotNull ObjectOutputStream os, @NotNull ObjectInputStream is) {
         this.os = os;
         this.is = is;
         super.setStream(os, is);

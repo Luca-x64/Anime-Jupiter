@@ -1,6 +1,5 @@
 package server;
 
-import java.beans.Statement;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,11 +7,8 @@ import java.net.Socket;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import database.Database;
 import jbcrypt.BCrypt;
@@ -53,11 +49,11 @@ public class ServerThread implements Runnable {
             int receive = (Integer) receive();
             switch (receive) {
                 case 1: {
-                    selectAnime("SELECT anime.*,  CASE WHEN EXISTS (SELECT * FROM favourite WHERE favourite.anime_id = anime.id AND favourite.user_id ="+ user_id + " ) THEN 'true' ELSE 'false' END AS favourite FROM anime;");
+                    selectAnime(user_id);
                     break;
                 }
                 case 2: {
-                    selectFavourite("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where user_id = '"+ user_id + "'");
+                    selectFavourite(user_id);
                     break;
                 }
                 case 3: { // add anime (only admin)
@@ -67,7 +63,7 @@ public class ServerThread implements Runnable {
                 }
                 case 4: { // search filter
                     String search = (String) receive();
-                    searchAnime("SELECT * FROM anime WHERE title LIKE ?", search);
+                    searchAnime(search);
                     break;
                 }
                 case 5: { // delete anime (only admin)
@@ -114,13 +110,13 @@ public class ServerThread implements Runnable {
         }
     }
 
-    private void selectFavourite(String query) {
+    private void selectFavourite(int user_id) {
         List<Anime> animeList = new ArrayList<>();
         try {
-            ResultSet rs = DB.getConn().createStatement().executeQuery(query);
-            
+            ResultSet rs = DB.ExecutePreparedQuery("SELECT a.* FROM anime as a INNER JOIN favourite as f on a.id=f.anime_id where user_id = ?", user_id);
+
             while (rs.next()) {
-                
+
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
                         rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
@@ -145,26 +141,16 @@ public class ServerThread implements Runnable {
         try {
 
             // Verifica se esiste una riga con anime_id=1 e user_id=1
-            PreparedStatement selectStatement = DB.getConn().prepareStatement(selectQuery);
-            selectStatement.setInt(1, user_id);
-            selectStatement.setInt(2, anime_id);
-
-            ResultSet resultSet = selectStatement.executeQuery();
+            ResultSet resultSet = DB.ExecutePreparedQuery(selectQuery, user_id, anime_id);
             resultSet.next();
             int count = resultSet.getInt(1);
 
             if (count > 0) {
                 // Se esiste una riga, elimina la riga
-                PreparedStatement deleteStatement = DB.getConn().prepareStatement(deleteQuery);
-                deleteStatement.setInt(1, user_id);
-                deleteStatement.setInt(2, anime_id);
-                deleteStatement.executeUpdate();
+                DB.executeQuery(deleteQuery, user_id, anime_id);
             } else {
                 // Se non esiste una riga, inserisci una nuova riga
-                PreparedStatement insertStatement = DB.getConn().prepareStatement(insertQuery);
-                insertStatement.setInt(1, user_id);
-                insertStatement.setInt(2, anime_id);
-                insertStatement.executeUpdate();
+                DB.executeQuery(insertQuery, user_id, anime_id);
             }
 
             result = true;
@@ -178,21 +164,11 @@ public class ServerThread implements Runnable {
 
     private void updateAnime(Anime updated) {
         if (isAdmin) {
-            String query = "UPDATE anime SET title= ?, author= ?, publisher= ? , plot= ? , link= ? , imagePath= ? , episodes= "
-                    + updated.getEpisodes() + " , year=" + updated.getYear() + " WHERE id= " + updated.getID();
-            try {
-                PreparedStatement pst = DB.getConn().prepareStatement(query);
-                pst.setString(1, updated.getTitle());
-                pst.setString(2, updated.getAuthor());
-                pst.setString(3, updated.getPublisher());
-                pst.setString(4, updated.getPlot());
-                pst.setString(5, updated.getLink());
-                pst.setString(6, updated.getImagePath());
-                send(pst.executeUpdate() > 0);
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            String query = "UPDATE anime SET title= ?, author= ?, publisher= ?, plot= ?, link= ?, imagePath= ?, episodes= ?, year= ? WHERE id= ?";
+            int result = DB.executeQuery(query, updated.getTitle(), updated.getAuthor(), updated.getPublisher(), updated.getPlot(),
+                    updated.getLink(), updated.getImagePath(), updated.getEpisodes(), updated.getYear(), updated.getID());
+
+            send(result > 0);
 
         } else {
             send(isAdmin);
@@ -201,23 +177,18 @@ public class ServerThread implements Runnable {
 
     private void deleteAnime(Integer id) {
         if (isAdmin) {
-            String query = "DELETE FROM anime WHERE id =" + id + "";
-            try {
-                send(DB.getConn().createStatement().executeUpdate(query) == 1);
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
-            }
+            String query = "DELETE FROM anime WHERE id =?";
+            int result = DB.executeQuery(query, id);
+            send(result == 1);
         } else {
             send(isAdmin);
         }
     }
 
-    private void searchAnime(String query, String search) {
+    private void searchAnime(String search) {
         List<Anime> animeList = new ArrayList<>();
         try {
-            PreparedStatement pst = DB.getConn().prepareStatement(query);
-            pst.setString(1, "%" + search + "%");
-            ResultSet rs = pst.executeQuery();
+            ResultSet rs = DB.ExecutePreparedQuery("SELECT * FROM anime WHERE title LIKE ?", "%" + search + "%");
             while (rs.next()) {
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
                         rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
@@ -235,44 +206,34 @@ public class ServerThread implements Runnable {
         if (isAdmin) {
             String query = "INSERT INTO anime (title,author,publisher,plot,link,imagePath,episodes,year) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement pst;
-            try {
-                pst = DB.getConn().prepareStatement(query);
-                pst.setString(1, a.getTitle());
-                pst.setString(2, a.getAuthor());
-                pst.setString(3, a.getPublisher());
-                pst.setString(4, a.getPlot());
-                pst.setString(5, a.getLink());
-                pst.setString(6, a.getImagePath());
-                pst.setInt(7, a.getEpisodes());
-                pst.setInt(8, a.getYear());
-                Boolean response = pst.executeUpdate() == 1;
-                send(response);
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
-            }
+            int result = DB.executeQuery(query, a.getTitle(), a.getAuthor(), a.getPublisher(), a.getPlot(), a.getLink(),
+                    a.getImagePath(), a.getEpisodes(), a.getYear());
+
+            send(result == 1);
+
         } else {
             send(isAdmin);
         }
 
     }
 
-    private void selectAnime(String query) {
+    private void selectAnime(int user_id) {
         List<Anime> animeList = new ArrayList<>();
         try {
-            ResultSet rs = DB.getConn().createStatement().executeQuery(query);
-            
+            ResultSet rs = DB.ExecutePreparedQuery("SELECT anime.*,  CASE WHEN EXISTS (SELECT * FROM favourite WHERE favourite.anime_id = anime.id AND favourite.user_id =? ) THEN 'true' ELSE 'false' END AS favourite FROM anime;", user_id);
+
             while (rs.next()) {
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
                         rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
                 anime.setID(rs.getInt("id"));
                 System.out.println(rs.getString("favourite"));
-                if( Boolean.parseBoolean(rs.getString("favourite"))){
+                if (Boolean.parseBoolean(rs.getString("favourite"))) {
                     anime.favourite();
-                   System.out.println(anime.getFavourite()); // TODO
+                    System.out.println(anime.getFavourite()); // TODO
 
                 }
-                
+
                 animeList.add(anime);
             }
             send(animeList);
@@ -296,10 +257,9 @@ public class ServerThread implements Runnable {
 
     private void login() {
         String queryLogin = "SELECT * FROM users WHERE email=?";
-        ResultSet rs = null;
-        try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)) {
-            pst.setString(1, user.email());
-            rs = pst.executeQuery();
+        try {
+            ResultSet rs = DB.ExecutePreparedQuery(queryLogin, user.email());
+
             boolean checkEmail = rs.next(); // CHECK
             send(checkEmail);
             if (checkEmail) {
@@ -321,34 +281,34 @@ public class ServerThread implements Runnable {
 
     private void register() {
         String queryRegister = "INSERT INTO users (nome,email,password) VALUES (?,?,?)";
+
+        String hashpw = BCrypt.hashpw(user.password(), BCrypt.gensalt());
         int response = 0;
-        try (PreparedStatement pst = DB.getConn().prepareStatement(queryRegister)) {
-            pst.setString(1, user.username());
-            pst.setString(2, user.email());
-            pst.setString(3, BCrypt.hashpw(user.password(), BCrypt.gensalt()));
-            response = pst.executeUpdate();
-            try {
-                verified = response == 1;
-                send(verified);
-                if (verified) {
-                    String queryGetId = "SELECT id FROM users WHERE email=" + user.email();
-                    ResultSet rs;
-                    rs = DB.getConn().createStatement().executeQuery(queryGetId);
-    
-                    rs.next();
-                    user_id = rs.getInt("id");
-    
-                }
-            } catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
+        try {
+            response = DB.executeQuery(queryRegister, user.username(), user.email(), hashpw);
+        } catch (RuntimeException e) {
+
             send(false);
             send("Email already registered!");
         }
 
-        
+
+        try {
+            verified = response == 1;
+            send(verified);
+            if (verified) {
+                String queryGetId = "SELECT id FROM users WHERE email=?";
+                ResultSet rs = DB.ExecutePreparedQuery(queryGetId, user.email());
+
+                rs.next();
+                user_id = rs.getInt("id");
+
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
 
     }
 
