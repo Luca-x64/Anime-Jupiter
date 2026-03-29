@@ -7,6 +7,7 @@ import main.Data;
 import model.Anime;
 
 import java.io.*;
+import java.time.Year;
 import java.util.*;
 
 import javafx.application.HostServices;
@@ -61,7 +62,7 @@ public class Engine implements StreamController, Data {
      */
     protected void addAnime(String ttl, String aut, String pub, Integer epi, Integer y, String pl, String imgPath,
             String link) throws IOException {
-        Anime anime = new Anime(ttl, aut, pub, epi, y, pl, imgPath, link);
+        Anime anime = new Anime(ttl, aut, pub, epi, Year.of(y), pl, imgPath, link);
         send(3);
         send(anime);
         boolean response = (Boolean) receive();
@@ -77,7 +78,7 @@ public class Engine implements StreamController, Data {
 
     protected void editAnime(int id, String ttl, String aut, String pub, int epi, int y, String pl, String imgPath,
             String link) {
-        Anime editedAnime = new Anime(ttl, aut, pub, epi, y, pl, imgPath, link);
+        Anime editedAnime = new Anime(ttl, aut, pub, epi, Year.of(y), pl, imgPath, link);
         editedAnime.setID(id);
         send(6);
         send(editedAnime);

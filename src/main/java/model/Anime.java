@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.StringJoiner;
+import java.time.Year;
 
 import main.Data;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,8 @@ public class Anime implements Serializable, Data {
 
     //TODO attributes should not be final and should be able to be changed, why there are no setters?
     private @NotNull String title, author, publisher, plot,link,imagePath;
-    private int episodes,year;
+    private @NotNull Year year;
+    private int episodes;
     private int ID;
     private boolean favourite = false;
 
@@ -26,7 +27,7 @@ public class Anime implements Serializable, Data {
      * @param imgPath
      * @param url
      */
-    public Anime(@NotNull String ttl,@NotNull String aut,@NotNull String pub,int epi,int y,@NotNull String pl,@NotNull String imgPath,@NotNull String url) {
+    public Anime(@NotNull String ttl, @NotNull String aut, @NotNull String pub, int epi, @NotNull Year y, @NotNull String pl, @NotNull String imgPath, @NotNull String url) {
         this.title = ttl;
         this.author = aut;
         this.publisher = pub;
@@ -49,7 +50,7 @@ public class Anime implements Serializable, Data {
                 .add(Data.author + getAuthor())
                 .add(Data.publisher + getPublisher())
                 .add(Data.episodes + getEpisodes())
-                .add(Data.year + getYear())
+                .add(Data.year + getYear().getValue())
                 .add(Data.plot + getPlot())
                 .toString();
     }
@@ -113,7 +114,7 @@ public class Anime implements Serializable, Data {
      *
      * @return Integer year
      */
-    public Integer getYear() {
+    public Year getYear() {
         return year;
     }
 

@@ -70,7 +70,7 @@ public class App extends Application implements Data {
                 stage.setTitle(projectName);
                 stage.getIcons().add(new Image(iconPath));
                 stage.setScene(new Scene(root));
-                stage.setResizable(true); // edited by luca on 22 may 21:00
+                stage.setResizable(true);
                 stage.show();
             } catch (IOException e1) {
                 // TODO Auto-generated catch block

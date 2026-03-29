@@ -79,7 +79,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
                     && stringFormat(aut).equals(stringFormat(animeSelected.getAuthor()))
                     && stringFormat(edi).equals(stringFormat(animeSelected.getPublisher()))
                     && stringFormat(epi).equals(stringFormat(String.valueOf(animeSelected.getEpisodes())))
-                    && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear())))
+                    && stringFormat(y).equals(stringFormat(String.valueOf(animeSelected.getYear().getValue())))
                     && stringFormat(tr).equals(stringFormat(animeSelected.getPlot()))
                     && stringFormat(link).equals(stringFormat(animeSelected.getLink()))
                     && stringFormat(imgPath).equals(stringFormat(animeSelected.getImagePath()))) {
@@ -192,7 +192,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
         authorBox.setText(a.getAuthor());
         publisherBox.setText(a.getPublisher());
         episodeBox.setText(String.valueOf(a.getEpisodes()));
-        yearBox.setText(String.valueOf(a.getYear()));
+        yearBox.setText(String.valueOf(a.getYear().getValue()));
         plotBox.setText(a.getPlot());
         linkBox.setText(a.getLink());
 

@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public class ServerThread implements Runnable {
             while (rs.next()) {
 
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
-                        rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
+                        rs.getInt("episodes"),Year.of( rs.getInt("year")), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
                 anime.setID(rs.getInt("id"));
                 anime.favourite();
@@ -126,7 +127,7 @@ public class ServerThread implements Runnable {
             }
             send(animeList);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.err.println(e);
         }
     }
 
@@ -166,7 +167,7 @@ public class ServerThread implements Runnable {
         if (isAdmin) {
             String query = "UPDATE anime SET title= ?, author= ?, publisher= ?, plot= ?, link= ?, imagePath= ?, episodes= ?, year= ? WHERE id= ?";
             int result = DB.executeQuery(query, updated.getTitle(), updated.getAuthor(), updated.getPublisher(), updated.getPlot(),
-                    updated.getLink(), updated.getImagePath(), updated.getEpisodes(), updated.getYear(), updated.getID());
+                    updated.getLink(), updated.getImagePath(), updated.getEpisodes(), updated.getYear().getValue(), updated.getID());
 
             send(result > 0);
 
@@ -191,14 +192,14 @@ public class ServerThread implements Runnable {
             ResultSet rs = DB.ExecutePreparedQuery("SELECT * FROM anime WHERE title LIKE ?", "%" + search + "%");
             while (rs.next()) {
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
-                        rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
+                        rs.getInt("episodes"), Year.of( rs.getInt("year")), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
                 anime.setID(rs.getInt("id"));
                 animeList.add(anime);
             }
             send(animeList);
         } catch (SQLException e) {
-            //System.out.println(e);
+            System.out.println(e);
         }
     }
 
@@ -207,7 +208,7 @@ public class ServerThread implements Runnable {
             String query = "INSERT INTO anime (title,author,publisher,plot,link,imagePath,episodes,year) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement pst;
             int result = DB.executeQuery(query, a.getTitle(), a.getAuthor(), a.getPublisher(), a.getPlot(), a.getLink(),
-                    a.getImagePath(), a.getEpisodes(), a.getYear());
+                    a.getImagePath(), a.getEpisodes(), a.getYear().getValue());
 
             send(result == 1);
 
@@ -224,7 +225,7 @@ public class ServerThread implements Runnable {
 
             while (rs.next()) {
                 Anime anime = new Anime(rs.getString("title"), rs.getString("author"), rs.getString("publisher"),
-                        rs.getInt("episodes"), rs.getInt("year"), rs.getString("plot"), rs.getString("imagePath"),
+                        rs.getInt("episodes"), Year.of( rs.getInt("year")), rs.getString("plot"), rs.getString("imagePath"),
                         rs.getString("link"));
                 anime.setID(rs.getInt("id"));
                 System.out.println(rs.getString("favourite"));
@@ -238,7 +239,7 @@ public class ServerThread implements Runnable {
             }
             send(animeList);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.err.println(e);
         }
     }
 
