@@ -32,6 +32,7 @@ java {
 
 
 tasks.register('runClient', JavaExec) {
+    group = "application"
     mainClass = 'main.App'
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs = [

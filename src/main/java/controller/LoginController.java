@@ -45,8 +45,8 @@ public class LoginController implements interfaces.StreamController, Initializab
     /**
      * Initialize
      * 
-     * @param URL            url
-     * @param ResourceBundle resourceBundle
+     * @param url
+     * @param resourceBundle
      * @return void
      */
     @Override

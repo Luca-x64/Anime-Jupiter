@@ -28,8 +28,8 @@ public class StartController implements Initializable, Data {
     /**
      * Initialize
      * 
-     * @param URL url
-     * @param ResourceBundle resourceBundle
+     * @param url
+     * @param resourceBundle
      * @return void
      */
     @Override

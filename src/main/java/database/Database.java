@@ -13,9 +13,6 @@ public class Database /* implements  AutoCloseable*/ {
     public Database(@NotNull String urlConnection, @NotNull String username, @NotNull String pw)  {
         try {
             Class.forName(Config.DRIVER);
-            System.out.println(urlConnection);
-            System.out.println(username);
-            System.out.println(pw);
             conn = DriverManager.getConnection(urlConnection, username, pw);
         } catch (ClassNotFoundException e) {
             System.out.println("Cant connect to DB "+ e.getMessage());

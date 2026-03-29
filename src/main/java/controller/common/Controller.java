@@ -1,5 +1,6 @@
-package controller;
+package controller.common;
 
+import controller.AdminController;
 import engine.Engine;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -68,7 +69,7 @@ public class Controller extends Engine implements Initializable {
     /**
      * Add Anime
      * 
-     * @param MouseEvent mouseEvent click
+     * @param mouseEvent click
      * @throws IOException
      * @return void
      */
@@ -134,7 +135,7 @@ public class Controller extends Engine implements Initializable {
     /**
      * Close Escape
      * 
-     * @param KeyEvent keyEvent keyboard press
+     * @param keyEvent keyboard press
      * @return void
      */
     public void closeEscape(javafx.scene.input.KeyEvent keyEvent) {
@@ -149,7 +150,7 @@ public class Controller extends Engine implements Initializable {
     /**
      * Set Admin Controller
      * 
-     * @param AdminController ac admin controller
+     * @param ac admin controller
      * @return void
      */
     public void setAc(AdminController ac) {
@@ -291,8 +292,8 @@ public class Controller extends Engine implements Initializable {
     /**
      * Initialize
      * 
-     * @param URL url
-     * @param ResourceBundle resourceBundle
+     * @param url
+     * @param resourceBundle
      * @return void
      */
     @Override

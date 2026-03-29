@@ -61,7 +61,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
     /**
      * Confirm Image
      *
-     * @param MouseEvent mouseEvent click
+     * @param mouseEvent click
      * @exception IOException
      * @return void
      */
@@ -163,7 +163,7 @@ public class EditAnimeController extends Engine implements SetDataEdit {
     /**
      * Close Escape
      *
-     * @param KeyEvent keyEvent keyboard press
+     * @param keyEvent keyboard press
      * @return void
      */
     public void closeEscape(javafx.scene.input.KeyEvent keyEvent) {
@@ -177,8 +177,8 @@ public class EditAnimeController extends Engine implements SetDataEdit {
     /**
      * Set Data
      *
-     * @param AdminController ac admin controller
-     * @param Anime           a anime
+     * @param ac admin controller
+     * @param a anime
      * @return void
      */
     @Override

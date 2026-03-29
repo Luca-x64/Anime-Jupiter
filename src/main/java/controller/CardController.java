@@ -37,8 +37,8 @@ public class CardController implements Data {
     /**
      * Set Data
      * 
-     * @param Anime    anime
-     * @param Listener listener
+     * @param anime
+     * @param listener
      * @return void
      */
     public void setData(Anime anime, Listener listener) {

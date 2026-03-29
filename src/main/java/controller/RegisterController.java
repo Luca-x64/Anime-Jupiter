@@ -48,8 +48,8 @@ public class RegisterController implements interfaces.StreamController, Initiali
     /**
      * Initialize
      * 
-     * @param URL            url
-     * @param ResourceBundle resourceBundle
+     * @param url
+     * @param resourceBundle
      * @return void
      */
     @Override

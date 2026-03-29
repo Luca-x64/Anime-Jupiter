@@ -66,8 +66,8 @@ public class UserController extends Engine implements Initializable {
     /**
      * Initialize
      * 
-     * @param URL            url
-     * @param ResourceBundle resourceBundle
+     * @param url
+     * @param resourceBundle
      * @return void
      */
     @Override
@@ -188,8 +188,8 @@ public class UserController extends Engine implements Initializable {
     /**
      * Scrolling text
      *
-     * @param Color  text color
-     * @param String text content
+     * @param color text color
+     * @param text text content
      * @return void
      */
     public void scrollingText(Color color, String text) {
@@ -246,7 +246,7 @@ public class UserController extends Engine implements Initializable {
     /**
      * Run later with time
      *
-     * @param int duration time
+     * @param time duration time
      * @return void
      */
     public void runLater(int time) {
@@ -292,7 +292,7 @@ public class UserController extends Engine implements Initializable {
     /**
      * Set Chosen Anime
      *
-     * @param Anime chosen anime
+     * @param anime chosen anime
      * @return void
      */
     private void setChosenAnime(Anime anime) { //TODO CHECK
@@ -325,7 +325,7 @@ public class UserController extends Engine implements Initializable {
     /**
      * Reload Grid panel (anime)
      *
-     * @param List<Anime> anime list
+     * @param al anime list
      * @return void
      */
     public void reload(List<Anime> al) {
@@ -425,7 +425,7 @@ public class UserController extends Engine implements Initializable {
     /**
      * Enter press
      *
-     * @param KeyEvent keyEvent keyboard press
+     * @param keyEvent keyboard press
      * @return void
      */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {

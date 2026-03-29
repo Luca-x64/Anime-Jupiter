@@ -53,17 +53,15 @@ public class Engine implements StreamController, Data {
     /**
      * Add Anime
      *
-     * @param String  ttl title
-     * @param String  aut author
-     * @param String  pub pubtor
-     * @param Integer epi episodes
-     * @param Integer y year
-     * @param String  pl plot
-     * @param String  imgPath image path
-     * @param String  link link
+     * @param ttl title
+     * @param aut author
+     * @param pub pubtor
+     * @param epi episodes
+     * @param y year
+     * @param pl plot
+     * @param imgPath image path
+     * @param link link
      * @throws IOException
-     * 
-     * @return void
      */
     protected void addAnime(String ttl, String aut, String pub, Integer epi, Integer y, String pl, String imgPath,
             String link) throws IOException {
@@ -121,7 +119,7 @@ public class Engine implements StreamController, Data {
     /**
      * Query
      * 
-     * @param String input input field
+     * @param input input field
      * @return List<Anime> query result
      */
     protected List<Anime> query(String input) {
@@ -152,7 +150,7 @@ public class Engine implements StreamController, Data {
     /**
      * Sort Title
      * 
-     * @param boolean b
+     * @param b
      * @return List<Anime>
      */
     public List<Anime> sortTitle(boolean b) {
@@ -168,7 +166,7 @@ public class Engine implements StreamController, Data {
     /**
      * Sort Year
      * 
-     * @param boolean b
+     * @param b
      * @return List<Anime>
      */
     public List<Anime> sortYear(boolean b) {
@@ -183,7 +181,7 @@ public class Engine implements StreamController, Data {
     /**
      * String Format
      * 
-     * @param String s string
+     * @param s string
      * @return String
      */
     public String stringFormat(String s) {
@@ -193,8 +191,8 @@ public class Engine implements StreamController, Data {
     /**
      * Check Duplicates Add
      * 
-     * @param List<Anime> al anime list
-     * @param String      ttl title
+     * @param al anime list
+     * @param ttl title
      * @return boolean
      */
     public boolean checkDuplicatesAdd(List<Anime> al, String ttl) {
@@ -214,7 +212,7 @@ public class Engine implements StreamController, Data {
     /**
      * Messagge Success
      * 
-     * @param String msg messagge text
+     * @param msg messagge text
      * @return String
      */
     public String msgSuccess(String msg) {
@@ -224,7 +222,7 @@ public class Engine implements StreamController, Data {
     /**
      * Messagge Warning
      * 
-     * @param String msg messagge text
+     * @param msg messagge text
      * @return String
      */
     public String msgWarning(String msg) {
@@ -234,7 +232,7 @@ public class Engine implements StreamController, Data {
     /**
      * Messagge Danger
      * 
-     * @param String msg messagge text
+     * @param msg messagge text
      * @return String
      */
     public String msgDanger(String msg) {
@@ -244,8 +242,7 @@ public class Engine implements StreamController, Data {
     /**
      * Open Link
      *
-     * @param String url
-     * @return void
+     * @param url
      */
     public void openLink(String url) {
         Platform.runLater(() -> {
@@ -283,7 +280,7 @@ public class Engine implements StreamController, Data {
     /**
      * Load Image
      * 
-     * @param String path
+     * @param path
      * @throws FileNotFoundException
      * @return Image
      */
@@ -337,8 +334,7 @@ public class Engine implements StreamController, Data {
     /**
      * Set Anime List
      * 
-     * @param List<Anime> animeList anime list
-     * @return void [return description]
+     * @param animeList anime list
      */
     public void setAnimeList(List<Anime> animeList) {
         this.animeList = animeList;

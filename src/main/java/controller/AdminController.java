@@ -84,8 +84,8 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Initialize
      * 
-     * @param URL            url
-     * @param ResourceBundle resourceBundle
+     * @param url
+     * @param resourceBundle
      * @return void
      */
     @Override
@@ -235,7 +235,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Set Chosen Anime
      *
-     * @param Anime chosen anime
+     * @param anime chosen anime
      * @return void
      */
     private void setChosenAnime(Anime anime) {
@@ -404,7 +404,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Reload gridPane panel (anime)
      * 
-     * @param List<Anime> al anime list
+     * @param al anime list
      * @return void
      */
     public void reload(List<Anime> al) {
@@ -471,7 +471,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Press Enter
      *
-     * @param KeyEvent keyEvent keyboard press
+     * @param keyEvent keyboard press
      * @return void
      */
     public void pressEnter(javafx.scene.input.KeyEvent keyEvent) {
@@ -538,7 +538,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Set Admin Controller
      *
-     * @param AdminController ac Admin Constroller
+     * @param ac Admin Constroller
      * @return void
      */
     public void setAc(AdminController ac) {
@@ -548,7 +548,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Set Add Anime Active
      *
-     * @param boolean addAnimeActive
+     * @param addAnimeActive
      * @return void
      */
     public void setAddAnimeActive(boolean addAnimeActive) {
@@ -558,7 +558,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Set Edit Anime Active
      *
-     * @param boolean editAnimeActive
+     * @param editAnimeActive
      * @return void
      */
     public void setEditAnimeActive(boolean editAnimeActive) {
@@ -568,7 +568,7 @@ public class AdminController extends Engine implements Initializable {
     /**
      * Set Long Messagge
      *
-     * @param boolean LongMessagge
+     * @param LongMessagge
      * @return void
      */
     public void setLongMessagge(boolean LongMessagge) {
