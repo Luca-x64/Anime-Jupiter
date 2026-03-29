@@ -1,13 +1,16 @@
 package model;
 
 import java.io.Serializable;
+import java.util.StringJoiner;
 
 import main.Data;
+import org.jetbrains.annotations.NotNull;
 
 public class Anime implements Serializable, Data {
 
-    private String title, author, publisher, plot,link,imagePath;
-    private Integer episodes,year;
+    //TODO attributes should not be final and should be able to be changed, why there are no setters?
+    private @NotNull String title, author, publisher, plot,link,imagePath;
+    private int episodes,year;
     private int ID;
     private boolean favourite = false;
 
@@ -23,7 +26,7 @@ public class Anime implements Serializable, Data {
      * @param imgPath
      * @param url
      */
-    public Anime(String ttl, String aut, String pub, Integer epi, Integer y, String pl, String imgPath, String url) {
+    public Anime(@NotNull String ttl,@NotNull String aut,@NotNull String pub,int epi,int y,@NotNull String pl,@NotNull String imgPath,@NotNull String url) {
         this.title = ttl;
         this.author = aut;
         this.publisher = pub;
@@ -41,12 +44,14 @@ public class Anime implements Serializable, Data {
      */
     @Override
     public String toString() {
-        return Data.title + getTitle()
-                + nl+Data.author + getAuthor()
-                + nl+Data.publisher + getPublisher()
-                + nl+Data.episodes + getEpisodes()
-                + nl+Data.year + getYear()
-                + nl+Data.plot + getPlot();
+        return new java.util.StringJoiner(nl)
+                .add(Data.title + getTitle())
+                .add(Data.author + getAuthor())
+                .add(Data.publisher + getPublisher())
+                .add(Data.episodes + getEpisodes())
+                .add(Data.year + getYear())
+                .add(Data.plot + getPlot())
+                .toString();
     }
 
     /** 
@@ -54,6 +59,7 @@ public class Anime implements Serializable, Data {
      *
      * @return String 
      */
+    @Deprecated //TODO REMOVE
     public String textFormat() {
         return title + regex + author + regex + publisher + regex + episodes + regex + year + regex + plot + regex + imagePath + regex + link + nl;
     }
@@ -137,9 +143,9 @@ public class Anime implements Serializable, Data {
         ID = iD;
     }
 
-    public boolean favourite() {
+    @Deprecated //TODO is not Anime responsability
+    public void favourite() {
         favourite = !favourite;
-        return favourite;
     }
     public boolean getFavourite(){
         return favourite;

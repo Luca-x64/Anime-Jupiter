@@ -13,7 +13,7 @@ public class Server {
 
 
     //private List<Socket> connectedSockets = new ArrayList<>();
-    private final Database DB = new Database();
+    private final Database DB = new Database(Config.URL_CONNECTION, Config.USERNAME, Config.PW);
     private ServerSocket serverSocket = null;
 
     public Server() {

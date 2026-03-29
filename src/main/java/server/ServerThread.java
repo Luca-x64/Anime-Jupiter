@@ -284,7 +284,7 @@ public class ServerThread implements Runnable {
     private void account() {
         user = (User) receive();
         if (user != null) {
-            if (user.getUsername() == null) {
+            if (user.username() == null) {
                 login();
             } else {
                 register();
@@ -298,13 +298,13 @@ public class ServerThread implements Runnable {
         String queryLogin = "SELECT * FROM users WHERE email=?";
         ResultSet rs = null;
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryLogin)) {
-            pst.setString(1, user.getEmail());
+            pst.setString(1, user.email());
             rs = pst.executeQuery();
             boolean checkEmail = rs.next(); // CHECK
             send(checkEmail);
             if (checkEmail) {
                 String hashedPassword = rs.getString("password");
-                verified = BCrypt.checkpw(user.getPassword(), hashedPassword);
+                verified = BCrypt.checkpw(user.password(), hashedPassword);
                 send(verified);
                 if (verified) {
                     isAdmin = rs.getBoolean("isAdmin");
@@ -323,15 +323,15 @@ public class ServerThread implements Runnable {
         String queryRegister = "INSERT INTO users (nome,email,password) VALUES (?,?,?)";
         int response = 0;
         try (PreparedStatement pst = DB.getConn().prepareStatement(queryRegister)) {
-            pst.setString(1, user.getUsername());
-            pst.setString(2, user.getEmail());
-            pst.setString(3, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+            pst.setString(1, user.username());
+            pst.setString(2, user.email());
+            pst.setString(3, BCrypt.hashpw(user.password(), BCrypt.gensalt()));
             response = pst.executeUpdate();
             try {
                 verified = response == 1;
                 send(verified);
                 if (verified) {
-                    String queryGetId = "SELECT id FROM users WHERE email=" + user.getEmail();
+                    String queryGetId = "SELECT id FROM users WHERE email=" + user.email();
                     ResultSet rs;
                     rs = DB.getConn().createStatement().executeQuery(queryGetId);
     

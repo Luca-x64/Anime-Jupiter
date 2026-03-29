@@ -35,3 +35,7 @@ File in src/sql
     - TODO [USER] fix reload time for sorting
 ## Back-End:
     - TODO CHECK gestione errori
+    - TODO DataBase implement autoCloseable
+    - TODO DataBase fix system.exit and error handling
+
+

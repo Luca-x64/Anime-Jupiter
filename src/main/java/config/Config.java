@@ -1,10 +1,13 @@
 package config;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -12,17 +15,17 @@ import java.nio.file.Paths;
  */
 public class Config {
 
-    public static String DRIVER = "com.mysql.cj.jdbc.Driver";
+    public static @NotNull String DRIVER = "com.mysql.cj.jdbc.Driver";
 
-    public static String DB_NAME = "anime_jupyter";
+    public static @NotNull String DB_NAME = "anime_jupyter";
     public static int DB_PORT = 3306;
 
-    public static String URL_CONNECTION = "jdbc:mysql://127.0.0.1:" + DB_PORT + "/" + DB_NAME;
-    public static String USERNAME = "root";
-    public static String PW = "";
+    public static @NotNull String URL_CONNECTION = "jdbc:mysql://127.0.0.1:" + DB_PORT + "/" + DB_NAME;
+    public static @NotNull String USERNAME = "root";
+    public static @NotNull String PW = "";
 
     
-    private static final String portPath = "src/main/resources/port/port.txt";
+    private static final @NotNull String portPath = "src/main/resources/port/port.txt";
     private static final int DEFAULT_PORT = 20006;
 
     public static ServerSocket getServerSocket() {
@@ -46,8 +49,9 @@ public class Config {
         int port = DEFAULT_PORT;
 
         try {
-            if (Files.exists(Paths.get(portPath))) {
-                String content = new String(Files.readAllBytes(Paths.get(portPath))).trim();
+            final Path path = Paths.get(portPath);
+            if (Files.exists(path)) {
+                final String content = new String(Files.readAllBytes(path)).trim();
                 if (!content.isEmpty()) {
                     port = Integer.parseInt(content);
                 } else {
@@ -57,17 +61,17 @@ public class Config {
                 savePort(port);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return port;
     }
 
     public static void savePort(int port) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(portPath))) {
+        try ( @NotNull BufferedWriter writer = new BufferedWriter(new FileWriter(portPath))) {
             writer.write(Integer.toString(port));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }
